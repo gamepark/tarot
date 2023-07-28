@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { GameRules } from '@gamepark/game-template/GameRules'
-import { GameOptionsSpec } from '@gamepark/game-template/GameOptions'
-import { GameSetup } from '@gamepark/game-template/GameSetup'
+import { TarotRules } from '@gamepark/tarot/TarotRules'
+import { TarotOptionsSpec } from '@gamepark/tarot/TarotOptions'
+import { TarotSetup } from '@gamepark/tarot/TarotSetup'
 import { GameProvider, MaterialGameAnimations, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
@@ -14,7 +14,7 @@ setupTranslation(translations, { debug: false })
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider game="game-template" Rules={GameRules} optionsSpec={GameOptionsSpec} GameSetup={GameSetup}
+    <GameProvider game="tarot" Rules={TarotRules} optionsSpec={TarotOptionsSpec} GameSetup={TarotSetup}
                   material={Material} locators={Locators} animations={new MaterialGameAnimations()}>
       <App/>
     </GameProvider>

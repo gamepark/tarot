@@ -1,8 +1,8 @@
 {
-  "name": "@gamepark/game-template-app",
+  "name": "@gamepark/tarot-app",
   "version": "0.0.0",
   "private": true,
-  "description": "The user interface of Game Template adaptation for Game Park",
+  "description": "The user interface of Tarot adaptation for Game Park",
   "author": "Romain Fromi <romain@game-park.com> (https://game-park.com/)",
   "license": "ISC",
   "dependencies": {
@@ -55,7 +55,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "^@gamepark/game-template/(.*)$": "<rootDir>/../rules/src/$1"
+      "^@gamepark/tarot/(.*)$": "<rootDir>/../rules/src/$1"
     }
   }
 }

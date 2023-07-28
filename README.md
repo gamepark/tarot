@@ -163,7 +163,7 @@ Then, run:
 ```
 rclone config
 > n (For "New remote)
-name> game-template
+name> tarot
 Storage> s3 (Amazon S3 Compliant Storage Provider)
 provider> Other
 env_auth> false
@@ -181,7 +181,7 @@ This configuration is only required once.
 Now, to deploy a new version of the board game, you have 2 command lines to run:
 ```
 yarn build
-rclone sync app/build [game-template]:[game-template].game-park.com --progress --s3-acl=public-read
+rclone sync app/build [tarot]:[tarot].game-park.com --progress --s3-acl=public-read
 ```
 
 More details about this deployment method here: https://www.clever-cloud.com/blog/engineering/2020/06/24/deploy-cellar-s3-static-site/
