@@ -1,8 +1,8 @@
-import { MaterialRules } from '@gamepark/rules-api'
+import { MaterialRules, PositiveSequenceStrategy } from '@gamepark/rules-api'
 import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
-import { PlayerTurn } from './rules/PlayerTurn'
+import { Deal } from './rules/Deal'
 
 
 /**
@@ -10,7 +10,14 @@ import { PlayerTurn } from './rules/PlayerTurn'
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
 export class TarotRules extends MaterialRules<number, MaterialType, LocationType> {
+  locationsStrategies = {
+    [MaterialType.Card]: {
+      [LocationType.Deck]: new PositiveSequenceStrategy(),
+      [LocationType.Hand]: new PositiveSequenceStrategy()
+    }
+  }
+
   rules = {
-    [RuleId.PlayerTurn]: PlayerTurn
+    [RuleId.Deal]: Deal
   }
 }
