@@ -6,7 +6,7 @@ import { MaterialGame } from '@gamepark/rules-api'
 import { RuleId } from '@gamepark/tarot/rules/RuleId'
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { GameOverHeader } from './headers/GameOverHeader'
-import { PlayerTurnHeader } from './headers/PlayerTurnHeader'
+import { DealHeader } from './headers/DealHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -28,5 +28,6 @@ export default function App() {
 }
 
 const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
-  [RuleId.Deal]: PlayerTurnHeader
+  [RuleId.Deal]: DealHeader,
+  [RuleId.Bid]: DealHeader
 }

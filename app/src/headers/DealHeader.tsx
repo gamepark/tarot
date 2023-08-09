@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
 
-export const PlayerTurnHeader = () => {
+export const DealHeader = () => {
   return <>Hello world!</>
 }

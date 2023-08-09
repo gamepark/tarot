@@ -16,7 +16,7 @@ export class TarotSetup extends MaterialGameSetup<number, MaterialType, Location
 
   setupMaterial() {
     this.material(MaterialType.Card).createItems(cards.map(card => ({ id: card, location: { type: LocationType.Deck } })))
-    this.material(MaterialType.Card).location(LocationType.Deck).shuffle()
+    this.material(MaterialType.Card).shuffle()
   }
 
   start() {

@@ -1,3 +1,3 @@
 export enum RuleId {
-  Deal
+  Deal, Bid
 }
