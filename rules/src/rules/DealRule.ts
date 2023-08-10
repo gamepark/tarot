@@ -17,7 +17,17 @@ export class DealRule extends MaterialRulesPart {
       ...this.material(MaterialType.Card)
         .location(LocationType.Deck)
         .limit(this.game.players.length === 3 ? 24 : (this.game.players.length === 4 ? 18 : 15))
-        .moveItems({ location: { type: LocationType.Hand } }))
+        .sort(item => -item.location.x!).limit(6)
+        .moveItems({ location: { type: LocationType.Hand, player:0   } }))
+      
+
+    moves.push(
+      ...this.material(MaterialType.Card)
+        .location(LocationType.Deck)
+        .limit(this.game.players.length === 3 ? 24 : (this.game.players.length === 4 ? 18 : 15))
+        .moveItems({ location: { type: LocationType.Hand, player:1  } }))
+
+
 
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.game.players[0]))
 
