@@ -21,6 +21,20 @@ import Trump18 from '../images/atout_18.jpg'
 import Trump19 from '../images/atout_19.jpg'
 import Trump20 from '../images/atout_20.jpg'
 import Trump21 from '../images/atout_21.jpg'
+import Heart1 from '../images/Heart_1.jpg'
+import Heart2 from '../images/Heart_2.jpg'
+import Heart3 from '../images/Heart_3.jpg'
+import Heart4 from '../images/Heart_4.jpg'
+import Heart5 from '../images/Heart_5.jpg'
+import Heart6 from '../images/Heart_6.jpg'
+import Heart7 from '../images/Heart_7.jpg'
+import Heart8 from '../images/Heart_8.jpg'
+import Heart9 from '../images/Heart_9.jpg'
+import Heart10 from '../images/Heart_10.jpg'
+import HeartJack from '../images/Heart_Jack.jpg'
+import HeartKngith from '../images/Heart_Knight.jpg'
+import HeartQueen from '../images/Heart_Queen.jpg'
+import HeartKing from '../images/Heart_King.jpg'
 import BackCard from '../images/Back.jpg'
 import { Card } from '@gamepark/tarot/Card'
 
@@ -52,6 +66,20 @@ export class TarotCardDescription extends CardDescription {
     [Card.Trump19]: Trump19,
     [Card.Trump20]: Trump20,
     [Card.Trump21]: Trump21,
+    [Card.Heart1]: Heart1,
+    [Card.Heart2]: Heart2,
+    [Card.Heart3]: Heart3,
+    [Card.Heart4]: Heart4,
+    [Card.Heart5]: Heart5,
+    [Card.Heart6]: Heart6,
+    [Card.Heart7]: Heart7,
+    [Card.Heart8]: Heart8,
+    [Card.Heart9]: Heart9,
+    [Card.Heart10]: Heart10,
+    [Card.HeartJack]: HeartJack,
+    [Card.HeartKnight]: HeartKngith,
+    [Card.HeartQueen]: HeartQueen,
+    [Card.HeartKing]: HeartKing,
   }
 
   rules = TarotCardRule
