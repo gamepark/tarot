@@ -63,7 +63,6 @@ import ClubJack from '../images/Club_Jack.jpg'
 import ClubKngith from '../images/Club_Knight.jpg'
 import ClubQueen from '../images/Club_Queen.jpg'
 import ClubKing from '../images/Club_King.jpg'
-
 import Diamond1 from '../images/Diamond_1.jpg'
 import Diamond2 from '../images/Diamond_2.jpg'
 import Diamond3 from '../images/Diamond_3.jpg'
@@ -78,7 +77,6 @@ import DiamondJack from '../images/Diamond_Jack.jpg'
 import DiamondKngith from '../images/Diamond_Knight.jpg'
 import DiamondQueen from '../images/Diamond_Queen.jpg'
 import DiamondKing from '../images/Diamond_King.jpg'
-
 import BackCard from '../images/Back.jpg'
 import { Card } from '@gamepark/tarot/Card'
 
@@ -152,7 +150,6 @@ export class TarotCardDescription extends CardDescription {
     [Card.ClubKnight]: ClubKngith,
     [Card.ClubQueen]: ClubQueen,
     [Card.ClubKing]: ClubKing,
-
     [Card.Diamond1]: Diamond1,
     [Card.Diamond2]: Diamond2,
     [Card.Diamond3]: Diamond3,
