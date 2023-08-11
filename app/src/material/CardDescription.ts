@@ -77,6 +77,7 @@ import DiamondJack from '../images/Diamond_Jack.jpg'
 import DiamondKngith from '../images/Diamond_Knight.jpg'
 import DiamondQueen from '../images/Diamond_Queen.jpg'
 import DiamondKing from '../images/Diamond_King.jpg'
+import Excuse from '../images/Excuse.jpg'
 import BackCard from '../images/Back.jpg'
 import { Card } from '@gamepark/tarot/Card'
 
@@ -164,6 +165,7 @@ export class TarotCardDescription extends CardDescription {
     [Card.DiamondKnight]: DiamondKngith,
     [Card.DiamondQueen]: DiamondQueen,
     [Card.DiamondKing]: DiamondKing,
+    [Card.Excuse]: Excuse,
   }
 
   rules = TarotCardRule
