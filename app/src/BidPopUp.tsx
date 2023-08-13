@@ -1,28 +1,34 @@
 /** @jsxImportSource @emotion/react */
-import { Trans, useTranslation } from 'react-i18next'
-import { PlayMoveButton, useLegalMoves, usePlayerId } from '@gamepark/react-game'
-import { CustomMove} from '@gamepark/rules-api'
+import { Trans } from 'react-i18next'
+
 import { css } from '@emotion/react'
 
 
 
 
 export const BidPopUp = () => {
-  const { t } = useTranslation()
-  const player = usePlayerId()
-  const legalMoves = useLegalMoves<CustomMove>()
+
 
 
 
   return (
     <>
-        <div css={rulesCss}>
-          <h2><Trans defaults="header.start.choice"><span/></Trans></h2>
-          <p>
-            <PlayMoveButton move={legalMoves.find(move => move.data === player)}>
-              {t('rules.start.choose.me')}
-            </PlayMoveButton>
-          </p>
+        <div css={bidCss}> 
+          <div css={[buttonCss]}> 
+            <p><Trans defaults="Small"><span/></Trans></p>
+          </div>
+
+          <div css={[buttonCss]}> 
+            <p><Trans defaults="Guard"><span/></Trans></p>
+          </div>
+
+          <div css={[buttonCss]}> 
+            <p><Trans defaults="Guard Without the Kitty"><span/></Trans></p>
+          </div>
+
+          <div css={[buttonCss]}> 
+            <p><Trans defaults="Guard Against the Kitty"><span/></Trans></p>
+          </div>
         </div>
     </>
   )
@@ -31,21 +37,31 @@ export const BidPopUp = () => {
 
 
 
-const rulesCss = css`
+const bidCss = css`
   font-size: 3em;
   opacity: 1;
-  border: 2em solid pink;
-  lenght:15em;
+  border: 0.1em solid white;
+  height: 27em;
+  width:10em;
   position:absolute;
-  right:0;
-  bottom:0;
-  margin-right:12em;
-  margin-bottom:2em;
-  
-
-  > p {
-    white-space: break-spaces;
-  }
+  right:15em;
+  top:3em;
+  text-align:center;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
 `  
 
+const buttonCss = css`
+  text-align:center;
+  margin:auto;
+  color:black;
+  height:5em;
+  border : 1em solid white;
+  border-radius: 25% 24% 24% 25% / 26% 26% 26% 26%;
+  background:white;
+  display:flex;
+
+  `
