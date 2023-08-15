@@ -1,3 +1,4 @@
 export enum CustomMoveType {
-  Bid, Pass
+  Bid = 1, 
+  Pass
 }

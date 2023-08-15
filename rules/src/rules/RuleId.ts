@@ -1,3 +1,7 @@
 export enum RuleId {
-  Deal, Bid
+  Deal = 1, 
+  Bid,
+  CreateKitty,
+  //PlayersTurns,
+  //Scorring,
 }

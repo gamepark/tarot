@@ -11,6 +11,11 @@ import { BidRule } from './rules/BidRule'
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
 export class TarotRules extends SecretMaterialRules<number, MaterialType, LocationType> {
+
+  isOver(): boolean {
+    return false;
+  }
+
   locationsStrategies = {
     [MaterialType.Card]: {
       [LocationType.Deck]: new PositiveSequenceStrategy(),
