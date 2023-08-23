@@ -22,7 +22,7 @@ export class DealRule extends MaterialRulesPart {
       ...this.material(MaterialType.Card)
         .sort (item => - item.location.x!)
         .limit(kittySize)
-        .moveItems({ location: { type: LocationType.Kitty } }))
+        .moveItems({ location: { type: LocationType.Kitty },rotation:{y:1} }))
 
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.game.players[0]))
 

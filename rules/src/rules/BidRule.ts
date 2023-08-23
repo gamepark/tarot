@@ -6,10 +6,11 @@ import { Memory } from './Memory'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 
-type BidMemory = {
+export type BidMemory = {
   player: number,
   bid: Bid
 }
+
 
 export class BidRule extends PlayerTurnRule {
   getPlayerMoves() {
