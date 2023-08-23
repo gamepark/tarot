@@ -28,7 +28,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [MaterialType.Card] : {
       [LocationType.Deck]: hideItemId,
       [LocationType.Hand]: hideItemIdToOthers,
-      [LocationType.Kitty]: hideItemId, //TODO : hideItemIdWhenRotating
+      [LocationType.Kitty]: hideItemId, //TODO : hideItemIdWhenRotating,
     }
   }
 
