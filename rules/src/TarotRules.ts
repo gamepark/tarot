@@ -4,6 +4,7 @@ import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
 import { DealRule } from './rules/DealRule'
 import { BidRule } from './rules/BidRule'
+import { CreateKittyRule } from './rules/CreateKittyRule'
 
 
 /**
@@ -34,6 +35,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
 
   rules = {
     [RuleId.Deal]: DealRule,
-    [RuleId.Bid]: BidRule
+    [RuleId.Bid]: BidRule,
+    [RuleId.CreateKitty]: CreateKittyRule,
   }
 }
