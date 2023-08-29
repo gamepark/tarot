@@ -15,8 +15,17 @@ export class CreateKittyRule extends MaterialRulesPart {
             ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player } })
         )
 
-
-
-        return moves
+        return moves   
     }
+        getPlayerMoves() {
+            //const moves: MaterialMove[] = []
+            const player = this.remind<BidMemory>(Memory.Bid).player
+            //const kittySize = this.game.players.length === 5 ? 3 : 6
+            const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(player)                
+
+            return playerCards.moveItem({ location: { type: LocationType.Kitty } })
+        }
+        
+
+
 }
