@@ -1,5 +1,7 @@
 import { HandLocator, ItemContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
+import { LocationType } from '@gamepark/tarot/material/LocationType'
+import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 
 export class PlayerHandLocator extends HandLocator {
   getCoordinates(location: Location, context: ItemContext) {
@@ -36,5 +38,15 @@ export class PlayerHandLocator extends HandLocator {
 
   isHidden(item: MaterialItem, context: ItemContext): boolean {
     return item.location.player !== context.player
+  }
+
+  getItemIndex(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
+    if (item.location.player === context.player) {
+      const cards = context.rules.material(MaterialType.Card).location(LocationType.Hand).player(context.player).getItems().map(item => item.id)
+      cards.sort((a,b)=>a-b)
+      return cards.indexOf(item.id)
+    } else {
+      return item.location.x!
+    }
   }
 }

@@ -12,8 +12,8 @@ export class CreateKittyRule extends MaterialRulesPart {
         moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ rotation: { y: 0 } }),
 
-            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems( {location: { type:LocationType.Hand, player}  })
-            ) 
+            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player } })
+        )
 
 
 
