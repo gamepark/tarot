@@ -31,4 +31,5 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Deal]: DealHeader,
   [RuleId.Bid]: ()=><>Bid</>,
   [RuleId.CreateKitty]: ()=><>Createkitty</>,
+  [RuleId.PlayersTurns]: ()=><>PlayersTurns</>,
 }
