@@ -11,6 +11,9 @@ export type BidMemory = {
   bid: Bid
 }
 
+export type isKittyStarted = {
+  bool: boolean
+}
 
 export class BidRule extends PlayerTurnRule {
   getPlayerMoves() {
@@ -68,6 +71,7 @@ export class BidRule extends PlayerTurnRule {
   }
 
   get goToKittyCreationMoves() {
+    this.memorize(Memory.IsKittyStarted, { bool : false })
     const player = this.remind<BidMemory>(Memory.Bid).player
     return [
       this.rules().startPlayerTurn(RuleId.CreateKitty, player)
