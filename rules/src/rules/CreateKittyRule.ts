@@ -5,7 +5,12 @@ import { Memory } from "./Memory"
 import { BidMemory, isKittyStarted } from "./BidRule"
 import { RuleId } from "./RuleId"
 
+export type StartingPlayer = {
+    player : number,
+  }
+
 export class CreateKittyRule extends PlayerTurnRule {
+
     onRuleStart() {
         const moves: MaterialMove[] = []
         const player = this.remind<BidMemory>(Memory.Bid).player
@@ -31,10 +36,11 @@ export class CreateKittyRule extends PlayerTurnRule {
 
     const kittySize = this.game.players.length === 5 ? 3 : 6
     const kittyStarted = this.remind<isKittyStarted>(Memory.IsKittyStarted).bool
+    
 
         if (this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize && kittyStarted == true) {
             return [
-                this.rules().startPlayerTurn(RuleId.PlayersTurns, this.nextPlayer)
+                this.rules().startPlayerTurn(RuleId.PlayersTurns, 1)
             ]
         } else if (this.material(MaterialType.Card).location(LocationType.Kitty).length === 1) {
             this.memorize(Memory.IsKittyStarted, { bool : true })
