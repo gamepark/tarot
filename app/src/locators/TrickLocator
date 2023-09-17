@@ -1,0 +1,29 @@
+import {ItemContext, LocationDescription, PileLocator } from '@gamepark/react-game'
+import { MaterialItem } from '@gamepark/rules-api'
+
+
+export class TarotDeckLocator extends PileLocator {
+  locationDescription = new TarotDeckLocatorDescription()
+
+  getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
+    const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
+    switch (relativePlayerIndex) {
+      case 1:
+        return { x: -20, y: -20, z: 9 }
+      case 2:
+        return { x: 10, y: 20, z: 9 }
+      case 3:
+        return { x: 20, y: -20, z: 9 }
+    }
+    return { x: -20, y: -20, z: 9 }
+
+  }
+  
+ }
+
+
+ class TarotDeckLocatorDescription extends LocationDescription {
+
+ 
+
+} 

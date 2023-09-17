@@ -1,4 +1,4 @@
-import { ItemMove, MaterialMove, PlayerTurnRule } from "@gamepark/rules-api"
+import { MaterialMove, PlayerTurnRule } from "@gamepark/rules-api"
 import { MaterialType } from "../material/MaterialType"
 import { LocationType } from "../material/LocationType"
 import { Memory } from "./Memory"
@@ -32,13 +32,14 @@ export class CreateKittyRule extends PlayerTurnRule {
     }
 
 
-    afterItemMove(_move: ItemMove<number, number, number>): MaterialMove[] {
+    afterItemMove() {
 
     const kittySize = this.game.players.length === 5 ? 3 : 6
     const kittyStarted = this.remind<isKittyStarted>(Memory.IsKittyStarted).bool
     
 
         if (this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize && kittyStarted == true) {
+            this.memorize(Memory.NumberPlayedCards, { value: 0 })
             return [
                 this.rules().startPlayerTurn(RuleId.PlayersTurns, 1)
             ]

@@ -13,4 +13,5 @@ export const Locators: Record<LocationType, ItemLocator<number, MaterialType, Lo
   [LocationType.Table]: new TarotTableLocator(),
   [LocationType.Trick]: new TarotDeckLocator(),
   [LocationType.TricksWon]: new TarotDeckLocator()
+  
 }
