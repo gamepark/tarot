@@ -6,7 +6,7 @@ import { Memory } from './Memory'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 
-export type BidMemory = {
+export type PlayerBid = {
   player: number,
   bid: Bid
 }
@@ -16,22 +16,32 @@ export type isKittyStarted = {
 }
 
 export class BidRule extends PlayerTurnRule {
+  onRuleStart() {
+    this.memorize(Memory.Bids, [])
+    return []
+  }
+
+  get lastBid(): PlayerBid | undefined {
+    const bids = this.remind<PlayerBid[]>(Memory.Bids)
+    return bids[bids.length - 1]
+  }
+
   getPlayerMoves() {
     const moves = [this.rules().customMove(CustomMoveType.Pass)]
-    const lastBid = this.remind<BidMemory>(Memory.Bid)?.bid
-    const filteredBids = bids.filter(bid => !lastBid || lastBid < bid)
+    const lastBid = this.lastBid
+    const filteredBids = bids.filter(bid => !lastBid || lastBid.bid < bid)
     moves.push(...filteredBids.map(bid => this.rules().customMove(CustomMoveType.Bid, bid)))
     return moves
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
     if (this.isLastPlayer) {
-      const bid = this.remind(Memory.Bid)
-      if (!bid) {
+      const lastBid = this.lastBid
+      if (!lastBid) {
         return this.goToDealMoves
       }
 
-      return this.goToKittyCreationMoves
+      return this.goToKittyCreationMoves(lastBid.player)
     }
 
     if (move.type === CustomMoveType.Pass) {
@@ -42,10 +52,10 @@ export class BidRule extends PlayerTurnRule {
 
     if (move.type === CustomMoveType.Bid) {
       const bid = move.data
-      this.memorize(Memory.Bid, { bid, player: this.player })
+      this.memorize<PlayerBid[]>(Memory.Bids, bids => bids.concat({ bid, player: this.player }))
 
       if (bid === Bid.GuardAgainstTheKitty) {
-        return this.goToKittyCreationMoves
+        return this.goToKittyCreationMoves(this.player)
       }
 
       return [
@@ -70,9 +80,8 @@ export class BidRule extends PlayerTurnRule {
     return this.player === this.game.players[this.game.players.length - 1]
   }
 
-  get goToKittyCreationMoves() {
-    this.memorize(Memory.IsKittyStarted, { bool : false })
-    const player = this.remind<BidMemory>(Memory.Bid).player
+  goToKittyCreationMoves(player: number) {
+    this.memorize(Memory.IsKittyStarted, { bool: false })
     return [
       this.rules().startPlayerTurn(RuleId.CreateKitty, player)
     ]
@@ -80,7 +89,7 @@ export class BidRule extends PlayerTurnRule {
 
   get goToDealMoves() {
     return [
-      ...this.material(MaterialType.Card).location(LocationType.Hand).moveItems({ location: { type: LocationType.Deck }}),
+      ...this.material(MaterialType.Card).location(LocationType.Hand).moveItems({ location: { type: LocationType.Deck } }),
       this.rules().startRule(RuleId.Deal)
     ]
   }

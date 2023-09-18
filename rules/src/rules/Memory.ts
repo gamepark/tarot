@@ -1,6 +1,6 @@
 
 export enum Memory {
-    Bid = 1,    
+    Bids = 1,
     IsKittyStarted,
     StartingPlayer,
     NumberPlayedCards,
