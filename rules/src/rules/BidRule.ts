@@ -11,10 +11,6 @@ export type PlayerBid = {
   bid: Bid
 }
 
-export type isKittyStarted = {
-  bool: boolean
-}
-
 export class BidRule extends PlayerTurnRule {
   onRuleStart() {
     this.memorize(Memory.Bids, [])
