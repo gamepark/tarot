@@ -23,11 +23,13 @@ export class PlayersTurns extends PlayerTurnRule {
         const numberPlayedCards = this.remind<NumberPlayedCards>(Memory.NumberPlayedCards)
         this.memorize(Memory.NumberPlayedCards, { value: numberPlayedCards.value + 1 })
 
+
         if (numberPlayedCards.value < this.game.players.length-1) {
            return [this.rules().startPlayerTurn(RuleId.PlayersTurns, this.nextPlayer)]
         }
         else 
-         { 
+ 
+        { 
                 moves.push(
                   ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Trick, player: this.player } })
                 )
