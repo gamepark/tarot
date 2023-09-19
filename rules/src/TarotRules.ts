@@ -1,4 +1,4 @@
-import { MaterialItem, PositiveSequenceStrategy, SecretMaterialRules, hideItemId, hideItemIdToOthers } from '@gamepark/rules-api'
+import { hideItemId, hideItemIdToOthers, MaterialItem, PositiveSequenceStrategy, SecretMaterialRules } from '@gamepark/rules-api'
 import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
@@ -15,14 +15,16 @@ import { PlayCardRule } from './rules/PlayCardRule'
 export class TarotRules extends SecretMaterialRules<number, MaterialType, LocationType> {
 
   isOver(): boolean {
-    return false;
+    return false
   }
 
   locationsStrategies = {
     [MaterialType.Card]: {
       [LocationType.Deck]: new PositiveSequenceStrategy(),
       [LocationType.Hand]: new PositiveSequenceStrategy(),
-      [LocationType.Kitty]: new PositiveSequenceStrategy()
+      [LocationType.Kitty]: new PositiveSequenceStrategy(),
+      [LocationType.Table]: new PositiveSequenceStrategy(),
+      [LocationType.Tricks]: new PositiveSequenceStrategy()
     }
   }
 
@@ -30,7 +32,8 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [MaterialType.Card]: {
       [LocationType.Deck]: hideItemId,
       [LocationType.Hand]: hideItemIdToOthers,
-      [LocationType.Kitty]: (item: MaterialItem) => item.rotation?.y ? ["id"] : [],
+      [LocationType.Kitty]: (item: MaterialItem) => item.rotation?.y ? ['id'] : [],
+      [LocationType.Tricks]: hideItemId
     }
   }
 
@@ -38,6 +41,6 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.Deal]: DealRule,
     [RuleId.Bid]: BidRule,
     [RuleId.CreateKitty]: CreateKittyRule,
-    [RuleId.PlayCard]: PlayCardRule,
+    [RuleId.PlayCard]: PlayCardRule
   }
 }

@@ -32,7 +32,7 @@ export class CreateKittyRule extends PlayerTurnRule {
       && this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize) {
       this.memorize(Memory.NumberPlayedCards, { value: 0 })
       return [
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.TricksWon, player: this.player } }),
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
     }
