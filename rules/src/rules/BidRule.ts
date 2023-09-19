@@ -5,6 +5,8 @@ import { RuleId } from './RuleId'
 import { Memory } from './Memory'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
+import { RuleMove } from '@gamepark/rules-api/dist/material/moves'
+import { RuleStep } from '@gamepark/rules-api/dist/material/rules/RuleStep'
 
 export type PlayerBid = {
   player: number,
@@ -12,8 +14,10 @@ export type PlayerBid = {
 }
 
 export class BidRule extends PlayerTurnRule {
-  onRuleStart() {
-    this.memorize(Memory.Bids, [])
+  onRuleStart(_move: RuleMove, previousRules: RuleStep) {
+    if (previousRules.id !== RuleId.Bid) {
+      this.memorize(Memory.Bids, [])
+    }
     return []
   }
 
@@ -31,6 +35,19 @@ export class BidRule extends PlayerTurnRule {
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
+    if (move.type === CustomMoveType.Bid) {
+      const bid = move.data
+      this.memorize<PlayerBid[]>(Memory.Bids, bids => bids.concat({ bid, player: this.player }))
+
+      if (bid === Bid.GuardAgainstTheKitty) {
+        return this.goToKittyCreationMoves(this.player)
+      }
+
+      return [
+        this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)
+      ]
+    }
+
     if (this.isLastPlayer) {
       const lastBid = this.lastBid
       if (!lastBid) {
@@ -41,19 +58,6 @@ export class BidRule extends PlayerTurnRule {
     }
 
     if (move.type === CustomMoveType.Pass) {
-      return [
-        this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)
-      ]
-    }
-
-    if (move.type === CustomMoveType.Bid) {
-      const bid = move.data
-      this.memorize<PlayerBid[]>(Memory.Bids, bids => bids.concat({ bid, player: this.player }))
-
-      if (bid === Bid.GuardAgainstTheKitty) {
-        return this.goToKittyCreationMoves(this.player)
-      }
-
       return [
         this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)
       ]
