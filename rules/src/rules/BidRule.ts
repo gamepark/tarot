@@ -38,14 +38,9 @@ export class BidRule extends PlayerTurnRule {
     if (move.type === CustomMoveType.Bid) {
       const bid = move.data
       this.memorize<PlayerBid[]>(Memory.Bids, bids => bids.concat({ bid, player: this.player }))
-
       if (bid === Bid.GuardAgainstTheKitty) {
         return this.goToKittyCreationMoves(this.player)
       }
-
-      return [
-        this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)
-      ]
     }
 
     if (this.isLastPlayer) {
@@ -53,17 +48,10 @@ export class BidRule extends PlayerTurnRule {
       if (!lastBid) {
         return this.goToDealMoves
       }
-
       return this.goToKittyCreationMoves(lastBid.player)
     }
 
-    if (move.type === CustomMoveType.Pass) {
-      return [
-        this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)
-      ]
-    }
-
-    return []
+    return [this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)]
   }
 
   afterItemMove(_move: ItemMove<number, number, number>): MaterialMove[] {
