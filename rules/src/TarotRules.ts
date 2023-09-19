@@ -5,7 +5,7 @@ import { RuleId } from './rules/RuleId'
 import { DealRule } from './rules/DealRule'
 import { BidRule } from './rules/BidRule'
 import { CreateKittyRule } from './rules/CreateKittyRule'
-import { PlayersTurns } from './rules/PlayersTurns'
+import { PlayCardRule } from './rules/PlayCardRule'
 
 
 /**
@@ -38,6 +38,6 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.Deal]: DealRule,
     [RuleId.Bid]: BidRule,
     [RuleId.CreateKitty]: CreateKittyRule,
-    [RuleId.PlayersTurns]: PlayersTurns,
+    [RuleId.PlayCard]: PlayCardRule,
   }
 }

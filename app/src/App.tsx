@@ -31,6 +31,6 @@ export default function App() {
 const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Deal]: DealHeader,
   [RuleId.Bid]: BidHeader,
-  [RuleId.CreateKitty]: ()=><>Createkitty</>,
-  [RuleId.PlayersTurns]: ()=><>PlayersTurns</>,
+  [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
+  [RuleId.PlayCard]: ()=><>Vous devez jouer une carte</>,
 }

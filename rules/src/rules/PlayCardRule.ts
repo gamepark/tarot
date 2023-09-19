@@ -8,7 +8,7 @@ export type NumberPlayedCards = {
     value: number
 }
 
-export class PlayersTurns extends PlayerTurnRule {
+export class PlayCardRule extends PlayerTurnRule {
 
 
     getPlayerMoves() {
@@ -25,7 +25,7 @@ export class PlayersTurns extends PlayerTurnRule {
 
 
         if (numberPlayedCards.value < this.game.players.length-1) {
-           return [this.rules().startPlayerTurn(RuleId.PlayersTurns, this.nextPlayer)]
+           return [this.rules().startPlayerTurn(RuleId.PlayCard, this.nextPlayer)]
         }
         else 
  
