@@ -1,13 +1,9 @@
-import { MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { RuleId } from './RuleId'
-import { Memory } from './Memory'
 import { Card, isColor, isSameColor, isTrump } from '../Card'
-
-export type NumberPlayedCards = {
-  value: number
-}
+import maxBy from 'lodash/maxBy'
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -35,24 +31,38 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.x!).getItems()
   }
 
-  afterItemMove() {
-    const moves: MaterialMove[] = []
-    const numberPlayedCards = this.remind<NumberPlayedCards>(Memory.NumberPlayedCards)
-    this.memorize(Memory.NumberPlayedCards, { value: numberPlayedCards.value + 1 })
-
-
-    if (numberPlayedCards.value < this.game.players.length - 1) {
-      return [this.rules().startPlayerTurn(RuleId.PlayCard, this.nextPlayer)]
-    } else {
-      moves.push(
-        ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: this.player } })
-      )
-      this.memorize(Memory.NumberPlayedCards, { value: 0 })
-
-      return moves
+  get trickWinner() {
+    const cardsPlayed = this.cardsPlayed
+    const trumps = cardsPlayed.filter(card => isTrump(card.id))
+    if (trumps.length > 0) {
+      const bestTrump = maxBy(trumps, trump => trump.id)!
+      return bestTrump.location.player!
     }
-
+    const firstCard = cardsPlayed[0].id
+    const cardsSameColor = cardsPlayed.filter(card => isSameColor(card.id, firstCard))
+    return maxBy(cardsSameColor, card => card.id)!.location.player!
   }
 
+  afterItemMove(move: ItemMove) {
+    if (isMoveItemLocation(move) && move.position.location.type === LocationType.Table) {
+      const moves: MaterialMove[] = []
+      const numberPlayedCards = this.cardsPlayed.length
+      if (numberPlayedCards === this.game.players.length) {
+        const trickWinner = this.trickWinner
+        moves.push(
+          ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner } })
+        )
+        if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
+          moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
+        } else {
+          moves.push(this.rules().endGame())
+        }
+        return moves
+      } else {
+        return [this.rules().startPlayerTurn(RuleId.PlayCard, this.nextPlayer)]
+      }
+    }
+    return []
+  }
 }
 

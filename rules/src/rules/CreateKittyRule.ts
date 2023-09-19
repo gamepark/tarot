@@ -1,7 +1,6 @@
 import { isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
-import { Memory } from './Memory'
 import { RuleId } from './RuleId'
 
 export class CreateKittyRule extends PlayerTurnRule {
@@ -30,7 +29,6 @@ export class CreateKittyRule extends PlayerTurnRule {
 
     if (isMoveItem(move) && move.position.location?.type === LocationType.Kitty
       && this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize) {
-      this.memorize(Memory.NumberPlayedCards, { value: 0 })
       return [
         ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
