@@ -1,30 +1,42 @@
-import { ItemContext, LocationDescription, PileLocator } from '@gamepark/react-game'
+import { ItemContext, ItemLocator, LocationDescription } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 
-export class TarotTableLocator extends PileLocator {
+export class TarotTableLocator extends ItemLocator {
   locationDescription = new TableLocationDescription()
 
-  getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
+  getPosition(item: MaterialItem, context: ItemContext) {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     switch (relativePlayerIndex) {
       case 1:
-        return { x: -20, y: 0, z: 10 }
+        return { x: -5, y: 0, z: 0 }
       case 2:
-        return { x: 0, y: -10, z: 10 }
+        return { x: 0, y: -5, z: 0 }
       case 3:
-        return { x: 20, y: 0, z: 10 }
+        return { x: 5, y: 0, z: 0 }
     }
-    return { x: 0, y: 10, z: 10 }
-
+    return { x: 0, y: 5, z: 0 }
   }
 
+  getRotation(item: MaterialItem, context: ItemContext): number {
+    const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
+    switch (relativePlayerIndex) {
+      case 1:
+        return 90
+      case 2:
+        return 180
+      case 3:
+        return -90
+      default:
+        return 0
+    }
+  }
 }
 
 
 class TableLocationDescription extends LocationDescription {
   location = { type: LocationType.Table }
-  width = 50
+  width = 15
   ratio = 1
   borderRadius = this.width / 2
 }
