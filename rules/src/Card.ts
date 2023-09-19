@@ -82,3 +82,7 @@ export enum Card {
 }
 
 export const cards = Object.values(Card).filter<Card>(isEnumValue)
+
+export const isTrump = (card: Card) => card <= 21
+export const isSameColor = (card1: Card, card2: Card) => Math.floor(card1 / 100) === Math.floor(card2 / 100) && card1 >= 100
+export const isColor = (card: Card) => card >= 100
