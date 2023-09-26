@@ -13,7 +13,7 @@ export class PlayCardRule extends PlayerTurnRule {
     const firstCardPlayed = this.firstCardPlayed
     if (firstCardPlayed !== undefined) {
       if (isTrump(firstCardPlayed) && cardsToPlay.getItems().some(item => isTrump(item.id))) {
-        cardsToPlay = cardsToPlay.filter(item => !isColor(item.id))
+        cardsToPlay = cardsToPlay.filter(item => item.id > firstCardPlayed).filter(item => !isColor(item.id) || item.id === Card.Excuse)
       }
       if (isColor(firstCardPlayed) && cardsToPlay.getItems().some(item => isSameColor(item.id, firstCardPlayed))) {
         cardsToPlay = cardsToPlay.filter(item => isSameColor(item.id, firstCardPlayed) || item.id === Card.Excuse)
