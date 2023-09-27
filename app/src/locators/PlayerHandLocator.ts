@@ -36,8 +36,8 @@ export class PlayerHandLocator extends HandLocator {
     return 20
   }
 
-  isHidden(item: MaterialItem, context: ItemContext): boolean {
-    return item.location.player !== context.player
+  isHidden(_item: MaterialItem, _context: ItemContext): boolean {
+    return false //item.location.player !== context.player
   }
 
   getItemIndex(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
