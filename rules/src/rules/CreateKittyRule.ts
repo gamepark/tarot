@@ -1,17 +1,48 @@
-import { isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import {isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
+import { Memory } from './Memory'
+import { Bid } from './Bid'
+
+
 
 export class CreateKittyRule extends PlayerTurnRule {
 
+
+
+
   onRuleStart() {
     const moves: MaterialMove[] = []
-    moves.push(
-      ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ rotation: { y: 0 } }),
+    const bid = this.remind<Bid>(Memory.Bids)
 
-      ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player: this.player } })
-    )
+    console.log(bid)
+      
+
+
+
+    if (bid === 1 || bid === 2) {
+      moves.push(
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ rotation: { y: 0 } }),
+
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player: this.player } })
+      )
+    }
+
+    else if (bid === 3) {
+      moves.push(
+
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } })
+
+      )
+    } else {
+      moves.push(
+  
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player + 2 } })
+  
+      )
+    }
+
 
     return moves
   }
@@ -33,7 +64,14 @@ export class CreateKittyRule extends PlayerTurnRule {
         ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
+    } else if (isMoveItem(move) && move.position.location?.type === LocationType.Tricks) {
+      return [
+        this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+      ]
+
     }
+
+
 
     return []
   }

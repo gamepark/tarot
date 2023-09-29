@@ -11,7 +11,6 @@ export class PlayCardRule extends PlayerTurnRule {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
     const firstCardPlayed = this.firstCardPlayed
     const cardsPlayed = this.cardsPlayed
-    console.log("cards played", cardsPlayed)
     const trumps = cardsPlayed.filter(isTrump)
     const bestTrump = Math.max(...trumps)
 

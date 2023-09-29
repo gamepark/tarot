@@ -75,6 +75,7 @@ export class BidRule extends PlayerTurnRule {
     ]
   }
 
+
   get goToDealMoves() {
     return [
       ...this.material(MaterialType.Card).location(LocationType.Hand).moveItems({ location: { type: LocationType.Deck } }),

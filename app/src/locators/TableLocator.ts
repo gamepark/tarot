@@ -7,7 +7,7 @@ export class TarotTableLocator extends ItemLocator {
 
   getPosition(item: MaterialItem, context: ItemContext) {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
-    console.log("item", item)
+
     switch (relativePlayerIndex) {
       case 1:
         return { x: -5, y: 0, z: item.location.z!*0.1 }
