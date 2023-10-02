@@ -86,3 +86,8 @@ export const cards = Object.values(Card).filter<Card>(isEnumValue)
 export const isTrump = (card: Card) => card <= 21
 export const isSameColor = (card1: Card, card2: Card) => Math.floor(card1 / 100) === Math.floor(card2 / 100) && card1 >= 100
 export const isColor = (card: Card) => card >= 100
+export const jack = (card:Card) => card === 111 || 211 || 311 || 411
+export const knight = (card:Card) => card === 112 || 212 || 312 || 412
+export const queen = (card:Card) => card === 113 || 213 || 313 || 413
+export const king = (card:Card) => card === 114 || 214 || 314 || 414
+export const oudlers = (card:Card) => card === 1 || 21 || 22

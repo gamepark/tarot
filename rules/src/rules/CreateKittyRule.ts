@@ -1,8 +1,9 @@
-import {isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItem, ItemMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
 import { Memory } from './Memory'
+import { PlayerBid } from './BidRule'
 import { Bid } from './Bid'
 
 
@@ -13,38 +14,33 @@ export class CreateKittyRule extends PlayerTurnRule {
 
 
   onRuleStart() {
-    const moves: MaterialMove[] = []
-    const bid = this.remind<Bid>(Memory.Bids)
+    const bids = this.remind<PlayerBid[]>(Memory.Bids)
+    const bid = bids[bids.length - 1].bid
 
-    console.log(bid)
-      
+    switch (bid) {
+      case Bid.Small:
+      case Bid.Guard:
+        return [
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ rotation: { y: 0 } }),
 
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player: this.player } })
+        ]
 
+      case Bid.GuardWithoutTheKitty:
+        return [
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player }, rotation: { y: 1 } }),
+          this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+        ]
 
-    if (bid === 1 || bid === 2) {
-      moves.push(
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ rotation: { y: 0 } }),
+      case Bid.GuardAgainstTheKitty:
+        const facingPlayer = this.game.players[(this.game.players.indexOf(this.player) + 2) % this.game.players.length]
 
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Hand, player: this.player } })
-      )
+        return [
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: facingPlayer }, rotation: { y: 1 } }),
+          this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+        ]
+
     }
-
-    else if (bid === 3) {
-      moves.push(
-
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } })
-
-      )
-    } else {
-      moves.push(
-  
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player + 2 } })
-  
-      )
-    }
-
-
-    return moves
   }
 
   getPlayerMoves() {
@@ -61,16 +57,10 @@ export class CreateKittyRule extends PlayerTurnRule {
     if (isMoveItem(move) && move.position.location?.type === LocationType.Kitty
       && this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize) {
       return [
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player } }),
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player }, rotation: { y: 1 } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
-    } else if (isMoveItem(move) && move.position.location?.type === LocationType.Tricks) {
-      return [
-        this.rules().startPlayerTurn(RuleId.PlayCard, 1)
-      ]
-
     }
-
 
 
     return []

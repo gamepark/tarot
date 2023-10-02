@@ -6,6 +6,7 @@ import { DealRule } from './rules/DealRule'
 import { BidRule } from './rules/BidRule'
 import { CreateKittyRule } from './rules/CreateKittyRule'
 import { PlayCardRule } from './rules/PlayCardRule'
+import { Scoring } from './rules/Scoring'
 
 
 /**
@@ -32,7 +33,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
       [LocationType.Deck]: hideItemId,
       //[LocationType.Hand]: hideItemIdToOthers,
       [LocationType.Kitty]: (item: MaterialItem) => item.rotation?.y ? ['id'] : [],
-      [LocationType.Tricks]: hideItemId
+      [LocationType.Tricks]: (item: MaterialItem) => item.rotation?.y ? ['id'] : [],
     }
   }
 
@@ -40,6 +41,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.Deal]: DealRule,
     [RuleId.Bid]: BidRule,
     [RuleId.CreateKitty]: CreateKittyRule,
-    [RuleId.PlayCard]: PlayCardRule
+    [RuleId.PlayCard]: PlayCardRule,
+    [RuleId.Scoring]: Scoring,
   }
 }

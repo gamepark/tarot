@@ -3,5 +3,5 @@ export enum RuleId {
   Bid,
   CreateKitty,
   PlayCard,
-  //Scoring,
+  Scoring,
 }

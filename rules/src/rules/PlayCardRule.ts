@@ -65,12 +65,12 @@ export class PlayCardRule extends PlayerTurnRule {
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
         moves.push(
-          ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner } })
+          ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation : {y:1 }})
         )
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
         } else {
-          moves.push(this.rules().endGame())
+          moves.push(this.rules().startRule(RuleId.Scoring))
         }
         return moves
       } else {

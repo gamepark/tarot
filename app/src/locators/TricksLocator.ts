@@ -4,8 +4,12 @@ import { MaterialItem } from '@gamepark/rules-api'
 
 export class TricksLocator extends DeckLocator {
   locationDescription = new TarotDeckLocatorDescription()
-  hidden = true
   delta = { x: -0.05, y: -0.05, z: 0.1 }
+
+  
+  isHidden(item: MaterialItem) {
+    return item.rotation?.y===1;
+   }
 
   getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)

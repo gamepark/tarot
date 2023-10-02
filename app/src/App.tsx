@@ -33,4 +33,5 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Bid]: BidHeader,
   [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
   [RuleId.PlayCard]: ()=><>Vous devez jouer une carte</>,
+  [RuleId.Scoring]: ()=><>Décompte du score !</>,
 }

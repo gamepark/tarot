@@ -6,11 +6,13 @@ import { KittyLocator } from './KittyLocator'
 import { PlayerHandLocator } from './PlayerHandLocator'
 import { TarotTableLocator } from './TableLocator'
 import { TricksLocator } from './TricksLocator'
+import { TableEndLocator } from './TableEndLocator'
 
 export const Locators: Record<LocationType, ItemLocator<number, MaterialType, LocationType>> = {
   [LocationType.Deck]: new TarotDeckLocator(),
   [LocationType.Hand]: new PlayerHandLocator(),
   [LocationType.Kitty]: new KittyLocator(),
   [LocationType.Table]: new TarotTableLocator(),
-  [LocationType.Tricks]: new TricksLocator()
+  [LocationType.Tricks]: new TricksLocator(),
+  [LocationType.TableEnd]: new TableEndLocator()
 }
