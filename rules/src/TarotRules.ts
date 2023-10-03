@@ -1,4 +1,4 @@
-import { hideItemId, /*hideItemIdToOthers,*/ MaterialItem, PositiveSequenceStrategy, SecretMaterialRules } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, MaterialGame, /*hideItemIdToOthers,*/ MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules } from '@gamepark/rules-api'
 import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
@@ -7,17 +7,18 @@ import { BidRule } from './rules/BidRule'
 import { CreateKittyRule } from './rules/CreateKittyRule'
 import { PlayCardRule } from './rules/PlayCardRule'
 import { Scoring } from './rules/Scoring'
+import { Memory } from './rules/Memory'
 
 
 /**
  * This class implements the rules of the board game.
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
-export class TarotRules extends SecretMaterialRules<number, MaterialType, LocationType> {
+export class TarotRules extends SecretMaterialRules<number, MaterialType, LocationType>
+  implements CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>
+{
 
-  isOver(): boolean {
-    return false
-  }
+
 
   locationsStrategies = {
     [MaterialType.Card]: {
@@ -44,4 +45,9 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.PlayCard]: PlayCardRule,
     [RuleId.Scoring]: Scoring,
   }
+
+  getScore(player: number): number {
+    return this.remind(Memory.Score, player)
+  }
+
 }

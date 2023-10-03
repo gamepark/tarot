@@ -6,6 +6,9 @@ import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { Memory } from '@gamepark/tarot/rules/Memory'
 import { PlayerBid } from '@gamepark/tarot/rules/BidRule'
 import { useTranslation } from 'react-i18next'
+import { PlayerPanelCounter } from './PlayerPanelCounter'
+import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
+
 
 export const PlayerPanels: FC<any> = () => {
   const { t } = useTranslation()
@@ -18,6 +21,11 @@ export const PlayerPanels: FC<any> = () => {
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {lastBid?.player === player.id && <span css={bidCss}>{t(`bid.${lastBid!.bid}`)}</span>}
+          <div css={indicators}>
+        <PlayerPanelCounter
+          width={3}
+          icon={faStar}
+          value={rules?.getScore(player.id)!}/> </div>
         </PlayerPanel>
       )}
     </>
@@ -37,3 +45,13 @@ const bidCss = css`
   left: 5%;
   font-size: 3em;
 `
+
+const indicators = css`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 2em;
+  right: -4em;
+  justify-content: space-evenly;
+  flex-wrap: wrap; `

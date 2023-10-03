@@ -1,20 +1,36 @@
 import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
+import { Memory } from "./Memory";
+import { PlayerBid } from "./BidRule";
+import { sumBy } from "lodash";
+import { cardValue } from "../Card";
 
 export class Scoring extends MaterialRulesPart {
 
     onRuleStart() {
         const moves: MaterialMove[] = []
 
-        //const playerbid = this.remind<PlayerBid[]>(Memory.Bids).length
+        const playerbids = this.remind<PlayerBid[]>(Memory.Bids)
+        const playerbid = playerbids[playerbids.length - 1]
 
 
         moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ rotation : {y:0} } )
-          )
+            ...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ rotation: { y: 0 } })
+        )
 
-          moves.push(this.rules().endGame())
+        const points = sumBy (this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(),item => cardValue(item.id) )
+        const contrat = 1 // 0 outler : 56 ; 1 oudler : 51 ; 2 ; 46 : 3 : 41
+        const score = points - contrat
+
+        this.memorize(Memory.Score, score * playerbid.bid, playerbid.player)
+        for (const player of this.game.players) {
+            if (player !== playerbid.player) {
+                this.memorize(Memory.Score, -score * playerbid.bid, player) //win or defeat
+            }
+
+        }
+        moves.push(this.rules().endGame())
 
         return moves
     }
