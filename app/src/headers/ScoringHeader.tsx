@@ -6,11 +6,11 @@ import { css } from "@emotion/react"
 
 
 
-export const BidHeader = () => {
-    return <MyBidHeader/>
+export const ScoringHeader = () => {
+    return <MyScoringHeader/>
 }
 
-export const MyBidHeader = () => {
+export const MyScoringHeader = () => {
     const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
     const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
     return <>

@@ -19,17 +19,29 @@ export class Scoring extends MaterialRulesPart {
             ...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ rotation: { y: 0 } })
         )
 
-        const points = sumBy (this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(),item => cardValue(item.id) )
-        const contrat = 1 // 0 outler : 56 ; 1 oudler : 51 ; 2 ; 46 : 3 : 41
-        const score = points - contrat
+        const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(), item => cardValue(item.id))
+        function getContrat(oudlers: number): number {
+            switch (oudlers) {
+                case 0:
+                    return 56
+                case 1:
+                    return 51
+                case 2:
+                    return 46
+            }
+            return 41
+        }
+        const score = points - getContrat.length // TODO
 
-        this.memorize(Memory.Score, score * playerbid.bid, playerbid.player)
+
+        this.memorize(Memory.Score, (((score + 25) * playerbid.bid) * (this.game.players.length - 1)), playerbid.player)
         for (const player of this.game.players) {
             if (player !== playerbid.player) {
-                this.memorize(Memory.Score, -score * playerbid.bid, player) //win or defeat
+                this.memorize(Memory.Score, (-score - 25) * playerbid.bid, player) //TODO si score positif alors +25 si score négatif alors -25
             }
-
         }
+
+        
         moves.push(this.rules().endGame())
 
         return moves

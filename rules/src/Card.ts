@@ -83,32 +83,34 @@ export enum Card {
 
 export const cards = Object.values(Card).filter<Card>(isEnumValue)
 
-export const isTrump = (card: Card) => card <= 21
+export const isTrump = (card: Card) => card <= 22
+export const isTrumpValue = (card: Card) => card <= 21
 export const isSameColor = (card1: Card, card2: Card) => Math.floor(card1 / 100) === Math.floor(card2 / 100) && card1 >= 100
 export const isColor = (card: Card) => card >= 100
-export const jack = (card:Card) => card === 111 || card === 211 || card === 311 || card === 411
-export const knight = (card:Card) => card === 112 || card === 212 || card === 312 || card === 412
-export const queen = (card:Card) => card === 113 || card === 213 || card === 313 || card === 413
-export const king = (card:Card) => card === 114 || card === 214 || card === 314 || card === 414
-export const oudlers = (card:Card) => card === 1 || card === 21 || card === 22
+export const isJack = (card:Card) => card === 111 || card === 211 || card === 311 || card === 411
+export const isKnight = (card:Card) => card === 112 || card === 212 || card === 312 || card === 412
+export const isQueen = (card:Card) => card === 113 || card === 213 || card === 313 || card === 413
+export const isKing = (card:Card) => card === 114 || card === 214 || card === 314 || card === 414
+export const isOudlers = (card:Card) => card === 1 || card === 21 || card === 22
 
 export function cardValue (card:Card) : number {
-  if (jack(card)) {
+  if (isJack(card)) {
     return 1.5
   }
-  if (knight(card)) {
+  if (isKnight(card)) {
     return 2.5
   }
-  if (queen(card)) {
+  if (isQueen(card)) {
     return 3.5
   }
-  if (king(card)) {
+  if (isKing(card)) {
     return 4.5
   }
 
-  if (oudlers(card)) {
+  if (isOudlers(card)) {
     return 4.5
   }
 
   return 0.5
 }
+

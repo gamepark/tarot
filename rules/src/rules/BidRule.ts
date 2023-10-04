@@ -7,6 +7,7 @@ import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleMove } from '@gamepark/rules-api/dist/material/moves'
 import { RuleStep } from '@gamepark/rules-api/dist/material/rules/RuleStep'
+import { Card, isTrump } from '../Card'
 
 export type PlayerBid = {
   player: number,
@@ -15,10 +16,25 @@ export type PlayerBid = {
 
 export class BidRule extends PlayerTurnRule {
   onRuleStart(_move: RuleMove, previousRules: RuleStep) {
+
+
     if (previousRules.id !== RuleId.Bid) {
+
+      if (this.game.players.some(player => this.smallTrumpOnly(player))) {
+        return [
+          this.rules().startRule(RuleId.Deal)
+        ]
+
+      }
       this.memorize(Memory.Bids, [])
     }
     return []
+  }
+
+  smallTrumpOnly(player: number) {
+    const playerCards = this.material(MaterialType.Card).player(player).getItems().map(item => item.id)
+
+    return playerCards.every(card => !isTrump(card) || card === Card.Trump1) && playerCards.some(card => card === Card.Trump1)
   }
 
   get lastBid(): PlayerBid | undefined {

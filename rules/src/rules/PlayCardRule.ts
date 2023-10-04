@@ -2,7 +2,7 @@ import { isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gam
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { RuleId } from './RuleId'
-import { Card, isColor, isSameColor, isTrump } from '../Card'
+import { Card, isColor, isSameColor, isTrumpValue } from '../Card'
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -11,24 +11,24 @@ export class PlayCardRule extends PlayerTurnRule {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
     const firstCardPlayed = this.firstCardPlayed
     const cardsPlayed = this.cardsPlayed
-    const trumps = cardsPlayed.filter(isTrump)
+    const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
 
-    if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrump(item.id) && item.id > bestTrump)) {
-      cardsToPlay = cardsToPlay.filter(item => !isTrump(item.id) || item.id > bestTrump)
+    if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrumpValue(item.id) && item.id > bestTrump)) {
+      cardsToPlay = cardsToPlay.filter(item => !isTrumpValue(item.id) || item.id > bestTrump)
     }
 
     if (firstCardPlayed !== undefined) {
-      if (isTrump(firstCardPlayed) && cardsToPlay.getItems().some(item => isTrump(item.id))) {
-        cardsToPlay = cardsToPlay.filter(item => isTrump(item.id) || item.id === Card.Excuse)
+      if (isTrumpValue(firstCardPlayed) && cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
+        cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
 
       }
       if (isColor(firstCardPlayed)) {
         if (cardsToPlay.getItems().some(item => isSameColor(item.id, firstCardPlayed))) {
           cardsToPlay = cardsToPlay.filter(item => isSameColor(item.id, firstCardPlayed) || item.id === Card.Excuse)
 
-        } else if (cardsToPlay.getItems().some(item => isTrump(item.id))) {
-          cardsToPlay = cardsToPlay.filter(item => isTrump(item.id) || item.id === Card.Excuse)
+        } else if (cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
+          cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
       }
 
@@ -47,7 +47,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
   get trickWinner() {
     const cardsPlayed = this.cardsPlayed
-    const trumps = cardsPlayed.filter(isTrump)
+    const trumps = cardsPlayed.filter(isTrumpValue)
     if (trumps.length > 0) {
       const bestTrump = Math.max(...trumps)!
       return this.material(MaterialType.Card).id(bestTrump).getItem()!.location.player!
