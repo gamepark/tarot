@@ -6,7 +6,7 @@ import { RuleId } from './RuleId'
 import { cards } from '../Card'
 
 export class DealRule extends MaterialRulesPart {
-  onRuleStart() {
+  getAutomaticMoves() {
     const moves: MaterialMove[] = []
     const kittySize = this.game.players.length === 5 ? 3 : 6
     const handSize = (cards.length - kittySize) / this.game.players.length
