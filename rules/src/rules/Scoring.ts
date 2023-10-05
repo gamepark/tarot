@@ -4,9 +4,11 @@ import { LocationType } from "../material/LocationType";
 import { Memory } from "./Memory";
 import { PlayerBid } from "./BidRule";
 import { sumBy } from "lodash";
-import { cardValue } from "../Card";
+import { cardValue, isOudler } from "../Card";
+
 
 export class Scoring extends MaterialRulesPart {
+
 
     onRuleStart() {
         const moves: MaterialMove[] = []
@@ -20,35 +22,37 @@ export class Scoring extends MaterialRulesPart {
         )
 
         const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(), item => cardValue(item.id))
-        function getContrat(oudlers: number): number {
-            switch (oudlers) {
-                case 0:
-                    return 56
-                case 1:
-                    return 51
-                case 2:
-                    return 46
-            }
-            return 41
-        }
-        const score = points - getContrat.length // TODO
+        const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).id(isOudler).length
+        const contrat = points - getContrat(oudlers)
+        const score = (contrat >= 0 ? contrat + 25 : contrat - 25) * playerbid.bid;
 
-
-        this.memorize(Memory.Score, (((score + 25) * playerbid.bid) * (this.game.players.length - 1)), playerbid.player)
+        this.memorize(Memory.Score, (score * (this.game.players.length - 1)), playerbid.player)
         for (const player of this.game.players) {
             if (player !== playerbid.player) {
-                this.memorize(Memory.Score, (-score - 25) * playerbid.bid, player) //TODO si score positif alors +25 si score négatif alors -25
+                this.memorize(Memory.Score, -score, player)
             }
         }
 
-        
+
         moves.push(this.rules().endGame())
 
         return moves
     }
 
+
 }
 
+function getContrat(oudlers: number): number {
+    switch (oudlers) {
+        case 0:
+            return 56
+        case 1:
+            return 51
+        case 2:
+            return 46
+    }
+    return 41
+}
 
 
 

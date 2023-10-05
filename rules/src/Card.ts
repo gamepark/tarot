@@ -91,7 +91,7 @@ export const isJack = (card:Card) => card === 111 || card === 211 || card === 31
 export const isKnight = (card:Card) => card === 112 || card === 212 || card === 312 || card === 412
 export const isQueen = (card:Card) => card === 113 || card === 213 || card === 313 || card === 413
 export const isKing = (card:Card) => card === 114 || card === 214 || card === 314 || card === 414
-export const isOudlers = (card:Card) => card === 1 || card === 21 || card === 22
+export const isOudler = (card:Card) => card === 1 || card === 21 || card === 22
 
 export function cardValue (card:Card) : number {
   if (isJack(card)) {
@@ -107,7 +107,7 @@ export function cardValue (card:Card) : number {
     return 4.5
   }
 
-  if (isOudlers(card)) {
+  if (isOudler(card)) {
     return 4.5
   }
 
