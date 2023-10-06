@@ -6,6 +6,7 @@ import { Card, isColor, isSameColor, isTrumpValue } from '../Card'
 
 export class PlayCardRule extends PlayerTurnRule {
 
+  
 
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
@@ -13,7 +14,11 @@ export class PlayCardRule extends PlayerTurnRule {
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
+    const numberTrump = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(item => isTrumpValue(item.id))
+    const numberPlayer = this.game.players.length
 
+
+    if(this.firstTrickWin < this.game.players.length && +numberTrump > LittleHandle(numberPlayer)  ){      } //TODO Poignée
     if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrumpValue(item.id) && item.id > bestTrump)) {
       cardsToPlay = cardsToPlay.filter(item => !isTrumpValue(item.id) || item.id > bestTrump)
     }
@@ -30,8 +35,8 @@ export class PlayCardRule extends PlayerTurnRule {
         } else if (cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
           cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
-      }
 
+}
 
     }
     return cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
@@ -41,9 +46,18 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.cardsPlayed[0]
   }
 
+  get firstTrickWin(): Card {
+    return this.TricksWins[0]
+  }
+
   get cardsPlayed(): Card[] {
     return this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.z!).getItems().map(item => item.id)
   }
+
+  get TricksWins(): Card[] {
+    return this.material(MaterialType.Card).location(LocationType.Tricks).sort(item => item.location.z!).getItems().map(item => item.id)
+  }
+
 
   get trickWinner() {
     const cardsPlayed = this.cardsPlayed
@@ -57,6 +71,8 @@ export class PlayCardRule extends PlayerTurnRule {
     const bestCard = Math.max(...cardsSameColor)!
     return this.material(MaterialType.Card).id(bestCard).getItem()!.location.player!
   }
+
+  
 
   afterItemMove(move: ItemMove) {
     if (isMoveItemLocation(move) && move.position.location.type === LocationType.Table) {
@@ -79,5 +95,39 @@ export class PlayCardRule extends PlayerTurnRule {
     }
     return []
   }
+  
 }
 
+function LittleHandle(numberPlayer: number): number {
+  switch (numberPlayer) {
+      case 3:
+          return 13
+      case 4:
+          return 10
+  }
+  return 8
+
+ }
+
+/* TODO
+function MediumHandle(numberPlayer: number): number {
+  switch (numberPlayer) {
+      case 3:
+          return 15
+      case 4:
+          return 13
+  }
+  return 10
+
+ }
+
+ function LargeHandle(numberPlayer: number): number {
+  switch (numberPlayer) {
+      case 3:
+          return 18
+      case 4:
+          return 15
+  }
+  return 13
+
+ } */
