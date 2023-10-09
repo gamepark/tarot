@@ -46,7 +46,7 @@ export class CreateKittyRule extends PlayerTurnRule {
   }
 
   getPlayerMoves() {
-    const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(card => isColor(card.id) && !isKing(card.id)) 
+    const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(card => isColor(card.id) && !isKing(card.id))
 
     return playerCards.moveItems({ location: { type: LocationType.Kitty }, rotation: { y: 1 } })
   }
@@ -54,10 +54,8 @@ export class CreateKittyRule extends PlayerTurnRule {
 
   afterItemMove(move: ItemMove) {
 
-    const kittySize = this.game.players.length === 5 ? 3 : 6
-
     if (isMoveItem(move) && move.position.location?.type === LocationType.Kitty
-      && this.material(MaterialType.Card).location(LocationType.Kitty).length == kittySize) {
+      && this.material(MaterialType.Card).location(LocationType.Kitty).length === getKittySize(this.game.players.length)) {
       return [
         ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player }, rotation: { y: 1 } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
@@ -69,3 +67,5 @@ export class CreateKittyRule extends PlayerTurnRule {
   }
 
 }
+
+export const getKittySize = (players: number) => players === 5 ? 3 : 6

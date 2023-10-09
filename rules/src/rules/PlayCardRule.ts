@@ -1,8 +1,11 @@
 import { CustomMove, isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
+import { Bid } from "./Bid";
+import { PlayerBid } from "./BidRule";
+import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, excuse, isColor, isSameColor, isTrumpValue } from '../Card'
+import { Card, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Handle, handles } from './Handle'
@@ -23,11 +26,6 @@ export class PlayCardRule extends PlayerTurnRule {
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
-    const numberTrump = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(item => isTrumpValue(item.id)).length
-    const numberPlayer = this.game.players.length
-
-
-
     if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrumpValue(item.id) && item.id > bestTrump)) {
       cardsToPlay = cardsToPlay.filter(item => !isTrumpValue(item.id) || item.id > bestTrump)
     }
@@ -49,11 +47,13 @@ export class PlayCardRule extends PlayerTurnRule {
 
     }
     const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
-    const handleMinTrumps = getHandleMinTrumps(numberPlayer)
-
-    for (const handle of handles) {
-      if (this.firstTrickWin < this.game.players.length && numberTrump > handleMinTrumps[handle]) {
-        moves.push(this.rules().customMove(CustomMoveType.Handle, handle))
+    if (this.isFirstTrick && !this.remind(Memory.Handle, this.player)) {
+      const handleMinTrumps = getHandleMinTrumps(this.game.players.length)
+      const numberOfTrumps = this.playerTrumpsForPoignee.length
+      for (const handle of handles) {
+        if (numberOfTrumps >= handleMinTrumps[handle]) {
+          moves.push(this.rules().customMove(CustomMoveType.Handle, handle))
+        }
       }
     }
     return moves
@@ -63,16 +63,25 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.cardsPlayed[0]
   }
 
-  get firstTrickWin(): Card {
-    return this.TricksWins[0]
+  get isFirstTrick() {
+    return this.material(MaterialType.Card).location(LocationType.Tricks).length === getKittySize(this.game.players.length)
+  }
+
+  get playerTrumpsForPoignee() {
+    const playerTrumps = this.material(MaterialType.Card).player(this.player).id(isTrump)
+
+    // Lorsque le preneur possède 4 Rois et 15 atouts, l’atout écarté doit être remontré avec la triple Poignée qui est alors comptabilisée.
+    const bids = this.remind<PlayerBid[]>(Memory.Bids)
+    const bid = bids[bids.length - 1].bid
+    if (bid < Bid.GuardWithoutTheKitty) {
+      return playerTrumps
+    } else {
+      return playerTrumps.location(LocationType.Hand)
+    }
   }
 
   get cardsPlayed(): Card[] {
     return this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.z!).getItems().map(item => item.id)
-  }
-
-  get TricksWins(): Card[] {
-    return this.material(MaterialType.Card).location(LocationType.Tricks).sort(item => item.location.z!).getItems().map(item => item.id)
   }
 
   get trickWinner() {

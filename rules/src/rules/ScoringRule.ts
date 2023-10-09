@@ -1,6 +1,7 @@
 import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
+import { Handle } from "./Handle";
 import { Memory } from "./Memory";
 import { PlayerBid } from "./BidRule";
 import { sumBy } from "lodash";
@@ -24,10 +25,15 @@ export class ScoringRule extends MaterialRulesPart {
         const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(), item => cardValue(item.id))
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).id(isOudler).length
         const contrat = points - getContrat(oudlers)
-        const score = (contrat >= 0 ? contrat + 25 : contrat - 25) * playerbid.bid;
+        let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * playerbid.bid;
         //const chelem = this.remind(Chelem,player)
-        //const petit au bout 
-        //cont poignée = this.remid(Handle,...,player) ... = Little, Medium,...
+        //const petit au bout
+        for (const player of this.game.players) {
+            const poignee = this.remind<Handle | undefined>(Memory.Handle, player)
+            if (poignee) {
+                score += poigneeScore[poignee]
+            }
+        }
 
         this.memorize(Memory.Score, (score * (this.game.players.length - 1)), playerbid.player)
         for (const player of this.game.players) {
@@ -57,7 +63,11 @@ function getContrat(oudlers: number): number {
     return 41
 }
 
-
+export const poigneeScore: Record<Handle, number> = {
+    [Handle.Simple]: 20,
+    [Handle.Double]: 30,
+    [Handle.Triple]: 40,
+}
 
 
 

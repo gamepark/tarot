@@ -20,7 +20,7 @@ export const BidHeader = () => {
   }
 }
 
-export const MyBidHeader = () => {
+const MyBidHeader = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const bids = rules.remind<PlayerBid[]>(Memory.Bids)
@@ -44,13 +44,13 @@ export const MyBidHeader = () => {
   </>
 }
 
-export const PlayerBidInfo = ({ bid, player }: PlayerBid) => {
+const PlayerBidInfo = ({ bid, player }: PlayerBid) => {
   const { t } = useTranslation()
   const playerName = usePlayerName(player)
   return <p>{t(`bid.player`, { player: playerName, bid: t(`bid.${bid}`) })}</p>
 }
 
-export const PlayerBidHeader = ({ activePlayer }: { activePlayer: number }) => {
+const PlayerBidHeader = ({ activePlayer }: { activePlayer: number }) => {
   const { t } = useTranslation()
   const playerName = usePlayerName(activePlayer)
   return <>{t('header.bid', { player: playerName })}</>
