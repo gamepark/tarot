@@ -33,7 +33,7 @@ export const ScoringDialog  = () => {
         <ol css={grid}>
           {cards?.entries.map(([index, card]) =>
             <li key={index}>
-              <MaterialComponent type={MaterialType.Card} itemId={card.id}
+              <MaterialComponent type={MaterialType.Card} itemId={card.id} // TODO je bloque need help
               />
             </li>
           )}

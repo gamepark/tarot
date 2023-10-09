@@ -7,7 +7,7 @@ import { sumBy } from "lodash";
 import { cardValue, isOudler } from "../Card";
 
 
-export class Scoring extends MaterialRulesPart {
+export class ScoringRule extends MaterialRulesPart {
 
 
     onRuleStart() {
@@ -25,6 +25,9 @@ export class Scoring extends MaterialRulesPart {
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).id(isOudler).length
         const contrat = points - getContrat(oudlers)
         const score = (contrat >= 0 ? contrat + 25 : contrat - 25) * playerbid.bid;
+        //const chelem = this.remind(Chelem,player)
+        //const petit au bout 
+        //cont poignée = this.remid(Handle,...,player) ... = Little, Medium,...
 
         this.memorize(Memory.Score, (score * (this.game.players.length - 1)), playerbid.player)
         for (const player of this.game.players) {

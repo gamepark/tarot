@@ -6,8 +6,9 @@ import { DealRule } from './rules/DealRule'
 import { BidRule } from './rules/BidRule'
 import { CreateKittyRule } from './rules/CreateKittyRule'
 import { PlayCardRule } from './rules/PlayCardRule'
-import { Scoring } from './rules/Scoring'
+import { ScoringRule } from './rules/ScoringRule'
 import { Memory } from './rules/Memory'
+import { HandleRule } from './rules/HandleRule'
 
 
 /**
@@ -43,7 +44,8 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.Bid]: BidRule,
     [RuleId.CreateKitty]: CreateKittyRule,
     [RuleId.PlayCard]: PlayCardRule,
-    [RuleId.Scoring]: Scoring,
+    [RuleId.Scoring]: ScoringRule,
+    [RuleId.Handle]: HandleRule,
   }
 
   getScore(player: number): number {

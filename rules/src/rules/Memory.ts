@@ -2,6 +2,9 @@
 export enum Memory {
     Bids = 1,
     IsKittyStarted,
-    Score
+    Score,
+    Excuse,
+    //Chelem TODO
+    Handle,
 }
   

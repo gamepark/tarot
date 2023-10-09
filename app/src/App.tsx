@@ -8,6 +8,7 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace'
 import { GameOverHeader } from './headers/GameOverHeader'
 import { DealHeader } from './headers/DealHeader'
 import { BidHeader } from './headers/BidHeader'
+import { PlayCardHeader } from './headers/PlayCardHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -32,6 +33,7 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Deal]: DealHeader,
   [RuleId.Bid]: BidHeader,
   [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
-  [RuleId.PlayCard]: ()=><>Vous devez jouer une carte</>,
+  [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: ()=><>Décompte du score !</>,
+  [RuleId.Handle]: () => <>Poignée</>,
 }

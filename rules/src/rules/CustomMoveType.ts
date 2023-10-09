@@ -1,4 +1,5 @@
 export enum CustomMoveType {
   Bid = 1, 
-  Pass
+  Pass,
+  Handle,
 }

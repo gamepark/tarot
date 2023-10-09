@@ -27,6 +27,7 @@ export class DealRule extends MaterialRulesPart {
 
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.game.players[0]))
 
+
     return moves
   }
   

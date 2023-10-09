@@ -92,6 +92,8 @@ export const isKnight = (card:Card) => card === 112 || card === 212 || card === 
 export const isQueen = (card:Card) => card === 113 || card === 213 || card === 313 || card === 413
 export const isKing = (card:Card) => card === 114 || card === 214 || card === 314 || card === 414
 export const isOudler = (card:Card) => card === 1 || card === 21 || card === 22
+export const excuse = (card:Card) =>  card === 22
+
 
 export function cardValue (card:Card) : number {
   if (isJack(card)) {

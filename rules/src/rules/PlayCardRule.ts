@@ -1,12 +1,15 @@
-import { isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { RuleId } from './RuleId'
-import { Card, isColor, isSameColor, isTrumpValue } from '../Card'
+import { Card, excuse, isColor, isSameColor, isTrumpValue } from '../Card'
+import { Memory } from './Memory'
+import { CustomMoveType } from './CustomMoveType'
+import { Handle, handles } from './Handle'
 
 export class PlayCardRule extends PlayerTurnRule {
 
-  
+
 
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
@@ -14,11 +17,11 @@ export class PlayCardRule extends PlayerTurnRule {
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
-    const numberTrump = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(item => isTrumpValue(item.id))
+    const numberTrump = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(item => isTrumpValue(item.id)).length
     const numberPlayer = this.game.players.length
 
 
-    if(this.firstTrickWin < this.game.players.length && +numberTrump > LittleHandle(numberPlayer)  ){      } //TODO Poignée
+
     if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrumpValue(item.id) && item.id > bestTrump)) {
       cardsToPlay = cardsToPlay.filter(item => !isTrumpValue(item.id) || item.id > bestTrump)
     }
@@ -36,10 +39,18 @@ export class PlayCardRule extends PlayerTurnRule {
           cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
 
-}
+      }
 
     }
-    return cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
+    const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
+    const handleMinTrumps = getHandleMinTrumps(numberPlayer)
+
+    for (const handle of handles) {
+      if (this.firstTrickWin < this.game.players.length && numberTrump > handleMinTrumps[handle]) {
+        moves.push(this.rules().customMove(CustomMoveType.Handle, handle))
+      }
+    }
+    return moves
   }
 
   get firstCardPlayed(): Card | undefined {
@@ -58,7 +69,6 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.material(MaterialType.Card).location(LocationType.Tricks).sort(item => item.location.z!).getItems().map(item => item.id)
   }
 
-
   get trickWinner() {
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
@@ -72,16 +82,34 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.material(MaterialType.Card).id(bestCard).getItem()!.location.player!
   }
 
-  
+
+  onCustomMove(move: CustomMove): MaterialMove[] {
+
+    if (move.type === CustomMoveType.Handle) {
+      this.memorize(Memory.Handle, move.data, this.player)
+      return [this.rules().startRule(RuleId.Handle)]
+    }
+
+    return []
+  }
+
 
   afterItemMove(move: ItemMove) {
     if (isMoveItemLocation(move) && move.position.location.type === LocationType.Table) {
+
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
+
+        // TODO : Gérer l'Excuse !
+
         moves.push(
-          ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation : {y:1 }})
+          ...this.material(MaterialType.Card).location(LocationType.Table).filter(item => !excuse(item.id)).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
+        )
+        moves.push(
+          ...this.material(MaterialType.Card).location(LocationType.Table).filter(item => excuse(item.id)).moveItems({ location: { type: LocationType.Tricks, player: this.remind(Memory.Excuse, this.player) }, rotation: { y: 1 } }) //a confirmer
+
         )
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
@@ -95,39 +123,31 @@ export class PlayCardRule extends PlayerTurnRule {
     }
     return []
   }
-  
+
 }
 
-function LittleHandle(numberPlayer: number): number {
+
+export function getHandleMinTrumps(numberPlayer: number): Record<Handle, number> {
   switch (numberPlayer) {
-      case 3:
-          return 13
-      case 4:
-          return 10
+    case 3:
+      return {
+        [Handle.Simple]: 13,
+        [Handle.Double]: 15,
+        [Handle.Triple]: 18,
+      }
+
+    case 4:
+      return {
+        [Handle.Simple]: 10,
+        [Handle.Double]: 13,
+        [Handle.Triple]: 15,
+      }
+
+    default:
+      return {
+        [Handle.Simple]: 8,
+        [Handle.Double]: 10,
+        [Handle.Triple]: 13,
+      }
   }
-  return 8
-
- }
-
-/* TODO
-function MediumHandle(numberPlayer: number): number {
-  switch (numberPlayer) {
-      case 3:
-          return 15
-      case 4:
-          return 13
-  }
-  return 10
-
- }
-
- function LargeHandle(numberPlayer: number): number {
-  switch (numberPlayer) {
-      case 3:
-          return 18
-      case 4:
-          return 15
-  }
-  return 13
-
- } */
+}

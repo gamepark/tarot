@@ -63,6 +63,8 @@ export class BidRule extends PlayerTurnRule {
       const lastBid = this.lastBid
       if (!lastBid) {
         return this.goToDealMoves
+      } if (this.game.players.length === 5) {
+      lastBid.player //TODO appel du roi
       }
       return this.goToKittyCreationMoves(lastBid.player)
     }
