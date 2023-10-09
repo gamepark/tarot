@@ -9,7 +9,13 @@ import { Handle, handles } from './Handle'
 
 export class PlayCardRule extends PlayerTurnRule {
 
-
+  onRuleStart() {
+    // si pas de carte sur la table
+    // et excuse face visible dans les plis d'un joueur
+    // et ce joueur a une carte 0,5 dans trick
+    // renvoyer 2 moves : retourner excuse, carte à 0,5 camp adverse TODO
+    return []
+  }
 
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
@@ -103,6 +109,9 @@ export class PlayCardRule extends PlayerTurnRule {
         const trickWinner = this.trickWinner
 
         // TODO : Gérer l'Excuse !
+        // si excuse jouée 
+        // si pli remporté par camp adverse
+        // déplacer excuse dans ses plis face visible et autre carte face cachée au camp vainqueur
 
         moves.push(
           ...this.material(MaterialType.Card).location(LocationType.Table).filter(item => !excuse(item.id)).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
