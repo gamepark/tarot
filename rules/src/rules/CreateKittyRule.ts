@@ -15,7 +15,7 @@ export class CreateKittyRule extends PlayerTurnRule {
 
 
   onRuleStart() {
-    const bids = this.remind<PlayerBid[]>(Memory.Bids)
+    const bids = this.remind<PlayerBid[]>(Memory.Bids) //TODO : Améliorer code
     const bid = bids[bids.length - 1].bid
 
 

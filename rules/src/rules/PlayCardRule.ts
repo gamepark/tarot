@@ -5,7 +5,7 @@ import { Bid } from "./Bid";
 import { PlayerBid } from "./BidRule";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
+import { Card, cardValue, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
@@ -13,12 +13,45 @@ import { Poignee, poignees } from './Poignee'
 export class PlayCardRule extends PlayerTurnRule {
 
   onRuleStart() {
-    // si pas de carte sur la table
-    // et excuse face visible dans les plis d'un joueur
-    // et ce joueur a une carte 0,5 dans trick
-    // renvoyer 2 moves : retourner excuse, carte à 0,5 camp adverse TODO
+
+    const moves: MaterialMove[] = []
+
+
+    if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
+
+      const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
+
+      if (excuseInTrick.length && !excuseInTrick.getItem()!.rotation?.y) {
+
+        const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
+        if (cardsToTrade.length > 0) {
+          moves.push(
+            excuseInTrick.moveItem({ rotation: { y: 1 } })
+          )
+
+          const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0 ) 
+          moves.push(
+            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent} })
+          )
+        }
+      }
+    }
+
+
     return []
   }
+
+  isSameSide(player1: number, player2: number) {
+    if (player1 === player2) {
+      return true
+    }
+
+    const bids = this.remind<PlayerBid[]>(Memory.Bids)
+    const preneur = bids[bids.length - 1].player
+
+    return player1 !== preneur && player2 !== preneur //TODO : 5 joueurs
+  }
+
 
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
@@ -45,14 +78,18 @@ export class PlayCardRule extends PlayerTurnRule {
 
       }
 
+      if (excuse(firstCardPlayed)) {
+        //dire que la 2eme carte est la first carte
+      }
+
     }
     const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
-      const handleMinTrumps = getPoigneeMinTrumps(this.game.players.length)
+      const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
       const numberOfTrumps = this.playerTrumpsForPoignee.length
-      for (const handle of poignees) {
-        if (numberOfTrumps >= handleMinTrumps[handle]) {
-          moves.push(this.rules().customMove(CustomMoveType.Poignee, handle))
+      for (const poignee of poignees) {
+        if (numberOfTrumps >= poigneeMinTrumps[poignee]) {
+          moves.push(this.rules().customMove(CustomMoveType.Poignee, poignee))
         }
       }
     }
@@ -117,18 +154,22 @@ export class PlayCardRule extends PlayerTurnRule {
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
 
-        // TODO : Gérer l'Excuse !
         // si excuse jouée 
-        // si pli remporté par camp adverse
-        // déplacer excuse dans ses plis face visible et autre carte face cachée au camp vainqueur
+        // et pli remporté par camp adverse
 
-        moves.push(
-          ...this.material(MaterialType.Card).location(LocationType.Table).filter(item => !excuse(item.id)).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
-        )
-        moves.push(
-          ...this.material(MaterialType.Card).location(LocationType.Table).filter(item => excuse(item.id)).moveItems({ location: { type: LocationType.Tricks, player: this.remind(Memory.Excuse, this.player) }, rotation: { y: 1 } }) //a confirmer
 
-        )
+        if (this.cardsPlayed.length === Card.Excuse) {
+          moves.push(
+            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
+          )
+          moves.push(
+            ...this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse).moveItems({ location: { type: LocationType.Tricks, player: this.remind(Memory.Excuse, this.player) }, rotation: { y: 0 } })
+          )
+
+        }
+
+
+
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
         } else {
