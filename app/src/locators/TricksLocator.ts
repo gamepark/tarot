@@ -26,7 +26,7 @@ export class TricksLocator extends DeckLocator {
 
   getRotation(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
-    return relativePlayerIndex % 2 === 0 ? 90 : 0
+    return relativePlayerIndex % 2 === (item.rotation?.y?? 0) ? 0 : 90 
   }
 }
 

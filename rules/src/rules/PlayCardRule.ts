@@ -31,14 +31,14 @@ export class PlayCardRule extends PlayerTurnRule {
 
           const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
           moves.push(
-            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent } })
+            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent }, rotation: { y: 1 } })
           )
         }
       }
     }
 
 
-    return []
+    return moves
   }
 
   isSameSide(player1: number, player2: number) {
@@ -153,19 +153,25 @@ export class PlayCardRule extends PlayerTurnRule {
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
 
-        // si excuse jouée 
-        // et pli remporté par camp adverse
 
 
-        if (this.cardsPlayed.length === Card.Excuse) {
+        const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
+
+        if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!)) {
+          moves.push(
+            excuseOnTable.moveItem({ location: { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player }, rotation: { y: 0 } })
+          )
+
           moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
           )
+        } else {
           moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse).moveItems({ location: { type: LocationType.Tricks, player: this.remind(Memory.Excuse, this.player) }, rotation: { y: 0 } })
+            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
           )
-
         }
+
+
 
 
 

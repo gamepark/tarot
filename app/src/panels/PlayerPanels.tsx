@@ -13,7 +13,8 @@ import maxBy from 'lodash/maxBy'
 export const PlayerPanels: FC<any> = () => {
   const { t } = useTranslation()
   const players = usePlayers({ sortFromMe: true })
-  const rules = useRules<TarotRules>()!
+  const rules = useRules<TarotRules>()
+  if (!rules) return null 
   const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player)) 
 
   return (
