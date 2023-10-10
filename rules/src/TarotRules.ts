@@ -8,7 +8,7 @@ import { CreateKittyRule } from './rules/CreateKittyRule'
 import { PlayCardRule } from './rules/PlayCardRule'
 import { ScoringRule } from './rules/ScoringRule'
 import { Memory } from './rules/Memory'
-import { HandleRule } from './rules/HandleRule'
+import { PoigneeRule } from './rules/PoigneeRule'
 
 
 /**
@@ -45,7 +45,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.CreateKitty]: CreateKittyRule,
     [RuleId.PlayCard]: PlayCardRule,
     [RuleId.Scoring]: ScoringRule,
-    [RuleId.Handle]: HandleRule,
+    [RuleId.Poignee]: PoigneeRule,
   }
 
   getScore(player: number): number {

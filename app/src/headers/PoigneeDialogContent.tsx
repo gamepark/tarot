@@ -6,8 +6,8 @@ import { Card } from '@gamepark/tarot/Card'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
-import { Handle } from '@gamepark/tarot/rules/Handle'
-import { getHandleMinTrumps, PlayCardRule } from '@gamepark/tarot/rules/PlayCardRule'
+import { Poignee } from '@gamepark/tarot/rules/Poignee'
+import { getPoigneeMinTrumps, PlayCardRule } from '@gamepark/tarot/rules/PlayCardRule'
 import { poigneeScore } from '@gamepark/tarot/rules/ScoringRule'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useCallback, useMemo, useState } from 'react'
@@ -16,8 +16,8 @@ import { Trans, useTranslation } from 'react-i18next'
 export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
-  const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Handle)).reverse()
-  const poigneesSize = useMemo(() => getHandleMinTrumps(rules.game.players.length), [rules.game.players.length])
+  const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Poignee)).reverse()
+  const poigneesSize = useMemo(() => getPoigneeMinTrumps(rules.game.players.length), [rules.game.players.length])
   const play = usePlay()
 
   const playerTrumps = useMemo(() =>
@@ -30,7 +30,7 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
 
   const revealSelectedCards = useCallback(() => {
     for (const card of selected) {
-      play(rules.material(MaterialType.Card).id(card).moveItem({ location: { type: LocationType.Handle } }), { delayed: true })
+      play(rules.material(MaterialType.Card).id(card).moveItem({ location: { type: LocationType.Poigne } }), { delayed: true })
     }
   }, [selected, play])
 
@@ -40,7 +40,7 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
     <h2><Trans defaults="rules.poignee"><span/></Trans></h2>
     <p>{t('rules.poignee.trumps', { trumps: playerTrumps.length })}</p>
     {poigneeMoves.map(move => {
-      const poignee = move.data as Handle
+      const poignee = move.data as Poignee
       return <p key={poignee}>{t('rules.poignee.details', { poignee, number: poigneesSize[poignee], score: poigneeScore[poignee] })}</p>
     })}
     <p>{t('rules.poignee.select')}</p>
@@ -58,7 +58,7 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
       <p css={css`color: darkred;`} >{t('rules.poignee.excuse')}</p>
     }
     {poigneeMoves.map(move => {
-        const poigneeSize = poigneesSize[move.data as Handle]
+        const poigneeSize = poigneesSize[move.data as Poignee]
         return <p key={move.data}>
           <PlayMoveButton move={move} onPlay={revealSelectedCards} disabled={selected.length !== poigneeSize || illegalExcuseSelection}>
             {

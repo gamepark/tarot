@@ -5,6 +5,6 @@ export enum Memory {
     Score,
     Excuse,
     //Chelem TODO
-    Handle,
+    Poigne,
 }
   

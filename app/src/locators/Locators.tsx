@@ -7,7 +7,7 @@ import { PlayerHandLocator } from './PlayerHandLocator'
 import { TarotTableLocator } from './TableLocator'
 import { TricksLocator } from './TricksLocator'
 import { TableEndLocator } from './TableEndLocator'
-import { HandleLocator } from './HandleLocator'
+import { PoigneeLocator } from './PoigneeLocator'
 
 export const Locators: Record<LocationType, ItemLocator<number, MaterialType, LocationType>> = {
   [LocationType.Deck]: new TarotDeckLocator(),
@@ -16,5 +16,5 @@ export const Locators: Record<LocationType, ItemLocator<number, MaterialType, Lo
   [LocationType.Table]: new TarotTableLocator(),
   [LocationType.Tricks]: new TricksLocator(),
   [LocationType.TableEnd]: new TableEndLocator(),
-  [LocationType.Handle]: new HandleLocator(), 
+  [LocationType.Poigne]: new PoigneeLocator(), 
 }

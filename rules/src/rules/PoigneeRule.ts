@@ -3,11 +3,11 @@ import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import { Card, isTrumpValue } from "../Card";
 import { Memory } from "./Memory";
-import { getHandleMinTrumps } from "./PlayCardRule";
-import { Handle } from "./Handle";
+import { getPoigneeMinTrumps as getPoigneeMinTrumps } from "./PlayCardRule";
+import { Poignee } from "./Poignee";
 import { RuleId } from "./RuleId";
 
-export class HandleRule extends PlayerTurnRule {
+export class PoigneeRule extends PlayerTurnRule {
     getPlayerMoves(): MaterialMove<number, number, number>[] {
 
         let cards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).id(isTrumpValue)
@@ -15,20 +15,20 @@ export class HandleRule extends PlayerTurnRule {
         if (!cards.length) {
             cards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).id(Card.Excuse)
         }
-        return cards.moveItems({ location: { type: LocationType.Handle } })
+        return cards.moveItems({ location: { type: LocationType.Poigne } })
     }
 
 
     afterItemMove() {
 
-        const handle = this.remind<Handle>(Memory.Handle, this.player)
-        const cardsHandle = getHandleMinTrumps(this.game.players.length)[handle]
-        const handleCards = this.material(MaterialType.Card).location(LocationType.Handle);
+        const poignee = this.remind<Poignee>(Memory.Poigne, this.player)
+        const cardsPoignee = getPoigneeMinTrumps(this.game.players.length)[poignee]
+        const poigneeCards = this.material(MaterialType.Card).location(LocationType.Poigne);
 
-        if (handleCards.length === cardsHandle) {
+        if (poigneeCards.length === cardsPoignee) {
             return [
                 this.rules().startRule(RuleId.PlayCard),
-                ...handleCards.moveItems({ location: { type: LocationType.Hand, player: this.player } })
+                ...poigneeCards.moveItems({ location: { type: LocationType.Hand, player: this.player } })
             ]
 
         }

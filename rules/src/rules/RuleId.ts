@@ -4,5 +4,5 @@ export enum RuleId {
   CreateKitty,
   PlayCard,
   Scoring,
-  Handle,
+  Poignee,
 }

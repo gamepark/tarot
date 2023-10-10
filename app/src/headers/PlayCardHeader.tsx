@@ -20,7 +20,7 @@ export const PlayCardHeader = () => {
 
 const MyPlayCardHeader = () => {
   const { t } = useTranslation()
-  const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Handle))
+  const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Poignee))
   const [dialogOpen, setDialogOpen] = useState(poigneeMoves.length > 0)
   if (!poigneeMoves.length) {
     return <>{t('header.play.mine')}</>

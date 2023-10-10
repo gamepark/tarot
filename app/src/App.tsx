@@ -35,5 +35,5 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: ()=><>Décompte du score !</>,
-  [RuleId.Handle]: () => <>Poignée</>,
+  [RuleId.Poignee]: () => <>Poignée</>,
 }

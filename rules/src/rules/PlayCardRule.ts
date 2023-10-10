@@ -8,7 +8,7 @@ import { RuleId } from './RuleId'
 import { Card, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
-import { Handle, handles } from './Handle'
+import { Poignee, poignees } from './Poignee'
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -47,12 +47,12 @@ export class PlayCardRule extends PlayerTurnRule {
 
     }
     const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
-    if (this.isFirstTrick && !this.remind(Memory.Handle, this.player)) {
-      const handleMinTrumps = getHandleMinTrumps(this.game.players.length)
+    if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
+      const handleMinTrumps = getPoigneeMinTrumps(this.game.players.length)
       const numberOfTrumps = this.playerTrumpsForPoignee.length
-      for (const handle of handles) {
+      for (const handle of poignees) {
         if (numberOfTrumps >= handleMinTrumps[handle]) {
-          moves.push(this.rules().customMove(CustomMoveType.Handle, handle))
+          moves.push(this.rules().customMove(CustomMoveType.Poignee, handle))
         }
       }
     }
@@ -100,9 +100,9 @@ export class PlayCardRule extends PlayerTurnRule {
 
   onCustomMove(move: CustomMove): MaterialMove[] {
 
-    if (move.type === CustomMoveType.Handle) {
-      this.memorize(Memory.Handle, move.data, this.player)
-      return [this.rules().startRule(RuleId.Handle)]
+    if (move.type === CustomMoveType.Poignee) {
+      this.memorize(Memory.Poigne, move.data, this.player)
+      return [this.rules().startRule(RuleId.Poignee)]
     }
 
     return []
@@ -145,27 +145,27 @@ export class PlayCardRule extends PlayerTurnRule {
 }
 
 
-export function getHandleMinTrumps(numberPlayer: number): Record<Handle, number> {
+export function getPoigneeMinTrumps(numberPlayer: number): Record<Poignee, number> {
   switch (numberPlayer) {
     case 3:
       return {
-        [Handle.Simple]: 13,
-        [Handle.Double]: 15,
-        [Handle.Triple]: 18,
+        [Poignee.Simple]: 13,
+        [Poignee.Double]: 15,
+        [Poignee.Triple]: 18,
       }
 
     case 4:
       return {
-        [Handle.Simple]: 10,
-        [Handle.Double]: 13,
-        [Handle.Triple]: 15,
+        [Poignee.Simple]: 10,
+        [Poignee.Double]: 13,
+        [Poignee.Triple]: 15,
       }
 
     default:
       return {
-        [Handle.Simple]: 8,
-        [Handle.Double]: 10,
-        [Handle.Triple]: 13,
+        [Poignee.Simple]: 8,
+        [Poignee.Double]: 10,
+        [Poignee.Triple]: 13,
       }
   }
 }

@@ -1,7 +1,7 @@
 import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
-import { Handle } from "./Handle";
+import { Poignee } from "./Poignee";
 import { Memory } from "./Memory";
 import { PlayerBid } from "./BidRule";
 import { sumBy } from "lodash";
@@ -29,7 +29,7 @@ export class ScoringRule extends MaterialRulesPart {
         //const chelem = this.remind(Chelem,player)
         //const petit au bout
         for (const player of this.game.players) {
-            const poignee = this.remind<Handle | undefined>(Memory.Handle, player)
+            const poignee = this.remind<Poignee | undefined>(Memory.Poigne, player)
             if (poignee) {
                 score += poigneeScore[poignee]
             }
@@ -63,10 +63,10 @@ function getContrat(oudlers: number): number {
     return 41
 }
 
-export const poigneeScore: Record<Handle, number> = {
-    [Handle.Simple]: 20,
-    [Handle.Double]: 30,
-    [Handle.Triple]: 40,
+export const poigneeScore: Record<Poignee, number> = {
+    [Poignee.Simple]: 20,
+    [Poignee.Double]: 30,
+    [Poignee.Triple]: 40,
 }
 
 
