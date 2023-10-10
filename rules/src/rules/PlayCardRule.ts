@@ -2,13 +2,13 @@ import { CustomMove, isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule 
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
-import { PlayerBid } from "./BidRule";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
 import { Card, cardValue, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
+import maxBy from 'lodash/maxBy';
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -29,9 +29,9 @@ export class PlayCardRule extends PlayerTurnRule {
             excuseInTrick.moveItem({ rotation: { y: 1 } })
           )
 
-          const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0 ) 
+          const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
           moves.push(
-            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent} })
+            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent } })
           )
         }
       }
@@ -46,8 +46,8 @@ export class PlayCardRule extends PlayerTurnRule {
       return true
     }
 
-    const bids = this.remind<PlayerBid[]>(Memory.Bids)
-    const preneur = bids[bids.length - 1].player
+
+    const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
 
     return player1 !== preneur && player2 !== preneur //TODO : 5 joueurs
   }
@@ -108,9 +108,8 @@ export class PlayCardRule extends PlayerTurnRule {
     const playerTrumps = this.material(MaterialType.Card).player(this.player).id(isTrump)
 
     // Lorsque le preneur possède 4 Rois et 15 atouts, l’atout écarté doit être remontré avec la triple Poignée qui est alors comptabilisée.
-    const bids = this.remind<PlayerBid[]>(Memory.Bids)
-    const bid = bids[bids.length - 1].bid
-    if (bid < Bid.GuardWithoutTheKitty) {
+    const bid = this.remind<Bid | undefined>(Memory.Bid, this.player)
+    if (bid && bid < Bid.GuardWithoutTheKitty) {
       return playerTrumps
     } else {
       return playerTrumps.location(LocationType.Hand)

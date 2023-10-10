@@ -8,11 +8,9 @@ import { LocationType } from '../material/LocationType'
 import { RuleMove } from '@gamepark/rules-api/dist/material/moves'
 import { RuleStep } from '@gamepark/rules-api/dist/material/rules/RuleStep'
 import { Card, isTrump } from '../Card'
+import maxBy from 'lodash/maxBy'
+import  max  from 'lodash/max'
 
-export type PlayerBid = {
-  player: number,
-  bid: Bid
-}
 
 export class BidRule extends PlayerTurnRule {
   onRuleStart(_move: RuleMove, previousRules: RuleStep) {
@@ -26,7 +24,6 @@ export class BidRule extends PlayerTurnRule {
         ]
 
       }
-      this.memorize(Memory.Bids, [])
     }
     return []
   }
@@ -37,15 +34,14 @@ export class BidRule extends PlayerTurnRule {
     return playerCards.every(card => !isTrump(card) || card === Card.Trump1) && playerCards.some(card => card === Card.Trump1)
   }
 
-  get lastBid(): PlayerBid | undefined {
-    const bids = this.remind<PlayerBid[]>(Memory.Bids)
-    return bids[bids.length - 1]
+  get lastBid(): Bid | undefined {
+    return max(this.game.players.map(player => this.remind(Memory.Bid, player)))
   }
 
   getPlayerMoves() {
     const moves = [this.rules().customMove(CustomMoveType.Pass)]
     const lastBid = this.lastBid
-    const filteredBids = bids.filter(bid => !lastBid || lastBid.bid < bid)
+    const filteredBids = bids.filter(bid => !lastBid || lastBid < bid)
     moves.push(...filteredBids.map(bid => this.rules().customMove(CustomMoveType.Bid, bid)))
     return moves
   }
@@ -53,20 +49,20 @@ export class BidRule extends PlayerTurnRule {
   onCustomMove(move: CustomMove): MaterialMove[] {
     if (move.type === CustomMoveType.Bid) {
       const bid = move.data
-      this.memorize<PlayerBid[]>(Memory.Bids, bids => bids.concat({ bid, player: this.player }))
+      this.memorize(Memory.Bid, bid, this.player)
       if (bid === Bid.GuardAgainstTheKitty) {
         return this.goToKittyCreationMoves(this.player)
       }
     }
 
     if (this.isLastPlayer) {
-      const lastBid = this.lastBid
-      if (!lastBid) {
+      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player)) //a vérifié si tout le monde passe
+      if (!preneur) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
-      lastBid.player //TODO appel du roi
+        //TODO appel du roi
       }
-      return this.goToKittyCreationMoves(lastBid.player)
+      return this.goToKittyCreationMoves(preneur)
     }
 
     return [this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)]

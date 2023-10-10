@@ -3,7 +3,6 @@ import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
 import { Memory } from './Memory'
-import { PlayerBid } from './BidRule'
 import { Bid } from './Bid'
 import { isColor, isKing } from '../Card'
 
@@ -15,8 +14,8 @@ export class CreateKittyRule extends PlayerTurnRule {
 
 
   onRuleStart() {
-    const bids = this.remind<PlayerBid[]>(Memory.Bids) //TODO : Améliorer code
-    const bid = bids[bids.length - 1].bid
+    const bid = this.remind<Bid>(Memory.Bid, this.player)
+
 
 
     switch (bid) {

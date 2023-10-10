@@ -3,9 +3,10 @@ import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import { Poignee } from "./Poignee";
 import { Memory } from "./Memory";
-import { PlayerBid } from "./BidRule";
-import { sumBy } from "lodash";
+import maxBy from "lodash/maxBy";
+import sumBy from "lodash/sumBy";
 import { cardValue, isOudler } from "../Card";
+import { Bid } from "./Bid";
 
 
 export class ScoringRule extends MaterialRulesPart {
@@ -14,18 +15,19 @@ export class ScoringRule extends MaterialRulesPart {
     onRuleStart() {
         const moves: MaterialMove[] = []
 
-        const playerbids = this.remind<PlayerBid[]>(Memory.Bids)
-        const playerbid = playerbids[playerbids.length - 1]
+        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const bid = this.remind<Bid>(Memory.Bid, preneur)
+
 
 
         moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ rotation: { y: 0 } })
         )
 
-        const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).getItems(), item => cardValue(item.id))
-        const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(playerbid.player).id(isOudler).length
+        const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
+        const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
-        let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * playerbid.bid;
+        let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
         //const chelem = this.remind(Chelem,player)
         //const petit au bout
         for (const player of this.game.players) {
@@ -35,9 +37,9 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
-        this.memorize(Memory.Score, (score * (this.game.players.length - 1)), playerbid.player)
+        this.memorize(Memory.Score, (score * (this.game.players.length - 1)), preneur)
         for (const player of this.game.players) {
-            if (player !== playerbid.player) {
+            if (player !== preneur) {
                 this.memorize(Memory.Score, -score, player)
             }
         }
