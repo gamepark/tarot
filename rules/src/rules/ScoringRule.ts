@@ -18,6 +18,8 @@ export class ScoringRule extends MaterialRulesPart {
         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
         const bid = this.remind<Bid>(Memory.Bid, preneur)
 
+        const numberCardTrkickPreneur = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).length
+
 
 
         moves.push(
@@ -27,20 +29,33 @@ export class ScoringRule extends MaterialRulesPart {
         const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
+        var chelem = 0
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
-        //const chelem = this.remind(Chelem,player)
+        //const chelemAnnonce = this.remind(Chelem,player)
         //const petit au bout
         for (const player of this.game.players) {
             const poignee = this.remind<Poignee | undefined>(Memory.Poigne, player)
             if (poignee) {
                 score += poigneeScore[poignee]
             }
+
+            if (numberCardTrkickPreneur >= 77 /* && ChelemAnnonce */) {
+                chelem = +400
+            }
+            else if (numberCardTrkickPreneur <= 77 /* && ChelemAnnonce */) {
+                chelem = - 400
+            } else if (numberCardTrkickPreneur >= 77) {
+                chelem = + 200
+            } else if (numberCardTrkickPreneur <= 0) {
+                chelem = -200
+            }
+
         }
 
-        this.memorize(Memory.Score, (score * (this.game.players.length - 1)), preneur)
+        this.memorize(Memory.Score, (score * (this.game.players.length - 1)) + (chelem * (this.game.players.length - 1)), preneur)
         for (const player of this.game.players) {
             if (player !== preneur) {
-                this.memorize(Memory.Score, -score, player)
+                this.memorize(Memory.Score, -score - chelem, player)
             }
         }
 

@@ -62,6 +62,8 @@ export class BidRule extends PlayerTurnRule {
       } if (this.game.players.length === 5) {
         //TODO appel du roi
       }
+
+        //TODO Chelem
       return this.goToKittyCreationMoves(preneur)
     }
 
@@ -81,6 +83,8 @@ export class BidRule extends PlayerTurnRule {
   get isLastPlayer() {
     return this.player === this.game.players[this.game.players.length - 1]
   }
+
+
 
   goToKittyCreationMoves(player: number) {
     this.memorize(Memory.IsKittyStarted, { bool: false })

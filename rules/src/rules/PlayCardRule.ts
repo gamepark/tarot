@@ -79,7 +79,8 @@ export class PlayCardRule extends PlayerTurnRule {
       }
 
       if (excuse(firstCardPlayed)) {
-        //dire que la 2eme carte est la first carte
+        //TODO
+
       }
 
     }
@@ -99,6 +100,7 @@ export class PlayCardRule extends PlayerTurnRule {
   get firstCardPlayed(): Card | undefined {
     return this.cardsPlayed[0]
   }
+
 
   get isFirstTrick() {
     return this.material(MaterialType.Card).location(LocationType.Tricks).length === getKittySize(this.game.players.length)
