@@ -4,7 +4,7 @@ export enum Memory {
     IsKittyStarted,
     Score,
     Excuse,
-    //Chelem TODO
+    Chelem,
     Poigne,
 }
   

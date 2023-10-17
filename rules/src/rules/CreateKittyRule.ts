@@ -44,6 +44,8 @@ export class CreateKittyRule extends PlayerTurnRule {
     }
   }
 
+  
+
   getPlayerMoves() {
     const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(card => isColor(card.id) && !isKing(card.id))
 

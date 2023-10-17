@@ -9,7 +9,7 @@ import { RuleMove } from '@gamepark/rules-api/dist/material/moves'
 import { RuleStep } from '@gamepark/rules-api/dist/material/rules/RuleStep'
 import { Card, isTrump } from '../Card'
 import maxBy from 'lodash/maxBy'
-import  max  from 'lodash/max'
+import max from 'lodash/max'
 
 
 export class BidRule extends PlayerTurnRule {
@@ -62,9 +62,13 @@ export class BidRule extends PlayerTurnRule {
       } if (this.game.players.length === 5) {
         //TODO appel du roi
       }
+      if (move.type === CustomMoveType.TakeChelem) {
+        if (move.data === true) {          
+          this.memorize(Memory.Chelem, this.player)
+        }
+        return this.goToKittyCreationMoves(preneur)
+      }
 
-        //TODO Chelem
-      return this.goToKittyCreationMoves(preneur)
     }
 
     return [this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)]
