@@ -110,6 +110,10 @@ export class PlayCardRule extends PlayerTurnRule {
   }
 
   get trickWinner() {
+    const firstCardPlayed = this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.z!).getItem()!
+    if (this.isLastTrick && firstCardPlayed.id === Card.Excuse && new RulesUtil(this.game).hasChelem(firstCardPlayed.location.player!)) {
+      return firstCardPlayed.location.player!
+    }
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
     if (trumps.length > 0) {
@@ -120,6 +124,10 @@ export class PlayCardRule extends PlayerTurnRule {
     const cardsSameColor = cardsPlayed.filter(card => isSameColor(card, firstCard))
     const bestCard = Math.max(...cardsSameColor)!
     return this.material(MaterialType.Card).id(bestCard).getItem()!.location.player!
+  }
+
+  get isLastTrick() {
+    return this.material(MaterialType.Card).location(LocationType.Hand).length === 0
   }
 
 
@@ -145,7 +153,7 @@ export class PlayCardRule extends PlayerTurnRule {
         const petitOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Trump1);
 
         if (this.material(MaterialType.Card).location(LocationType.Tricks).length === 78 - this.game.players.length && petitOnTable) {
-          this.memorize(Memory.Petit, trickWinner)
+          this.memorize(Memory.PetitLastTrick, trickWinner)
         }
 
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);

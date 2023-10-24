@@ -7,6 +7,6 @@ export enum Memory {
     ChelemAnnounced,
     Chelem,
     Poigne,
-    Petit,
+    PetitLastTrick,
 }
   

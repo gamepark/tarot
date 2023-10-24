@@ -28,7 +28,7 @@ export class ScoringRule extends MaterialRulesPart {
         const contrat = points - getContrat(oudlers)
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
         const chelemAnnonce = this.remind(Memory.ChelemAnnounced)
-        const petitAuBout = this.remind(Memory.Petit)
+        const petitAuBout = this.remind(Memory.PetitLastTrick)
         for (const player of this.game.players) {
             const poignee = this.remind<Poignee | undefined>(Memory.Poigne, player)
             if (poignee) {
