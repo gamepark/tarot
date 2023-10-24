@@ -75,15 +75,14 @@ export class PlayCardRule extends PlayerTurnRule {
         } else if (cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
           cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
-
       }
 
       if (excuse(firstCardPlayed)) {
         //TODO
-
       }
-
     }
+
+
     const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
       const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
@@ -100,7 +99,6 @@ export class PlayCardRule extends PlayerTurnRule {
   get firstCardPlayed(): Card | undefined {
     return this.cardsPlayed[0]
   }
-
 
   get isFirstTrick() {
     return this.material(MaterialType.Card).location(LocationType.Tricks).length === getKittySize(this.game.players.length)
@@ -152,8 +150,19 @@ export class PlayCardRule extends PlayerTurnRule {
 
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
+
+
+
+
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
+        const petitOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Trump1);
+
+
+
+          if (this.material(MaterialType.Card).location(LocationType.Tricks).length === 78 - this.game.players.length && petitOnTable ) {
+            this.memorize(Memory.Petit, trickWinner)
+          }
 
 
 
@@ -172,10 +181,6 @@ export class PlayCardRule extends PlayerTurnRule {
             ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
           )
         }
-
-
-
-
 
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))

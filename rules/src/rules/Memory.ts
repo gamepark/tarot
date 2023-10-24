@@ -6,5 +6,6 @@ export enum Memory {
     Excuse,
     Chelem,
     Poigne,
+    Petit,
 }
   
