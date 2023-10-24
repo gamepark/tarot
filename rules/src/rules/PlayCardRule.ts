@@ -158,7 +158,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
 
-        if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!)) {
+        if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
             excuseOnTable.moveItem({ location: { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player }, rotation: { y: 0 } })
           )
