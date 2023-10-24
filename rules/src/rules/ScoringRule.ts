@@ -7,6 +7,7 @@ import maxBy from "lodash/maxBy";
 import sumBy from "lodash/sumBy";
 import { cardValue, isOudler } from "../Card";
 import { Bid } from "./Bid";
+import { RulesUtil } from "./RulesUtil";
 
 
 export class ScoringRule extends MaterialRulesPart {
@@ -18,13 +19,6 @@ export class ScoringRule extends MaterialRulesPart {
         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
         const bid = this.remind<Bid>(Memory.Bid, preneur)
 
-        let numberCardTrickPreneur = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).length
-        if (bid < Bid.GuardAgainstTheKitty) {
-            numberCardTrickPreneur -= 6         // TODO : 5 joueurs (- 3)
-        }
-
-
-
         moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ rotation: { y: 0 } })
         )
@@ -33,7 +27,7 @@ export class ScoringRule extends MaterialRulesPart {
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
-        const chelemAnnonce = this.remind(Memory.Chelem)
+        const chelemAnnonce = this.remind(Memory.ChelemAnnounced)
         const petitAuBout = this.remind(Memory.Petit)
         for (const player of this.game.players) {
             const poignee = this.remind<Poignee | undefined>(Memory.Poigne, player)
@@ -42,12 +36,14 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
+        const preneurHasChelem = new RulesUtil(this.game).hasChelem(preneur!)
+        const defenseHasChelem = !preneurHasChelem && this.game.players.some(player => new RulesUtil(this.game).hasChelem(player))
 
-        if (chelemAnnonce) {
-            score += numberCardTrickPreneur >= 71 ? 400 : -400
-        } else if (numberCardTrickPreneur >= 71) {
+        if (chelemAnnonce && preneurHasChelem) {
+            score += 400
+        } else if (preneurHasChelem) {
             score += 200
-        } else if (numberCardTrickPreneur <= 1) {
+        } else if (chelemAnnonce || defenseHasChelem) {
             score -= 200
         }
 

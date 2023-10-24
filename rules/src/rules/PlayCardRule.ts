@@ -8,7 +8,7 @@ import { Card, cardValue, isColor, isSameColor, isTrump, isTrumpValue } from '..
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
-import maxBy from 'lodash/maxBy';
+import { RulesUtil } from './RulesUtil';
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -36,21 +36,13 @@ export class PlayCardRule extends PlayerTurnRule {
         }
       }
     }
-
-
     return moves
   }
 
   isSameSide(player1: number, player2: number) {
-    if (player1 === player2) {
-      return true
-    }
-
-
-    const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
-
-    return player1 !== preneur && player2 !== preneur //TODO : 5 joueurs
+    return new RulesUtil(this.game).isSameSide(player1, player2)
   }
+
 
 
   getPlayerMoves() {
@@ -148,20 +140,13 @@ export class PlayCardRule extends PlayerTurnRule {
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
 
-
-
-
       if (numberPlayedCards === this.game.players.length) {
         const trickWinner = this.trickWinner
         const petitOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Trump1);
 
-
-
-          if (this.material(MaterialType.Card).location(LocationType.Tricks).length === 78 - this.game.players.length && petitOnTable ) {
-            this.memorize(Memory.Petit, trickWinner)
-          }
-
-
+        if (this.material(MaterialType.Card).location(LocationType.Tricks).length === 78 - this.game.players.length && petitOnTable) {
+          this.memorize(Memory.Petit, trickWinner)
+        }
 
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
 
