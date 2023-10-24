@@ -4,7 +4,7 @@ import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, cardValue, excuse, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
+import { Card, cardValue, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
@@ -55,7 +55,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
-    const firstCardPlayed = this.firstCardPlayed
+    const firstCardPlayed = this.firstMeaningfullCardPlayed
     const cardsPlayed = this.cardsPlayed
     const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
@@ -76,10 +76,6 @@ export class PlayCardRule extends PlayerTurnRule {
           cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
       }
-
-      if (excuse(firstCardPlayed)) {
-        //TODO
-      }
     }
 
 
@@ -96,8 +92,9 @@ export class PlayCardRule extends PlayerTurnRule {
     return moves
   }
 
-  get firstCardPlayed(): Card | undefined {
-    return this.cardsPlayed[0]
+  get firstMeaningfullCardPlayed(): Card | undefined {
+    const card = this.cardsPlayed[0];
+    return card != Card.Excuse ? card : this.cardsPlayed[1]
   }
 
   get isFirstTrick() {
@@ -127,7 +124,7 @@ export class PlayCardRule extends PlayerTurnRule {
       const bestTrump = Math.max(...trumps)!
       return this.material(MaterialType.Card).id(bestTrump).getItem()!.location.player!
     }
-    const firstCard = cardsPlayed[0]
+    const firstCard = this.firstMeaningfullCardPlayed!
     const cardsSameColor = cardsPlayed.filter(card => isSameColor(card, firstCard))
     const bestCard = Math.max(...cardsSameColor)!
     return this.material(MaterialType.Card).id(bestCard).getItem()!.location.player!
