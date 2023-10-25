@@ -51,12 +51,12 @@ export class BidRule extends PlayerTurnRule {
       const bid = move.data
       this.memorize(Memory.Bid, bid, this.player)
       if (bid === Bid.GuardAgainstTheKitty) {
-        return this.goToKittyCreationMoves(this.player)
+        return this.goToChelemMove(this.player)
       }
     }
 
     if (this.isLastPlayer) {
-      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player)) //a vérifié si tout le monde passe
+      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player)) 
       if (!preneur) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
@@ -67,7 +67,7 @@ export class BidRule extends PlayerTurnRule {
           this.memorize(Memory.Chelem, this.player)
         } 
       }*/
-      return this.goToKittyCreationMoves(preneur)
+      return this.goToChelemMove(preneur)
 
     }
 
@@ -90,10 +90,10 @@ export class BidRule extends PlayerTurnRule {
 
 
 
-  goToKittyCreationMoves(player: number) {
+  goToChelemMove(player: number) {
     this.memorize(Memory.IsKittyStarted, { bool: false })
     return [
-      this.rules().startPlayerTurn(RuleId.CreateKitty, player)
+      this.rules().startPlayerTurn(RuleId.Chelem, player)
     ]
   }
 

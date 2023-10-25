@@ -9,6 +9,7 @@ import { PlayCardRule } from './rules/PlayCardRule'
 import { ScoringRule } from './rules/ScoringRule'
 import { Memory } from './rules/Memory'
 import { PoigneeRule } from './rules/PoigneeRule'
+import { ChelemRule } from './rules/ChelemRule'
 
 
 /**
@@ -42,6 +43,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
   rules = {
     [RuleId.Deal]: DealRule,
     [RuleId.Bid]: BidRule,
+    [RuleId.Chelem]: ChelemRule,
     [RuleId.CreateKitty]: CreateKittyRule,
     [RuleId.PlayCard]: PlayCardRule,
     [RuleId.Scoring]: ScoringRule,
