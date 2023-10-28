@@ -57,24 +57,34 @@ export class ScoringRule extends MaterialRulesPart {
 
         for (const player of this.game.players) {
 
-            if (player !== preneur) {
-                this.memorize(Memory.Score, -score, player)
-            } else {
-                this.memorize(Memory.Score, score * (this.game.players.length - 1), preneur)
+            if (this.game.players.length === 3 || this.game.players.length === 4) {
+                if (player !== preneur) {
+                    this.memorize(Memory.Score, -score, player)
+                } else {
+                    this.memorize(Memory.Score, score * (this.game.players.length - 1), preneur)
+                }
             }
 
-
+            if (this.game.players.length === 5) {
+                if (player !== preneur && !this.isSameSide(player, preneur!)) {
+                    this.memorize(Memory.Score, -score, player)
+                } else if (player === preneur) {
+                    this.memorize(Memory.Score, score * 2, preneur)
+                } else {
+                    this.memorize(Memory.Score, score, preneur) //Joueur appelé
+                }
+            }
         }
-
-
-
         moves.push(this.rules().endGame())
-
         return moves
     }
 
-
+    isSameSide(player1: number, player2: number) {
+        return new RulesUtil(this.game).isSameSide(player1, player2)
+      }
 }
+
+
 
 function getContrat(oudlers: number): number {
     switch (oudlers) {
@@ -93,7 +103,3 @@ export const poigneeScore: Record<Poignee, number> = {
     [Poignee.Double]: 30,
     [Poignee.Triple]: 40,
 }
-
-
-
-

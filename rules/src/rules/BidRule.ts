@@ -62,11 +62,7 @@ export class BidRule extends PlayerTurnRule {
       } if (this.game.players.length === 5) {
         //TODO appel du roi
       }
-      /*if (move.type === CustomMoveType.TakeChelem) {
-        if (move.data === true) {          
-          this.memorize(Memory.Chelem, this.player)
-        } 
-      }*/
+
       return this.goToChelemMove(preneur)
 
     }
