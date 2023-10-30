@@ -56,14 +56,12 @@ export class CreateKittyRule extends PlayerTurnRule {
   afterItemMove(move: ItemMove) {
 
     if (isMoveItem(move) && move.position.location?.type === LocationType.Kitty
-      && this.material(MaterialType.Card).location(LocationType.Kitty).length === getKittySize(this.game.players.length)) {
+      && this.material(MaterialType.Card).location(LocationType.Kitty).length >= getKittySize(this.game.players.length)) {
       return [
         ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: this.player }, rotation: { y: 1 } }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
     }
-
-
     return []
   }
 
