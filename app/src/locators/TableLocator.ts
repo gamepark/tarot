@@ -30,7 +30,7 @@ export class TarotTableLocator extends ItemLocator {
 
 class TableLocationDescription extends LocationDescription {
   location = { type: LocationType.Table }
-  width = 15
+  width = 30
   ratio = 1
   borderRadius = this.width / 2
 }
