@@ -9,6 +9,7 @@ import { GameOverHeader } from './headers/GameOverHeader'
 import { DealHeader } from './headers/DealHeader'
 import { BidHeader } from './headers/BidHeader'
 import { PlayCardHeader } from './headers/PlayCardHeader'
+import { ChelemHeader } from './headers/ChelemDialog'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -32,7 +33,7 @@ export default function App() {
 const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Deal]: DealHeader,
   [RuleId.Bid]: BidHeader,
-  [RuleId.Chelem]: ()=><>Chelem</>,
+  [RuleId.Chelem]: ChelemHeader,
   [RuleId.CallKing]: ()=><>Call King</>,
   [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
   [RuleId.PlayCard]: PlayCardHeader,

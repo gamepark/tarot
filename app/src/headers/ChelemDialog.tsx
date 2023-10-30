@@ -2,9 +2,8 @@
 import { PlayMoveButton, RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
-import { CustomMove, isCustomMove} from '@gamepark/rules-api'
+import { CustomMove, isCustomMove } from '@gamepark/rules-api'
 import { useState } from 'react'
-import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
 import { css } from '@emotion/react'
 
 export const ChelemHeader = () => {
@@ -12,7 +11,7 @@ export const ChelemHeader = () => {
   const player = usePlayerId()
   const activePlayer = rules.getActivePlayer()!
   if (player === activePlayer) {
-    return < MyChelemHeader />
+    return <MyChelemHeader />
   } else {
     return <PlayerChelemHeader activePlayer={activePlayer} />
   }
@@ -20,19 +19,18 @@ export const ChelemHeader = () => {
 
 const MyChelemHeader = () => {
   const { t } = useTranslation()
-  const rules = useRules<TarotRules>()!
+  //const rules = useRules<TarotRules>()!
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   return <>
-    <Trans defaults="header.bid.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
+    <Trans defaults="header.chelem.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
-      <h2><Trans defaults="header.bid.choice"><span /></Trans></h2>
-      {rules.players.map}
-
+      <h2><Trans defaults="header.chelem.choice"><span /></Trans></h2>
+      
       {legalMoves.map(move =>
-        <p key={move.data ?? 'pass'}>
+        <p key={move.data ?? 'false'}>
           <PlayMoveButton move={move}>
-            {move.type === CustomMoveType.TakeChelem ? t(`bid.${move.data}`) : t('bid.pass')}
+             {t(`chelem.${move.data}`)}
           </PlayMoveButton>
         </p>
       )}
