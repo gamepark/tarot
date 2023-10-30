@@ -13,7 +13,7 @@ export class PlayerHandLocator extends HandLocator {
     const radiusX = players === 5? 35 : players === 4? 35 : 35
     const radiusY = players === 5? 30 : players === 4? 30 : 25
     const x = Math.cos(angle*Math.PI/180)*radiusX
-    const y = -Math.sin(angle*Math.PI/180)*radiusY //TODO Affichage
+    const y = -Math.sin(angle*Math.PI/180)*radiusY
     return { x, y, z: 10 }
   }
 
