@@ -60,7 +60,9 @@ export class BidRule extends PlayerTurnRule {
       if (!preneur) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
-        //TODO appel du roi
+        return [
+          this.rules().startRule(RuleId.CallKing)
+        ]
       }
 
       return this.goToChelemMove(preneur)

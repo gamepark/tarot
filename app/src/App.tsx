@@ -33,6 +33,7 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Deal]: DealHeader,
   [RuleId.Bid]: BidHeader,
   [RuleId.Chelem]: ()=><>Chelem</>,
+  [RuleId.CallKing]: ()=><>Call King</>,
   [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: ()=><>Décompte du score !</>,
