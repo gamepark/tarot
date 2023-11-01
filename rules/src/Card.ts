@@ -1,4 +1,5 @@
 import { isEnumValue } from '@gamepark/rules-api'
+import { Colors } from './rules/Colors'
 
 export enum Card {
   Trump1 = 1,
@@ -87,26 +88,26 @@ export const isTrump = (card: Card) => card <= 22
 export const isTrumpValue = (card: Card) => card <= 21
 export const isSameColor = (card1: Card, card2: Card) => Math.floor(card1 / 100) === Math.floor(card2 / 100) && card1 >= 100
 export const isColor = (card: Card) => card >= 100
-export const isJack = (card:Card) => card === 111 || card === 211 || card === 311 || card === 411
-export const isKnight = (card:Card) => card === 112 || card === 212 || card === 312 || card === 412
-export const isQueen = (card:Card) => card === 113 || card === 213 || card === 313 || card === 413
-export const isKing = (card:Card) => card === 114 || card === 214 || card === 314 || card === 414
-export const isOudler = (card:Card) => card === 1 || card === 21 || card === 22
-export const excuse = (card:Card) =>  card === 22
-export const petit = (card:Card) =>  card === 1
-export const heartKing = (card:Card) => card === 114
-export const diamondKing = (card:Card) => card === 214
-export const clubKing = (card:Card) => card === 314
-export const spadeKing = (card:Card) => card === 414
-export const isHeart = (card:Card) => card >= 101 && card <= 114
-export const isDiamond = (card:Card) => card >= 201 && card <= 214
-export const isClub = (card:Card) => card >= 301 && card <= 314
-export const isSpade = (card:Card) => card >= 401 && card <= 414
+export const isJack = (card: Card) => card === 111 || card === 211 || card === 311 || card === 411
+export const isKnight = (card: Card) => card === 112 || card === 212 || card === 312 || card === 412
+export const isQueen = (card: Card) => card === 113 || card === 213 || card === 313 || card === 413
+export const isKing = (card: Card) => card === 114 || card === 214 || card === 314 || card === 414
+export const isOudler = (card: Card) => card === 1 || card === 21 || card === 22
+export const excuse = (card: Card) => card === 22
+export const petit = (card: Card) => card === 1
+export const heartKing = (card: Card) => card === 114
+export const diamondKing = (card: Card) => card === 214
+export const clubKing = (card: Card) => card === 314
+export const spadeKing = (card: Card) => card === 414
+export const isHeart = (card: Card) => card >= 101 && card <= 114
+export const isDiamond = (card: Card) => card >= 201 && card <= 214
+export const isClub = (card: Card) => card >= 301 && card <= 314
+export const isSpade = (card: Card) => card >= 401 && card <= 414
 
 
 
 
-export function cardValue (card:Card) : number {
+export function cardValue(card: Card): number {
   if (isJack(card)) {
     return 1.5
   }
@@ -127,3 +128,18 @@ export function cardValue (card:Card) : number {
   return 0.5
 }
 
+
+
+export function cardColor(card: Card): number {
+
+  if (isHeart(card)) {
+    return Colors.Heart
+  } else if (isDiamond(card)) {
+    return Colors.Diamond
+  } else if (isSpade(card)) {
+    return Colors.Spade
+  } else if (isClub(card)) {
+    return Colors.Club
+  }
+  return Colors.Heart
+}

@@ -4,7 +4,7 @@ import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, cardValue, clubKing, diamondKing, heartKing, isClub, isColor, isDiamond, isHeart, isSameColor, isSpade, isTrump, isTrumpValue, spadeKing } from '../Card'
+import { Card, cardColor, cardValue, clubKing, diamondKing, heartKing, isClub, isColor, isDiamond, isHeart, isKing, isSameColor, isSpade, isTrump, isTrumpValue, spadeKing } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
@@ -76,13 +76,13 @@ export class PlayCardRule extends PlayerTurnRule {
       const color = callKing.color
 
       if (color === Colors.Heart) {
-        cardsToPlay = cardsToPlay.filter(item => !isHeart(item.id) || item.id === Card.Excuse || heartKing(item.id)) 
+        cardsToPlay = cardsToPlay.filter(item => !isHeart(item.id) || item.id === Card.Excuse || heartKing(item.id))
       } else if (color === Colors.Diamond) {
-        cardsToPlay = cardsToPlay.filter(item => !isDiamond(item.id) || item.id === Card.Excuse || diamondKing(item.id)) 
+        cardsToPlay = cardsToPlay.filter(item => !isDiamond(item.id) || item.id === Card.Excuse || diamondKing(item.id))
       } else if (color === Colors.Club) {
-        cardsToPlay = cardsToPlay.filter(item => !isClub(item.id) || item.id === Card.Excuse || clubKing(item.id)) 
+        cardsToPlay = cardsToPlay.filter(item => !isClub(item.id) || item.id === Card.Excuse || clubKing(item.id))
       } else if (color === Colors.Spade) {
-        cardsToPlay = cardsToPlay.filter(item => !isSpade(item.id) || item.id === Card.Excuse || spadeKing(item.id)) 
+        cardsToPlay = cardsToPlay.filter(item => !isSpade(item.id) || item.id === Card.Excuse || spadeKing(item.id))
       }
 
     }
@@ -172,7 +172,7 @@ export class PlayCardRule extends PlayerTurnRule {
           this.memorize(Memory.PetitLastTrick, trickWinner)
         } else if (this.material(MaterialType.Card).location(LocationType.Table).player(trickWinner).getItem()?.id !== Card.Excuse) {
           this.forget(Memory.PetitLastTrick)
-        } 
+        }
 
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
 
@@ -188,6 +188,19 @@ export class PlayCardRule extends PlayerTurnRule {
           moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
           )
+        }
+
+        if (this.game.players.length === 5) {
+          const callKing = this.remind(Memory.CallKing)
+          const colorCall = callKing.color
+          const kingOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(isKing);
+
+          if (kingOnTable) {
+
+            if (colorCall === cardColor) {
+                //TODO : Equipe ici
+            }
+          }
         }
 
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
