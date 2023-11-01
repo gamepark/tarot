@@ -15,6 +15,12 @@ export class ChelemRule extends PlayerTurnRule {
     if (move.type === CustomMoveType.TakeChelem && move.data === true) {
       this.memorize(Memory.ChelemAnnounced, this.player)
     }
+
+    if (this.game.players.length === 5) {
+      return [
+        this.rules().startRule(RuleId.CallKing)
+      ]
+    }
     return [
       this.rules().startRule(RuleId.CreateKitty)
     ]

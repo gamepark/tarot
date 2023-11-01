@@ -94,6 +94,10 @@ export const isKing = (card:Card) => card === 114 || card === 214 || card === 31
 export const isOudler = (card:Card) => card === 1 || card === 21 || card === 22
 export const excuse = (card:Card) =>  card === 22
 export const petit = (card:Card) =>  card === 1
+export const heartKing = (card:Card) => card === 114
+export const diamondKing = (card:Card) => card === 214
+export const clubKing = (card:Card) => card === 314
+export const spadeKing = (card:Card) => card === 414
 
 
 

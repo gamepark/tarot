@@ -5,6 +5,7 @@ export enum Memory {
     Score,
     Excuse,
     ChelemAnnounced,
+    CallKing,
     Chelem,
     Poigne,
     PetitLastTrick,

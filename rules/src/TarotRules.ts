@@ -10,7 +10,7 @@ import { ScoringRule } from './rules/ScoringRule'
 import { Memory } from './rules/Memory'
 import { PoigneeRule } from './rules/PoigneeRule'
 import { ChelemRule } from './rules/ChelemRule'
-import { CallKingRule } from './rules/CallKing'
+import { CallKingRule } from './rules/CallKingRule'
 
 
 /**
