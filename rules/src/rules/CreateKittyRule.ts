@@ -39,7 +39,7 @@ export class CreateKittyRule extends PlayerTurnRule {
         if (this.game.players.length === 5) {
           return [
             ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: undefined }, rotation: { y: 1 } }),
-            this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+            this.rules().startPlayerTurn(RuleId.PlayCard, 1) 
           ]
 
         }

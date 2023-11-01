@@ -98,6 +98,11 @@ export const heartKing = (card:Card) => card === 114
 export const diamondKing = (card:Card) => card === 214
 export const clubKing = (card:Card) => card === 314
 export const spadeKing = (card:Card) => card === 414
+export const isHeart = (card:Card) => card >= 101 && card <= 114
+export const isDiamond = (card:Card) => card >= 201 && card <= 214
+export const isClub = (card:Card) => card >= 301 && card <= 314
+export const isSpade = (card:Card) => card >= 401 && card <= 414
+
 
 
 

@@ -4,11 +4,12 @@ import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, cardValue, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
+import { Card, cardValue, clubKing, diamondKing, heartKing, isClub, isColor, isDiamond, isHeart, isSameColor, isSpade, isTrump, isTrumpValue, spadeKing } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
 import { RulesUtil } from './RulesUtil';
+import { Colors } from './Colors';
 
 export class PlayCardRule extends PlayerTurnRule {
 
@@ -44,7 +45,6 @@ export class PlayCardRule extends PlayerTurnRule {
   }
 
 
-
   getPlayerMoves() {
     let cardsToPlay = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
     const firstCardPlayed = this.firstMeaningfullCardPlayed
@@ -70,6 +70,22 @@ export class PlayCardRule extends PlayerTurnRule {
       }
     }
 
+    if (this.game.players.length === 5 && this.isFirstTrick && this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
+
+      const callKing = this.remind(Memory.CallKing)
+      const color = callKing.color
+
+      if (color === Colors.Heart) {
+        cardsToPlay = cardsToPlay.filter(item => !isHeart(item.id) || item.id === Card.Excuse || heartKing(item.id)) 
+      } else if (color === Colors.Diamond) {
+        cardsToPlay = cardsToPlay.filter(item => !isDiamond(item.id) || item.id === Card.Excuse || diamondKing(item.id)) 
+      } else if (color === Colors.Club) {
+        cardsToPlay = cardsToPlay.filter(item => !isClub(item.id) || item.id === Card.Excuse || clubKing(item.id)) 
+      } else if (color === Colors.Spade) {
+        cardsToPlay = cardsToPlay.filter(item => !isSpade(item.id) || item.id === Card.Excuse || spadeKing(item.id)) 
+      }
+
+    }
 
     const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
