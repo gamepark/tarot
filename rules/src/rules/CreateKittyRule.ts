@@ -36,6 +36,13 @@ export class CreateKittyRule extends PlayerTurnRule {
       case Bid.GuardAgainstTheKitty:
         const facingPlayer = this.game.players[(this.game.players.indexOf(this.player) + 2) % this.game.players.length]
 
+        if (this.game.players.length === 5) {
+          return [
+            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: undefined }, rotation: { y: 1 } }),
+            this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+          ]
+
+        }
         return [
           ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ location: { type: LocationType.Tricks, player: facingPlayer }, rotation: { y: 1 } }),
           this.rules().startPlayerTurn(RuleId.PlayCard, 1)

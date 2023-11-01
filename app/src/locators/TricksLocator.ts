@@ -12,6 +12,12 @@ export class TricksLocator extends DeckLocator {
   }
 
   getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
+    const player = context.rules.players.length
+
+    if(player === undefined) {
+      return { x:-20, y: -20, z: 10 }
+
+    }
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = context.rules.players.length
     const angle = 270 - relativePlayerIndex * 360 / players
