@@ -56,7 +56,7 @@ export class BidRule extends PlayerTurnRule {
     }
 
     if (this.isLastPlayer) {
-      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player)) 
+      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
       if (!preneur) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
@@ -97,7 +97,9 @@ export class BidRule extends PlayerTurnRule {
 
 
   get goToDealMoves() {
-    this.memorize(Memory.GoToDealMoves, this.nextPlayer)
+    const nextPlayer=this.nextPlayer
+    console.log("goToDealMove, next player : ", nextPlayer)
+    this.memorize(Memory.GoToDealMoves, nextPlayer)
     return [
       ...this.material(MaterialType.Card).moveItems({ location: { type: LocationType.Deck } }),
       this.rules().startRule(RuleId.Deal)

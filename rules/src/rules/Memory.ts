@@ -11,4 +11,3 @@ export enum Memory {
     PetitLastTrick,
     GoToDealMoves,
 }
-  
