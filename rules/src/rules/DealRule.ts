@@ -4,12 +4,16 @@ import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
 import { cards } from '../Card'
+import { Memory } from './Memory'
 
 export class DealRule extends MaterialRulesPart {
   getAutomaticMoves() {
+    
     const moves: MaterialMove[] = []
     const kittySize = this.game.players.length === 5 ? 3 : 6
     const handSize = (cards.length - kittySize) / this.game.players.length
+    
+    const nextPlayer = this.remind(Memory.GoToDealMoves)
 
     for (const player of this.game.players) {
       moves.push(
@@ -25,7 +29,8 @@ export class DealRule extends MaterialRulesPart {
         .limit(kittySize)
         .moveItems({ location: { type: LocationType.Kitty }, rotation: { y: 1 } }))
 
-    moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.game.players[0]))
+        
+    moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.game.players[nextPlayer]))
 
 
     return moves

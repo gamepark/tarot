@@ -97,6 +97,7 @@ export class BidRule extends PlayerTurnRule {
 
 
   get goToDealMoves() {
+    this.memorize(Memory.GoToDealMoves, this.nextPlayer)
     return [
       ...this.material(MaterialType.Card).moveItems({ location: { type: LocationType.Deck } }),
       this.rules().startRule(RuleId.Deal)
