@@ -1,6 +1,7 @@
 
 export enum Memory {
-    Bid = 1,
+    StartPlayer = 1,
+    Bid,
     IsKittyStarted,
     Score,
     Excuse,
@@ -9,5 +10,4 @@ export enum Memory {
     Chelem,
     Poigne,
     PetitLastTrick,
-    GoToDealMoves,
 }

@@ -14,13 +14,12 @@ export class TarotSetup extends MaterialGameSetup<number, MaterialType, Location
 
   setupMaterial() {
     this.material(MaterialType.Card).createItems(cards.map(card => ({ id: card, location: { type: LocationType.Deck } })))
-    this.material(MaterialType.Card).shuffle()
     for (const player of this.game.players) {
       this.memorize(Memory.Score,0,player)
     }
   }
 
   start() {
-    this.startRule(RuleId.Deal)
+    this.startPlayerTurn(RuleId.Deal, this.players[this.players.length-1])
   }
 }

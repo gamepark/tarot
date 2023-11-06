@@ -1,4 +1,4 @@
-import { CustomMove, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { Bid, bids } from './Bid'
 import { CustomMoveType } from './CustomMoveType'
 import { RuleId } from './RuleId'
@@ -20,9 +20,8 @@ export class BidRule extends PlayerTurnRule {
 
       if (this.game.players.some(player => this.smallTrumpOnly(player))) {
         return [
-          this.rules().startRule(RuleId.Deal)
+          this.rules().startPlayerTurn(RuleId.Deal, this.player)
         ]
-
       }
     }
     return []
@@ -72,18 +71,8 @@ export class BidRule extends PlayerTurnRule {
     return [this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)]
   }
 
-  afterItemMove(_move: ItemMove<number, number, number>): MaterialMove[] {
-    if (this.material(MaterialType.Card).location(LocationType.Hand).length === 0) {
-      return [
-        this.material(MaterialType.Card).location(LocationType.Deck).shuffle()
-      ]
-    }
-
-    return []
-  }
-
   get isLastPlayer() {
-    return this.player === this.game.players[this.game.players.length - 1]
+    return this.nextPlayer === this.remind(Memory.StartPlayer)
   }
 
 
@@ -97,12 +86,10 @@ export class BidRule extends PlayerTurnRule {
 
 
   get goToDealMoves() {
-    const nextPlayer=this.nextPlayer
-    console.log("goToDealMove, next player : ", nextPlayer)
-    this.memorize(Memory.GoToDealMoves, nextPlayer)
     return [
-      ...this.material(MaterialType.Card).moveItems({ type: LocationType.Deck } ),
-      this.rules().startRule(RuleId.Deal)
+      ...this.material(MaterialType.Card).moveItems({ type: LocationType.Deck }),
+      this.material(MaterialType.Card).shuffle(),
+      this.rules().startPlayerTurn(RuleId.Deal, this.nextPlayer)
     ]
   }
 }
