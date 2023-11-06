@@ -27,7 +27,7 @@ const MyPlayCardHeader = () => {
   }
   return <>
     <Trans defaults="header.play.poignee"><ThemeButton onClick={() => setDialogOpen(true)}/></Trans>
-    <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} scrollbar>
+    <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
       <PoigneeDialogContent close={() => setDialogOpen(false)}/>
     </RulesDialog>
   </>

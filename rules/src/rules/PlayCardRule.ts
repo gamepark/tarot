@@ -1,4 +1,4 @@
-import { CustomMove, isMoveItemLocation, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
@@ -22,7 +22,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
 
-      if (excuseInTrick.length && !excuseInTrick.getItem()!.rotation?.y) {
+      if (excuseInTrick.length && !excuseInTrick.getItem()?.location.rotation) {
 
         const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
         if (cardsToTrade.length > 0) {
@@ -159,7 +159,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
 
   afterItemMove(move: ItemMove) {
-    if (isMoveItemLocation(move) && move.position.location.type === LocationType.Table) {
+    if (isMoveItem(move) && move.location.type === LocationType.Table) {
 
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length

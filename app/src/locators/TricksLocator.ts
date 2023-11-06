@@ -6,11 +6,6 @@ export class TricksLocator extends DeckLocator {
   locationDescription = new TarotDeckLocatorDescription()
   delta = { x: -0.05, y: -0.05, z: 0.1 }
 
-
-  isHidden(item: MaterialItem) {
-    return item.rotation?.y === 1;
-  }
-
   getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
     const player = context.rules.players.length
 
@@ -32,7 +27,7 @@ export class TricksLocator extends DeckLocator {
     return { x, y, z: 10 }
   }
 
-  getRotation(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
+  getRotateZ(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = context.rules.players.length
 

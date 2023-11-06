@@ -21,7 +21,7 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
   const play = usePlay()
 
   const playerTrumps = useMemo(() =>
-      new PlayCardRule(rules.game).playerTrumpsForPoignee.sort(item => item.id).getItems().map(item => item.id)
+    new PlayCardRule(rules.game).playerTrumpsForPoignee.sort(item => item.id).getItems().map(item => item.id)
     , [rules.game])
 
   const [selected, setSelected] = useState(() =>
@@ -30,14 +30,14 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
 
   const revealSelectedCards = useCallback(() => {
     for (const card of selected) {
-      play(rules.material(MaterialType.Card).id(card).moveItem({ location: { type: LocationType.Poigne } }), { delayed: true })
+      play(rules.material(MaterialType.Card).id(card).moveItem({ type: LocationType.Poigne }), { delayed: true })
     }
   }, [selected, play])
 
   const illegalExcuseSelection = selected.length < playerTrumps.length && selected.includes(Card.Excuse)
 
   return <div css={dialogCss}>
-    <h2><Trans defaults="rules.poignee"><span/></Trans></h2>
+    <h2><Trans defaults="rules.poignee"><span /></Trans></h2>
     <p>{t('rules.poignee.trumps', { trumps: playerTrumps.length })}</p>
     {poigneeMoves.map(move => {
       const poignee = move.data as Poignee
@@ -48,9 +48,9 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
       {playerTrumps.map(card =>
         <li key={card}>
           <MaterialComponent type={MaterialType.Card} itemId={card} css={pointerCursorCss} playDown={!selected.includes(card)}
-                             onClick={() => setSelected(selected =>
-                               selected.includes(card) ? selected.filter(c => c !== card) : selected.concat(card)
-                             )}/>
+            onClick={() => setSelected(selected =>
+              selected.includes(card) ? selected.filter(c => c !== card) : selected.concat(card)
+            )} />
         </li>
       )}
     </ol>
@@ -58,19 +58,19 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
       <p css={css`color: darkred;`} >{t('rules.poignee.excuse')}</p>
     }
     {poigneeMoves.map(move => {
-        const poigneeSize = poigneesSize[move.data as Poignee]
-        return <p key={move.data}>
-          <PlayMoveButton move={move} onPlay={revealSelectedCards} disabled={selected.length !== poigneeSize || illegalExcuseSelection}>
-            {
-              selected.length === poigneeSize ?
-                t('rules.poignee.reveal', { poignee: move.data })
-                : selected.length < poigneeSize ?
-                  t('rules.poignee.select.more', { number: poigneeSize - selected.length, poignee: move.data })
-                  : t('rules.poignee.select.less', { number: selected.length - poigneeSize, poignee: move.data })
-            }
-          </PlayMoveButton>
-        </p>
-      }
+      const poigneeSize = poigneesSize[move.data as Poignee]
+      return <p key={move.data}>
+        <PlayMoveButton move={move} onPlay={revealSelectedCards} disabled={selected.length !== poigneeSize || illegalExcuseSelection}>
+          {
+            selected.length === poigneeSize ?
+              t('rules.poignee.reveal', { poignee: move.data })
+              : selected.length < poigneeSize ?
+                t('rules.poignee.select.more', { number: poigneeSize - selected.length, poignee: move.data })
+                : t('rules.poignee.select.less', { number: selected.length - poigneeSize, poignee: move.data })
+          }
+        </PlayMoveButton>
+      </p>
+    }
     )}
     <p><ThemeButton onClick={() => close()}>
       {t('rules.poignee.dismiss')}

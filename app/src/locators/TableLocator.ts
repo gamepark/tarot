@@ -20,7 +20,7 @@ export class TarotTableLocator extends ItemLocator {
 
 
 
-  getRotation(item: MaterialItem, context: ItemContext): number {
+  getRotateZ(item: MaterialItem, context: ItemContext): number {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = context.rules.players.length
     return relativePlayerIndex * 360 / players
