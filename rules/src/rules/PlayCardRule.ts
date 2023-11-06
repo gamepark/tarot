@@ -27,12 +27,12 @@ export class PlayCardRule extends PlayerTurnRule {
         const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
         if (cardsToTrade.length > 0) {
           moves.push(
-            excuseInTrick.moveItem({ rotation: { y: 1 } })
+            excuseInTrick.rotateItem(false)
           )
 
           const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
           moves.push(
-            cardsToTrade.moveItem({ location: { type: LocationType.Tricks, player: opponent }, rotation: { y: 1 } })
+            cardsToTrade.moveItem({ type: LocationType.Tricks, player: opponent })
           )
         }
       }
@@ -87,7 +87,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
     }
 
-    const moves: MaterialMove[] = cardsToPlay.moveItems({ location: { type: LocationType.Table, player: this.player, z: cardsPlayed.length } })
+    const moves: MaterialMove[] = cardsToPlay.moveItems({ type: LocationType.Table, player: this.player, z: cardsPlayed.length })
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
       const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
       const numberOfTrumps = this.playerTrumpsForPoignee.length
@@ -178,15 +178,16 @@ export class PlayCardRule extends PlayerTurnRule {
 
         if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
-            excuseOnTable.moveItem({ location: { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player }, rotation: { y: 0 } })
+            excuseOnTable.moveItem( { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player }),
+            excuseOnTable.rotateItem(true)
           )
 
           moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
+            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems( { type: LocationType.Tricks, player: trickWinner})
           )
         } else {
           moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ location: { type: LocationType.Tricks, player: trickWinner }, rotation: { y: 1 } })
+            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems( { type: LocationType.Tricks, player: trickWinner } )
           )
         }
 
@@ -198,7 +199,7 @@ export class PlayCardRule extends PlayerTurnRule {
           if (kingOnTable) {
 
             if (colorCall === cardColor) {
-                //TODO : Equipe ici
+              //TODO : Equipe ici
             }
           }
         }

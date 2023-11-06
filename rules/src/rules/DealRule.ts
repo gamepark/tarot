@@ -7,7 +7,7 @@ import { cards } from '../Card'
 import { Memory } from './Memory'
 
 export class DealRule extends MaterialRulesPart {
-  getAutomaticMoves() {
+  onRuleStart() {
 
     const moves: MaterialMove[] = []
     const kittySize = this.game.players.length === 5 ? 3 : 6
@@ -21,7 +21,7 @@ export class DealRule extends MaterialRulesPart {
       moves.push(
         ...this.material(MaterialType.Card).location(LocationType.Deck)
           .filter(item => item.location.x! >= (player - 1) * handSize && item.location.x! < (player) * handSize)
-          .moveItems({ location: { type: LocationType.Hand, player } }))
+          .moveItems({ type: LocationType.Hand, player } ))
     }
 
 
@@ -29,7 +29,7 @@ export class DealRule extends MaterialRulesPart {
       ...this.material(MaterialType.Card)
         .sort(item => - item.location.x!)
         .limit(kittySize)
-        .moveItems({ location: { type: LocationType.Kitty }, rotation: { y: 1 } }))
+        .moveItems({ type: LocationType.Kitty, rotation: true } ))
 
 
     if (nextPlayer === undefined) {

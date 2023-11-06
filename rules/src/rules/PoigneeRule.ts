@@ -15,7 +15,7 @@ export class PoigneeRule extends PlayerTurnRule {
         if (!cards.length) {
             cards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).id(Card.Excuse)
         }
-        return cards.moveItems({ location: { type: LocationType.Poigne } })
+        return cards.moveItems({ type: LocationType.Poigne })
     }
 
 
@@ -28,7 +28,7 @@ export class PoigneeRule extends PlayerTurnRule {
         if (poigneeCards.length === cardsPoignee) {
             return [
                 this.rules().startRule(RuleId.PlayCard),
-                ...poigneeCards.moveItems({ location: { type: LocationType.Hand, player: this.player } })
+                ...poigneeCards.moveItems({ type: LocationType.Hand, player: this.player })
             ]
 
         }
