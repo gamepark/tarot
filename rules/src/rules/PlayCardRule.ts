@@ -22,7 +22,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
 
-      if (excuseInTrick.length && !excuseInTrick.getItem()?.location.rotation) {
+      if (excuseInTrick.length && excuseInTrick.getItem()?.location.rotation) {
 
         const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
         if (cardsToTrade.length > 0) {
@@ -178,8 +178,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
         if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
-            excuseOnTable.moveItem( { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player }),
-            excuseOnTable.rotateItem(true)
+            excuseOnTable.moveItem( { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation:true}),
           )
 
           moves.push(

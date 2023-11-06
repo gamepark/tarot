@@ -19,7 +19,7 @@ export class CreateKittyRule extends PlayerTurnRule {
       case Bid.Small:
       case Bid.Guard:
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).rotateItems(false),
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).rotateItems(true),
 
           ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Hand, player: this.player })
         ]
