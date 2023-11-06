@@ -28,7 +28,7 @@ export class RulesUtil extends MaterialRulesPart {
             opponentsCards -= kittySize 
          }
 
-         return opponentsCards <= 1 //excuse
+         return opponentsCards <= 1 //excuse ; TODO : Simplifier code avec Ecart.
     }
 
 }

@@ -28,7 +28,9 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
       [LocationType.Deck]: new PositiveSequenceStrategy(),
       [LocationType.Hand]: new PositiveSequenceStrategy(),
       [LocationType.Kitty]: new PositiveSequenceStrategy(),
-      [LocationType.Tricks]: new PositiveSequenceStrategy()
+      [LocationType.Tricks]: new PositiveSequenceStrategy(),
+      [LocationType.Ecart]: new PositiveSequenceStrategy(),
+
     }
   }
 
@@ -38,6 +40,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
       //[LocationType.Hand]: hideItemIdToOthers,
       [LocationType.Kitty]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
       [LocationType.Tricks]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
+      [LocationType.Ecart]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
     }
   }
 

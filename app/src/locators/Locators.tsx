@@ -8,6 +8,8 @@ import { TarotTableLocator } from './TableLocator'
 import { TricksLocator } from './TricksLocator'
 import { TableEndLocator } from './TableEndLocator'
 import { PoigneeLocator } from './PoigneeLocator'
+import { EcartLocator } from './EcartLocator'
+
 
 export const Locators: Record<LocationType, ItemLocator<number, MaterialType, LocationType>> = {
   [LocationType.Deck]: new TarotDeckLocator(),
@@ -15,6 +17,7 @@ export const Locators: Record<LocationType, ItemLocator<number, MaterialType, Lo
   [LocationType.Kitty]: new KittyLocator(),
   [LocationType.Table]: new TarotTableLocator(),
   [LocationType.Tricks]: new TricksLocator(),
+  [LocationType.Ecart]: new EcartLocator(),
   [LocationType.TableEnd]: new TableEndLocator(),
   [LocationType.Poigne]: new PoigneeLocator(), 
 }

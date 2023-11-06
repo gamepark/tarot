@@ -26,7 +26,7 @@ export class CreateKittyRule extends PlayerTurnRule {
 
       case Bid.GuardWithoutTheKitty:
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Tricks, player: this.player }),
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: this.player }),
           this.rules().startPlayerTurn(RuleId.PlayCard, 1)
         ]
 
@@ -35,13 +35,13 @@ export class CreateKittyRule extends PlayerTurnRule {
 
         if (this.game.players.length === 5) {
           return [
-            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Tricks, player: undefined }),
+            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: undefined }),
             this.rules().startPlayerTurn(RuleId.PlayCard, 1)
           ]
 
         }
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Tricks, player: facingPlayer }),
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: facingPlayer }),
           this.rules().startPlayerTurn(RuleId.PlayCard, 1)
         ]
 
@@ -62,7 +62,7 @@ export class CreateKittyRule extends PlayerTurnRule {
     if (isMoveItem(move) && move.location.type === LocationType.Kitty
       && this.material(MaterialType.Card).location(LocationType.Kitty).length === getKittySize(this.game.players.length)) {
       return [
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Tricks, player: this.player }),
+        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Hand, player: this.player }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
     }
