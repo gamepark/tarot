@@ -2,34 +2,33 @@ import { CustomMove, MaterialMove, PlayerTurnRule } from "@gamepark/rules-api";
 import { RuleId } from "./RuleId";
 import { Memory } from "./Memory";
 import { CustomMoveType } from "./CustomMoveType";
-import { Colors } from "./Colors";
+import { Card, isColor } from "../Card";
+import { MaterialType } from "../material/MaterialType";
+import { LocationType } from "../material/LocationType";
 
 
 export class CallKingRule extends PlayerTurnRule {
 
   getPlayerMoves(): MaterialMove<number, number, number>[] {
-    const move = [this.rules().customMove(CustomMoveType.CallKing, Colors.Heart),
-    this.rules().customMove(CustomMoveType.CallKing, Colors.Diamond),
-    this.rules().customMove(CustomMoveType.CallKing, Colors.Club),
-    this.rules().customMove(CustomMoveType.CallKing, Colors.Spade)]
-    return move
+    return this.cardsICanCall.map(card => this.rules().customMove(CustomMoveType.CallKing, card))
+  }
+
+  get cardsICanCall(): Card[] {
+    const cards: Card[] = []
+    const playerHand = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
+    let figure = 14 //kings    
+    do {
+      cards.push(...cards.filter(card => isColor(card) && card % 100 === figure))
+      figure--
+    } while (cards.every(card => playerHand.id(card).length > 0))
+
+    return cards
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
+
     if (move.type === CustomMoveType.CallKing) {
-      switch (move.data) {
-        case Colors.Heart:
-          this.memorize(Memory.CallKing, { player: this.player, color: Colors.Heart })
-          break;
-        case Colors.Diamond:
-          this.memorize(Memory.CallKing, { player: this.player, color: Colors.Diamond })
-          break;
-        case Colors.Club:
-          this.memorize(Memory.CallKing, { player: this.player, color: Colors.Club })
-          break;
-        default:
-          this.memorize(Memory.CallKing, { player: this.player, color: Colors.Spade })
-      }
+      this.memorize(Memory.CallKing, move.data)
     }
 
     return [
