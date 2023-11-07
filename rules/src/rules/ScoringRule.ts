@@ -23,7 +23,9 @@ export class ScoringRule extends MaterialRulesPart {
             ...this.material(MaterialType.Card).location(LocationType.Tricks).rotateItems(true)
         )
 
-        const points = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
+        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
+        const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
+        const points = pointsTricks + pointsEcart
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
