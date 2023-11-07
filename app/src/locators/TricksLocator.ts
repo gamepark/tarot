@@ -7,13 +7,6 @@ export class TricksLocator extends DeckLocator {
   delta = { x: -0.05, y: -0.05, z: 0.1 }
 
   getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
-    const player = context.rules.players.length
-
-    if(player === undefined) {
-      return { x:-20, y: -20, z: 10 }
-    }
-
-      //TODO : Coordonnées player indéfini 
 
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = context.rules.players.length

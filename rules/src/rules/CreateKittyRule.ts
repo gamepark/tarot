@@ -10,9 +10,6 @@ import { isColor, isKing } from '../Card'
 
 export class CreateKittyRule extends PlayerTurnRule {
 
-
-
-
   onRuleStart() {
     const bid = this.remind<Bid>(Memory.Bid, this.player)
     switch (bid) {
@@ -53,16 +50,15 @@ export class CreateKittyRule extends PlayerTurnRule {
   getPlayerMoves() {
     const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(card => isColor(card.id) && !isKing(card.id))
 
-    return playerCards.moveItems({ type: LocationType.Kitty })
+    return playerCards.moveItems({ type: LocationType.Ecart })
   }
 
 
   afterItemMove(move: ItemMove) {
 
-    if (isMoveItem(move) && move.location.type === LocationType.Kitty
-      && this.material(MaterialType.Card).location(LocationType.Kitty).length === getKittySize(this.game.players.length)) {
+    if (isMoveItem(move) && move.location.type === LocationType.Ecart
+      && this.material(MaterialType.Card).location(LocationType.Ecart).length === getKittySize(this.game.players.length)) {
       return [
-        ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Hand, player: this.player }),
         this.rules().startPlayerTurn(RuleId.PlayCard, 1)
       ]
     }
