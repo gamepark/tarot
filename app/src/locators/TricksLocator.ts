@@ -9,7 +9,7 @@ export class TricksLocator extends DeckLocator {
   getCoordinates(item: MaterialItem<number, number>, context: ItemContext) {
 
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
-    const players = context.rules.players.length
+    const players = -context.rules.players.length
     const angle = 270 - relativePlayerIndex * 360 / players
     const radiusX = players === 5 ? 25 : players === 4 ? 25 : 25
     const radiusY = players === 5 ? 20 : players === 4 ? 20 : 15
@@ -22,13 +22,12 @@ export class TricksLocator extends DeckLocator {
 
   getRotateZ(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
-    const players = context.rules.players.length
+    const players = -context.rules.players.length
 
     return relativePlayerIndex * 360 / players + 90
 
   }
 }
-
 
 
 class TarotDeckLocatorDescription extends LocationDescription {

@@ -8,7 +8,7 @@ export class TarotTableLocator extends ItemLocator {
   getPosition(item: MaterialItem, context: ItemContext) {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
 
-    const players = context.rules.players.length
+    const players = -context.rules.players.length
     const angle = 270 - relativePlayerIndex * 360 / players
     const radiusX = 5
     const radiusY = 5
@@ -22,7 +22,7 @@ export class TarotTableLocator extends ItemLocator {
 
   getRotateZ(item: MaterialItem, context: ItemContext): number {
     const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
-    const players = context.rules.players.length
+    const players = -context.rules.players.length
     return relativePlayerIndex * 360 / players
   }
 }
