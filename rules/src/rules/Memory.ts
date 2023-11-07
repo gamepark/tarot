@@ -10,4 +10,5 @@ export enum Memory {
     Chelem,
     Poigne,
     PetitLastTrick,
+    CalledPlayer,
 }

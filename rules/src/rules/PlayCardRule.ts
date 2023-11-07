@@ -75,6 +75,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
       const callKing = this.remind(Memory.CallKing)
       const color = callKing.color
+  
 
       if (color === Colors.Heart) {
         cardsToPlay = cardsToPlay.filter(item => !isHeart(item.id) || item.id === Card.Excuse || heartKing(item.id))
@@ -83,7 +84,7 @@ export class PlayCardRule extends PlayerTurnRule {
       } else if (color === Colors.Club) {
         cardsToPlay = cardsToPlay.filter(item => !isClub(item.id) || item.id === Card.Excuse || clubKing(item.id))
       } else if (color === Colors.Spade) {
-        cardsToPlay = cardsToPlay.filter(item => !isSpade(item.id) || item.id === Card.Excuse || spadeKing(item.id))
+        cardsToPlay = cardsToPlay.filter(item => !isSpade(item.id) || item.id === Card.Excuse || spadeKing(item.id)) //TODO : A revoir avec move.data
       }
 
     }
@@ -162,6 +163,11 @@ export class PlayCardRule extends PlayerTurnRule {
   afterItemMove(move: ItemMove) {
     if (isMoveItem(move) && move.location.type === LocationType.Table) {
 
+
+      if (this.game.players.length === 5 && this.remind(Memory.CallKing) === this.cardsPlayed) {
+        this.memorize(Memory.CalledPlayer, this.player)
+      }
+
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
 
@@ -216,6 +222,8 @@ export class PlayCardRule extends PlayerTurnRule {
     }
     return []
   }
+
+//TODO ICII LA
 
 }
 

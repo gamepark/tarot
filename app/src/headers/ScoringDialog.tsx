@@ -17,8 +17,6 @@ export const ScoringDialog  = () => {
   const playerId = usePlayerId()
   const player = usePlayerName
 
-
-
   useEffect(() => {
     if (scoring) setDialogOpen(true)
   }, [scoring]
@@ -33,7 +31,7 @@ export const ScoringDialog  = () => {
         <ol css={grid}>
           {cards?.entries.map(([index, card]) =>
             <li key={index}>
-              <MaterialComponent type={MaterialType.Card} itemId={card.id} // TODO Romain : Cartes visibles dans la pop-up de fin de score.
+              <MaterialComponent type={MaterialType.Card} itemId={card.id} 
               />
             </li>
           )}

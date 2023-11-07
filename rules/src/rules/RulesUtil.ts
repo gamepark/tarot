@@ -23,7 +23,9 @@ export class RulesUtil extends MaterialRulesPart {
             const calledPlayer = this.remind<number | undefined>(Memory.CalledPlayer)
             if (calledPlayer === undefined) {
                 return false
-            }
+            } 
+
+            return false
         }
 
         //TODO: 5 joueurs
@@ -39,7 +41,7 @@ export class RulesUtil extends MaterialRulesPart {
             opponentsCards -= kittySize
         }
 
-        return opponentsCards <= 1 //excuse ; TODO : Simplifier code avec Ecart.
+        return opponentsCards <= 1 
     }
 
 }

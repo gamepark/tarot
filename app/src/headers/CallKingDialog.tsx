@@ -13,15 +13,14 @@ export const CallKingHeader = () => {
   const activePlayer = rules.getActivePlayer()!
 
   if (player === activePlayer) {
-    return <MyChelemHeader />
+    return <MyCallKingHeader />
   } else {
     return <PlayerChelemHeader activePlayer={activePlayer} />
   }
 }
 
-const MyChelemHeader = () => {
+const MyCallKingHeader = () => {
   const play = usePlay()
-  //const rules = useRules<TarotRules>()!
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   return <>
@@ -29,8 +28,14 @@ const MyChelemHeader = () => {
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
       <h2><Trans defaults="header.callKing.choice"><span /></Trans></h2>
       
-      <ul>{legalMoves.map(move => <MaterialComponent 
-      key={move.data} type={MaterialType.Card} id={move.data} onClick={() => play(move)}/>)} </ul>
+
+      <ul css={cardsListCss}>
+          {legalMoves.map(move =>
+            <li key={move.data}>
+              <MaterialComponent type={MaterialType.Card} id={move.data} onClick={() => play(move)}/>
+            </li>
+          )}
+        </ul>
     </RulesDialog>
   </>
 }
@@ -56,4 +61,14 @@ const dialogCss = css`
     font-size: 3em;
     white-space: break-spaces;
   }
+  `
+  
+  const cardsListCss = css`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2em;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 `
