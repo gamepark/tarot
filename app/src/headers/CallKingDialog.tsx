@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import { PlayMoveButton, RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { MaterialComponent, RulesDialog, ThemeButton, useLegalMoves, usePlay, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { CustomMove, isCustomMove } from '@gamepark/rules-api'
 import { useState } from 'react'
 import { css } from '@emotion/react'
+import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 
 export const CallKingHeader = () => {
   const rules = useRules<TarotRules>()!
   const player = usePlayerId()
   const activePlayer = rules.getActivePlayer()!
+
   if (player === activePlayer) {
     return <MyChelemHeader />
   } else {
@@ -18,7 +20,7 @@ export const CallKingHeader = () => {
 }
 
 const MyChelemHeader = () => {
-  const { t } = useTranslation()
+  const play = usePlay()
   //const rules = useRules<TarotRules>()!
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
@@ -27,13 +29,8 @@ const MyChelemHeader = () => {
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
       <h2><Trans defaults="header.callKing.choice"><span /></Trans></h2>
       
-      {legalMoves.map(move =>
-        <p key={move.data ?? 'false'}>
-          <PlayMoveButton move={move}>
-             {t(`callKing.${move.data}`)}
-          </PlayMoveButton>
-        </p>
-      )}
+      <ul>{legalMoves.map(move => <MaterialComponent 
+      key={move.data} type={MaterialType.Card} id={move.data} onClick={() => play(move)}/>)} </ul>
     </RulesDialog>
   </>
 }

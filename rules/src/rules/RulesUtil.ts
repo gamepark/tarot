@@ -16,19 +16,30 @@ export class RulesUtil extends MaterialRulesPart {
         }
         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
 
-        return player1 !== preneur && player2 !== preneur //TODO : 5 joueurs
+        if (this.game.players.length < 5) {
+            return player1 !== preneur && player2 !== preneur
+        }
+        else {
+            const calledPlayer = this.remind<number | undefined>(Memory.CalledPlayer)
+            if (calledPlayer === undefined) {
+                return false
+            }
+        }
+
+        //TODO: 5 joueurs
+
     }
 
-    hasChelem(player:number) {
-         let opponentsCards = this.material(MaterialType.Card).location(LocationType.Tricks).player(opponent => !this.isSameSide(opponent!, player)).length
-         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
-         const bid = this.remind(Memory.Bid, preneur)
-         const kittySize = this.game.players.length === 5 ? 3 : 6
-         if ((this.isSameSide(player, preneur!) && bid === Bid.GuardWithoutTheKitty) || (!this.isSameSide(player, preneur!) && bid !== Bid.GuardWithoutTheKitty)) {
-            opponentsCards -= kittySize 
-         }
+    hasChelem(player: number) {
+        let opponentsCards = this.material(MaterialType.Card).location(LocationType.Tricks).player(opponent => !this.isSameSide(opponent!, player)).length
+        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const bid = this.remind(Memory.Bid, preneur)
+        const kittySize = this.game.players.length === 5 ? 3 : 6
+        if ((this.isSameSide(player, preneur!) && bid === Bid.GuardWithoutTheKitty) || (!this.isSameSide(player, preneur!) && bid !== Bid.GuardWithoutTheKitty)) {
+            opponentsCards -= kittySize
+        }
 
-         return opponentsCards <= 1 //excuse ; TODO : Simplifier code avec Ecart.
+        return opponentsCards <= 1 //excuse ; TODO : Simplifier code avec Ecart.
     }
 
 }
