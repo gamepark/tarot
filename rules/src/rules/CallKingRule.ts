@@ -2,7 +2,7 @@ import { CustomMove, MaterialMove, PlayerTurnRule } from "@gamepark/rules-api";
 import { RuleId } from "./RuleId";
 import { Memory } from "./Memory";
 import { CustomMoveType } from "./CustomMoveType";
-import { Card, isColor } from "../Card";
+import { Card, cards, isColor } from "../Card";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 
@@ -14,15 +14,18 @@ export class CallKingRule extends PlayerTurnRule {
   }
 
   get cardsICanCall(): Card[] {
-    const cards : Card[] = []
     const playerHand = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
+    const allCards = cards
+    const cardsToReturn: Card[] = []
     let figure = 14 //kings    
+    let figuresInPlayerHand: Card[] = []
     do {
-      cards.push( ...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id))
+      cardsToReturn.push(...allCards.filter(card => isColor(card) && card % 100 === figure))
+      figuresInPlayerHand.push(...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id)) 
       figure--
-    } while (cards.length % 4 === 0)
+    } while (figuresInPlayerHand.length !== 0 && figuresInPlayerHand.length % 4 === 0)
 
-    return cards
+    return cardsToReturn
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
