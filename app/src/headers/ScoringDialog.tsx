@@ -23,20 +23,20 @@ export const ScoringDialog  = () => {
   )
   return (
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
-      <div css={rulesCss}>
+      {cards !== undefined && <div css={rulesCss}>
         <h2>{t('rules.lastTurn')}</h2>
         <p>      {playerId === player ? t('rules.discard.content.mine', { number: cards?.length })
           : t('rules.discard.content', { number: cards?.length, player })}
-        </p>
-        <ol css={grid}>
-          {cards?.entries.map(cardScoring =>
-            <li key={cardScoring}>
-              <MaterialComponent type={MaterialType.Card} itemId={cardScoring} 
+        </p> 
+        <ul css={cardListCss}>
+        {cards!.getItems().map(card =>
+            <li key={card.id}>
+              <MaterialComponent type={MaterialType.Card} itemId={card.id}  
               />
             </li>
           )}
-        </ol>
-      </div>
+        </ul>
+      </div>}
     </RulesDialog>
   )
 }
@@ -56,12 +56,12 @@ const rulesCss = css`
   }
 `
 
-const grid = css`
-  display: grid;
-  grid-template-columns: auto auto auto;
-  list-style-type: none;
-  gap: 1em;
-  padding: 0 0.5em 0.5em 0;
-  margin: 0;
-  font-size: 1.5em;
-  `
+const cardListCss = css`
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+gap: 2em;
+list-style-type: none;
+padding: 0;
+margin: 0;
+}
+`

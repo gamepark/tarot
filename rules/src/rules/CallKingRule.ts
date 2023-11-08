@@ -14,13 +14,13 @@ export class CallKingRule extends PlayerTurnRule {
   }
 
   get cardsICanCall(): Card[] {
-    const cards: Card[] = []
+    const cards : Card[] = []
     const playerHand = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player)
     let figure = 14 //kings    
     do {
-      cards.push(...cards.filter(card => isColor(card) && card % 100 === figure))
+      cards.push( ...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id))
       figure--
-    } while (cards.every(card => playerHand.id(card).length > 0))
+    } while (cards.length % 4 === 0)
 
     return cards
   }

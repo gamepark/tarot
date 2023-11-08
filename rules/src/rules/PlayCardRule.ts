@@ -4,7 +4,7 @@ import { MaterialType } from '../material/MaterialType'
 import { Bid } from "./Bid";
 import { getKittySize } from "./CreateKittyRule";
 import { RuleId } from './RuleId'
-import { Card, cardColor, cardValue, clubKing, diamondKing, heartKing, isClub, isColor, isDiamond, isHeart, isKing, isSameColor, isSpade, isTrump, isTrumpValue, spadeKing } from '../Card'
+import { Card, cardValue, clubKing, diamondKing, heartKing, isClub, isColor, isDiamond, isHeart, isSameColor, isSpade, isTrump, isTrumpValue, spadeKing } from '../Card'
 import { Memory } from './Memory'
 import { CustomMoveType } from './CustomMoveType'
 import { Poignee, poignees } from './Poignee'
@@ -199,15 +199,13 @@ export class PlayCardRule extends PlayerTurnRule {
 
         if (this.game.players.length === 5) {
           const callKing = this.remind(Memory.CallKing)
-          const colorCall = callKing.color
-          const kingOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(isKing);
+          const cardCall = callKing.move.data
+          const cardCallInTable = cardCall.Location(LocationType.Table)
 
-          if (kingOnTable) {
-
-            if (colorCall === cardColor) {
-              //TODO : Equipe ici
-            }
+          if (cardCallInTable) {
+//TODO : Equipe
           }
+
         }
 
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
