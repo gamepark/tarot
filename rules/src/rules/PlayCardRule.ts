@@ -197,17 +197,6 @@ export class PlayCardRule extends PlayerTurnRule {
           )
         }
 
-        if (this.game.players.length === 5) {
-          const callKing = this.remind(Memory.CallKing)
-          const cardCall = callKing.move.data
-          const cardCallInTable = cardCall.Location(LocationType.Table)
-
-          if (cardCallInTable) {
-//TODO : Equipe
-          }
-
-        }
-
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
         } else {
