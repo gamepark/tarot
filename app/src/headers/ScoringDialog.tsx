@@ -29,9 +29,9 @@ export const ScoringDialog  = () => {
           : t('rules.discard.content', { number: cards?.length, player })}
         </p>
         <ol css={grid}>
-          {cards?.entries.map(([index, card]) =>
-            <li key={index}>
-              <MaterialComponent type={MaterialType.Card} itemId={card.id} 
+          {cards?.entries.map(cardScoring =>
+            <li key={cardScoring}>
+              <MaterialComponent type={MaterialType.Card} itemId={cardScoring} 
               />
             </li>
           )}

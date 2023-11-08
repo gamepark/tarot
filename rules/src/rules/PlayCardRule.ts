@@ -75,7 +75,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
       const callKing = this.remind(Memory.CallKing)
       const color = callKing.color
-  
+
 
       if (color === Colors.Heart) {
         cardsToPlay = cardsToPlay.filter(item => !isHeart(item.id) || item.id === Card.Excuse || heartKing(item.id))
@@ -185,15 +185,15 @@ export class PlayCardRule extends PlayerTurnRule {
 
         if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
-            excuseOnTable.moveItem( { type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation:true}),
+            excuseOnTable.moveItem({ type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation: true }),
           )
 
           moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems( { type: LocationType.Tricks, player: trickWinner})
+            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ type: LocationType.Tricks, player: trickWinner })
           )
         } else {
           moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems( { type: LocationType.Tricks, player: trickWinner } )
+            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ type: LocationType.Tricks, player: trickWinner })
           )
         }
 
@@ -222,8 +222,6 @@ export class PlayCardRule extends PlayerTurnRule {
     }
     return []
   }
-
-//TODO ICII LA
 
 }
 
