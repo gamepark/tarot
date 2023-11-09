@@ -71,9 +71,9 @@ export class ScoringRule extends MaterialRulesPart {
                 if (player !== preneur && !this.isSameSide(player, preneur!)) {
                     this.memorize(Memory.Score, -score, player)
                 } else if (player === preneur) {
-                    this.memorize(Memory.Score, score * 2, preneur)
+                    this.memorize(Memory.Score, score * 2, preneur) //TODO : Prévoir quand le roi est au chien / Le joueur s'app seul
                 } else {
-                    this.memorize(Memory.Score, score, preneur) //Joueur appelé
+                    this.memorize(Memory.Score, score, player) //Joueur appelé TODO : Ca marche pas.
                 }
             }
         }

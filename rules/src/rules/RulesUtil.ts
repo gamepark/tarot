@@ -24,7 +24,6 @@ export class RulesUtil extends MaterialRulesPart {
             if (calledPlayer === undefined) {
                 return false
             }
-
             if (player1 === preneur && player2 === calledPlayer) {
                 return true
             } else if (player2 === preneur && player1 === calledPlayer) {
