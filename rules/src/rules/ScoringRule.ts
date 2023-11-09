@@ -69,6 +69,7 @@ export class ScoringRule extends MaterialRulesPart {
 
             if (this.game.players.length === 5) {
                 const calledPlayer = this.remind(Memory.CalledPlayer)
+                const calledCard = this.remind(Memory.CalledCard)
                 if (player !== preneur && player !== calledPlayer) {
                     this.memorize(Memory.Score, -score, player)
                 }
@@ -78,8 +79,8 @@ export class ScoringRule extends MaterialRulesPart {
                 if (player === calledPlayer) {
                     this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé 
                 }
-                if (player === preneur && player === calledPlayer || player === preneur && this.remind(Memory.CalledCard).location(LocationType.Ecart)) {
-                    this.memorize(Memory.Score, score * 3, preneur) //Joueur qui s'est auto appelé.
+                if (player === preneur && player === calledPlayer || player === preneur && this.isThisCardInTheEcart(calledCard, this.material(MaterialType.Card).location(LocationType.Ecart).getItems().map(item => item.id))) {
+                    this.memorize(Memory.Score, score * 4, preneur) //Joueur qui s'est auto appelé.
                 }
             }
         }
@@ -90,6 +91,10 @@ export class ScoringRule extends MaterialRulesPart {
 
     isSameSide(player1: number, player2: number) {
         return new RulesUtil(this.game).isSameSide(player1, player2)
+    }
+
+    isThisCardInTheEcart(searchedCard:number, ecartCard:number[]) : boolean {
+        return ecartCard.filter(card => card === searchedCard).length === 1 
     }
 }
 

@@ -16,12 +16,14 @@ export const PlayerPanels: FC<any> = () => {
   const rules = useRules<TarotRules>()
   if (!rules) return null
   const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player))
+  const callplayer = maxBy(rules.players, player => rules.remind(Memory.CalledPlayer, player))
 
   return (
     <>
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {preneur === player.id && <span css={bidCss}>{t(`bid.${rules.remind(Memory.Bid, preneur)}`)}</span>}
+          {callplayer=== player.id && <span css={callPlayerCss}>{t(`callPlayer.${rules.remind(Memory.Bid, preneur)}`)}</span>}
           <div css={indicators}>
             <PlayerPanelCounter
               width={3}
@@ -56,3 +58,11 @@ const indicators = css`
   right: -4em;
   justify-content: space-evenly;
   flex-wrap: wrap; `
+
+
+  const callPlayerCss = css`
+  position: absolute;
+  top: 60%;
+  left: 5%;
+  font-size: 3em;
+`
