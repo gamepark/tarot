@@ -68,12 +68,16 @@ export class ScoringRule extends MaterialRulesPart {
             }
 
             if (this.game.players.length === 5) {
-                if (player !== preneur && !this.isSameSide(player, preneur!)) {
+                const calledPlayer = this.remind(Memory.CalledPlayer, player)
+                console.log(calledPlayer)
+                if (player !== preneur && player !== calledPlayer) {
                     this.memorize(Memory.Score, -score, player)
-                } else if (player === preneur) {
+                } 
+                if (player === preneur) {
                     this.memorize(Memory.Score, score * 2, preneur) //TODO : Prévoir quand le roi est au chien / Le joueur s'app seul
-                } else {
-                    this.memorize(Memory.Score, score, player) //Joueur appelé TODO : Ca marche pas.
+                } 
+                if (player === calledPlayer) {
+                    this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé TODO : Ca marche pas.
                 }
             }
         }
@@ -83,7 +87,7 @@ export class ScoringRule extends MaterialRulesPart {
 
     isSameSide(player1: number, player2: number) {
         return new RulesUtil(this.game).isSameSide(player1, player2)
-      }
+    }
 }
 
 

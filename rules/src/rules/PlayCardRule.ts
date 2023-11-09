@@ -153,6 +153,7 @@ export class PlayCardRule extends PlayerTurnRule {
 
       if (this.game.players.length === 5 && this.remind(Memory.CalledCard) === this.cardsPlayed) {
         this.memorize(Memory.CalledPlayer, this.player)
+        console.log(this.remind(Memory.CalledPlayer, this.player)) //TODO : Déterminer pourquoi undefined 
       }
 
       const moves: MaterialMove[] = []
@@ -169,12 +170,10 @@ export class PlayCardRule extends PlayerTurnRule {
         }
 
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
-
         if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
             excuseOnTable.moveItem({ type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation: true }),
           )
-
           moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ type: LocationType.Tricks, player: trickWinner })
           )
