@@ -74,13 +74,17 @@ export class ScoringRule extends MaterialRulesPart {
                     this.memorize(Memory.Score, -score, player)
                 } 
                 if (player === preneur) {
-                    this.memorize(Memory.Score, score * 2, preneur) //TODO : Prévoir quand le roi est au chien / Le joueur s'app seul
+                    this.memorize(Memory.Score, score * 2, preneur) 
                 } 
                 if (player === calledPlayer) {
-                    this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé TODO : Ca marche pas.
+                    this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé 
                 }
-            }
+                if (player ===  preneur && player === calledPlayer) {
+                    this.memorize(Memory.Score, score * 3, preneur) //Joueur qui s'est auto appelé.
+                } 
+            } //TODO : Ne fonctionne pas pour le moment.
         }
+
         moves.push(this.rules().endGame())
         return moves
     }
