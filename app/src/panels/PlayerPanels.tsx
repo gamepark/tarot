@@ -14,8 +14,8 @@ export const PlayerPanels: FC<any> = () => {
   const { t } = useTranslation()
   const players = usePlayers({ sortFromMe: true })
   const rules = useRules<TarotRules>()
-  if (!rules) return null 
-  const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player)) 
+  if (!rules) return null
+  const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player))
 
   return (
     <>
@@ -23,10 +23,10 @@ export const PlayerPanels: FC<any> = () => {
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {preneur === player.id && <span css={bidCss}>{t(`bid.${rules.remind(Memory.Bid, preneur)}`)}</span>}
           <div css={indicators}>
-        <PlayerPanelCounter
-          width={3}
-          icon={faStar}
-          value={rules?.getScore(player.id)!}/> </div>
+            <PlayerPanelCounter
+              width={3}
+              icon={faStar}
+              value={rules?.getScore(player.id)!} /> </div>
         </PlayerPanel>
       )}
     </>

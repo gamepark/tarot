@@ -7,7 +7,6 @@ export class PoigneeLocator extends HandLocator {
 
   getCoordinates() {
     return { x: 0, y: 10, z: 10 }
-
   }
 
   getMaxAngle() {

@@ -21,15 +21,12 @@ export class DealRule extends PlayerTurnRule {
     const moves: MaterialMove[] = []
     const kittySize = this.game.players.length === 5 ? 3 : 6
     const handSize = (cards.length - kittySize) / this.game.players.length
-
     for (const player of this.game.players) {
       moves.push(
         ...this.material(MaterialType.Card).location(LocationType.Deck)
           .filter(item => item.location.x! >= (player - 1) * handSize && item.location.x! < (player) * handSize)
           .moveItems({ type: LocationType.Hand, player }))
     }
-
-
     moves.push(
       ...this.material(MaterialType.Card)
         .sort(item => - item.location.x!)
@@ -38,9 +35,6 @@ export class DealRule extends PlayerTurnRule {
 
     this.memorize(Memory.StartPlayer, this.nextPlayer)
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer))
-
-
     return moves
   }
-
 }

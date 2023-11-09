@@ -22,7 +22,7 @@ const PlayerPanelCounter: FC<PlayerPanelCounterProps> = (props) => {
     <div css={indicator}>
       <div
         css={[iconStyle(ratio, width), !!image && iconImageStyle(image, borderRadius), !!image && shadow && shadowCss(image)]}>
-        {!!icon && <FontAwesomeIcon icon={faStar} css={fontIcon} fill="#28B8CE"/>}
+        {!!icon && <FontAwesomeIcon icon={faStar} css={fontIcon} fill="#28B8CE" />}
       </div>
       <div css={counter}>
         {value}

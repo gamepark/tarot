@@ -21,12 +21,12 @@ export default function App() {
   const loading = !game || isJustDisplayed
   return (
     <>
-      <GameDisplay/>
-      <LoadingScreen display={loading} author="Someone" artist="Somebody" publisher="Nobody" developer="You"/>
-      <MaterialHeader rulesStepsHeaders={RulesHeaders} GameOver={GameOverHeader} loading={loading}/>
-      <Menu/>
-      <FailuresDialog/>
-      <FullscreenDialog/>
+      <GameDisplay />
+      <LoadingScreen display={loading} author="Someone" artist="Somebody" publisher="Nobody" developer="You" />
+      <MaterialHeader rulesStepsHeaders={RulesHeaders} GameOver={GameOverHeader} loading={loading} />
+      <Menu />
+      <FailuresDialog />
+      <FullscreenDialog />
     </>
   )
 }
@@ -36,8 +36,8 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Bid]: BidHeader,
   [RuleId.Chelem]: ChelemHeader,
   [RuleId.CallKing]: CallKingHeader,
-  [RuleId.CreateKitty]: ()=><>Vous devez faire votre chien</>,
+  [RuleId.CreateKitty]: () => <>Vous devez faire votre chien</>,
   [RuleId.PlayCard]: PlayCardHeader,
-  [RuleId.Scoring]: ()=><>Décompte du score !</>,
+  [RuleId.Scoring]: () => <>Décompte du score !</>,
   [RuleId.Poignee]: () => <>Poignée</>,
 }

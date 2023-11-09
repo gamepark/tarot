@@ -8,14 +8,13 @@ export class EcartLocator extends DeckLocator {
   delta = { x: -0.05, y: -0.05, z: 0.1 }
 
   getCoordinates(_item: MaterialItem<number, number>, _context: ItemContext) {
-    return { x:40, y:35, z: 10 }  }
+    return { x: 40, y: 35, z: 10 }
+  }
 
   getRotateZ(_item: MaterialItem<number, number>, _context: ItemContext<number, number, number>): number {
     return 90
   }
 }
-
-
 
 class EcartLocationDescription extends LocationDescription {
   location = { type: LocationType.Ecart }

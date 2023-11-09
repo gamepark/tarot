@@ -21,19 +21,16 @@ export class CallCardRule extends PlayerTurnRule {
     let figuresInPlayerHand: Card[] = []
     do {
       cardsToReturn.push(...allCards.filter(card => isColor(card) && card % 100 === figure))
-      figuresInPlayerHand.push(...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id)) 
+      figuresInPlayerHand.push(...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id))
       figure--
     } while (figuresInPlayerHand.length !== 0 && figuresInPlayerHand.length % 4 === 0)
-
     return cardsToReturn
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
-
     if (move.type === CustomMoveType.CallKing) {
       this.memorize(Memory.CalledCard, move.data)
     }
-
     return [
       this.rules().startRule(RuleId.CreateKitty)
     ]

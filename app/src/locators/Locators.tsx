@@ -19,5 +19,5 @@ export const Locators: Record<LocationType, ItemLocator<number, MaterialType, Lo
   [LocationType.Tricks]: new TricksLocator(),
   [LocationType.Ecart]: new EcartLocator(),
   [LocationType.TableEnd]: new TableEndLocator(),
-  [LocationType.Poigne]: new PoigneeLocator(), 
+  [LocationType.Poigne]: new PoigneeLocator(),
 }

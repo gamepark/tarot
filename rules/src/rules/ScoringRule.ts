@@ -71,17 +71,17 @@ export class ScoringRule extends MaterialRulesPart {
                 const calledPlayer = this.remind(Memory.CalledPlayer)
                 if (player !== preneur && player !== calledPlayer) {
                     this.memorize(Memory.Score, -score, player)
-                } 
+                }
                 if (player === preneur) {
-                    this.memorize(Memory.Score, score * 2, preneur) 
-                } 
+                    this.memorize(Memory.Score, score * 2, preneur)
+                }
                 if (player === calledPlayer) {
                     this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé 
                 }
-                if (player ===  preneur && player === calledPlayer || player === preneur && this.remind(Memory.CalledCard).location(LocationType.Ecart) ) {
+                if (player === preneur && player === calledPlayer || player === preneur && this.remind(Memory.CalledCard).location(LocationType.Ecart)) {
                     this.memorize(Memory.Score, score * 3, preneur) //Joueur qui s'est auto appelé.
-                } 
-            } 
+                }
+            }
         }
 
         moves.push(this.rules().endGame())
@@ -92,8 +92,6 @@ export class ScoringRule extends MaterialRulesPart {
         return new RulesUtil(this.game).isSameSide(player1, player2)
     }
 }
-
-
 
 function getContrat(oudlers: number): number {
     switch (oudlers) {

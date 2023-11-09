@@ -14,10 +14,7 @@ import { maxBy } from 'lodash'
 
 export class BidRule extends PlayerTurnRule {
   onRuleStart(_move: RuleMove, previousRules: RuleStep) {
-
-
     if (previousRules.id !== RuleId.Bid) {
-
       if (this.game.players.some(player => this.smallTrumpOnly(player))) {
         return [
           this.rules().startPlayerTurn(RuleId.Deal, this.player)
@@ -29,7 +26,6 @@ export class BidRule extends PlayerTurnRule {
 
   smallTrumpOnly(player: number) {
     const playerCards = this.material(MaterialType.Card).player(player).getItems().map(item => item.id)
-
     return playerCards.every(card => !isTrump(card) || card === Card.Trump1) && playerCards.some(card => card === Card.Trump1)
   }
 
@@ -53,7 +49,6 @@ export class BidRule extends PlayerTurnRule {
         return this.goToChelemMove(this.player)
       }
     }
-
     if (this.isLastPlayer) {
       const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
       if (!preneur) {
@@ -63,11 +58,8 @@ export class BidRule extends PlayerTurnRule {
           this.rules().startRule(RuleId.CallKing)
         ]
       }
-
       return this.goToChelemMove(preneur)
-
     }
-
     return [this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer)]
   }
 
@@ -75,15 +67,12 @@ export class BidRule extends PlayerTurnRule {
     return this.nextPlayer === this.remind(Memory.StartPlayer)
   }
 
-
-
   goToChelemMove(player: number) {
     this.memorize(Memory.IsKittyStarted, { bool: false })
     return [
       this.rules().startPlayerTurn(RuleId.Chelem, player)
     ]
   }
-
 
   get goToDealMoves() {
     return [
