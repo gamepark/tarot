@@ -7,7 +7,7 @@ import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 
 
-export class CallKingRule extends PlayerTurnRule {
+export class CallCardRule extends PlayerTurnRule {
 
   getPlayerMoves(): MaterialMove<number, number, number>[] {
     return this.cardsICanCall.map(card => this.rules().customMove(CustomMoveType.CallKing, card))
@@ -31,7 +31,7 @@ export class CallKingRule extends PlayerTurnRule {
   onCustomMove(move: CustomMove): MaterialMove[] {
 
     if (move.type === CustomMoveType.CallKing) {
-      this.memorize(Memory.CallKing, move.data)
+      this.memorize(Memory.CalledCard, move.data)
     }
 
     return [

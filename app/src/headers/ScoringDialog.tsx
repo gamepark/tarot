@@ -29,10 +29,9 @@ export const ScoringDialog  = () => {
           : t('rules.discard.content', { number: cards?.length, player })}
         </p> 
         <ul css={cardListCss}>
-        {cards!.getItems().map(card =>
+          {cards.getItems().map(card =>
             <li key={card.id}>
-              <MaterialComponent type={MaterialType.Card} itemId={card.id}  
-              />
+              <MaterialComponent type={MaterialType.Card} css={css`transform: rotateY(180deg)`} itemId={{ back: card }}/>
             </li>
           )}
         </ul>

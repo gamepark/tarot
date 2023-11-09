@@ -10,7 +10,7 @@ import { Bid } from "./Bid";
 export class RulesUtil extends MaterialRulesPart {
 
 
-    isSameSide(player1: number, player2: number) {
+    isSameSide(player1: number, player2: number): boolean {
         if (player1 === player2) {
             return true
         }
@@ -23,12 +23,18 @@ export class RulesUtil extends MaterialRulesPart {
             const calledPlayer = this.remind<number | undefined>(Memory.CalledPlayer)
             if (calledPlayer === undefined) {
                 return false
-            } 
+            }
+
+            if (player1 === preneur && player2 === calledPlayer) {
+                return true
+            } else if (player2 === preneur && player1 === calledPlayer) {
+                return true
+            } else if (player1 !== preneur && player2 !== calledPlayer && player2 !== preneur && player1 !== calledPlayer) {
+                return true
+            }
 
             return false
         }
-
-        //TODO: 5 joueurs
 
     }
 
@@ -41,7 +47,7 @@ export class RulesUtil extends MaterialRulesPart {
             opponentsCards -= kittySize
         }
 
-        return opponentsCards <= 1 
+        return opponentsCards <= 1
     }
 
 }

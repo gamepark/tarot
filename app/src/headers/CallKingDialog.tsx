@@ -22,7 +22,6 @@ export const CallKingHeader = () => {
 const MyCallKingHeader = () => {
   const play = usePlay()
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
-  console.log(legalMoves)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   return <>
     <Trans defaults="header.callKing.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
@@ -33,7 +32,7 @@ const MyCallKingHeader = () => {
       <ul css={cardsListCss}>
           {legalMoves.map(move =>
             <li key={move.data}>
-              <MaterialComponent type={MaterialType.Card} id={move.data} onClick={() => play(move)} css={css`transform: rotateY(180deg)`} itemId={{ back: move.data }} />
+              <MaterialComponent type={MaterialType.Card} itemId={move.data} onClick={() => play(move)} />
             </li>
           )}
         </ul>
