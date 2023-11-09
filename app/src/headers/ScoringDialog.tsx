@@ -21,9 +21,10 @@ export const ScoringDialog  = () => {
     if (scoring) setDialogOpen(true)
   }, [scoring]
   )
-  return (
-    <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)}>
-      {cards !== undefined && <div css={rulesCss}>
+  
+  return <>
+    <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} >
+      {cards !== undefined && <div css={dialogCss}>
         <h2>{t('rules.lastTurn')}</h2>
         <p>      {playerId === player ? t('rules.discard.content.mine', { number: cards?.length })
           : t('rules.discard.content', { number: cards?.length, player })}
@@ -31,29 +32,30 @@ export const ScoringDialog  = () => {
         <ul css={cardListCss}>
           {cards.getItems().map(card =>
             <li key={card.id}>
-              <MaterialComponent type={MaterialType.Card} css={css`transform: rotateY(180deg)`} itemId={{ back: card }}/>
+              <MaterialComponent type={MaterialType.Card} itemId={card.id}/>
             </li>
           )}
         </ul>
       </div>}
     </RulesDialog>
-  )
+    </>
 }
 
-const rulesCss = css`
-  max-width: 40em;
-  margin: 1em;
-  font-size: 3em;
+const dialogCss = css`
+  max-width: 100em;
+  padding: 5em;
 
   > h2 {
-    margin: 0 1em;
     text-align: center;
+    font-size: 4em;
+    margin: 0;
   }
 
   > p {
+    font-size: 3em;
     white-space: break-spaces;
   }
-`
+  `
 
 const cardListCss = css`
 display: grid;

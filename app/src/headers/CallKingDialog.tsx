@@ -27,8 +27,6 @@ const MyCallKingHeader = () => {
     <Trans defaults="header.callKing.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
       <h2><Trans defaults="header.callKing.choice"><span /></Trans></h2>
-      
-
       <ul css={cardsListCss}>
           {legalMoves.map(move =>
             <li key={move.data}>
