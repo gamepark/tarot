@@ -33,8 +33,8 @@ const PlayerPanelCounter: FC<PlayerPanelCounterProps> = (props) => {
 
 const indicator = css`
   position:absolute;
-  top:-8em;
-  left:4em;
+  top:-3.5em;
+  left:18em;
   display: flex;
   flex-direction: row;
   align-items: center;

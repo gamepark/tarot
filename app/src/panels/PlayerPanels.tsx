@@ -36,7 +36,7 @@ const panelPosition = (index: number) => css`
   position: absolute;
   right: 1em;
   top: ${8.5 + index * 16}em;
-  width: 30em;
+  width: 35em;
   height: 15em;
 `
 

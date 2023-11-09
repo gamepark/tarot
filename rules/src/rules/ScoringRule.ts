@@ -68,7 +68,7 @@ export class ScoringRule extends MaterialRulesPart {
             }
 
             if (this.game.players.length === 5) {
-                const calledPlayer = this.remind(Memory.CalledPlayer, player)
+                const calledPlayer = this.remind(Memory.CalledPlayer)
                 console.log(calledPlayer)
                 if (player !== preneur && player !== calledPlayer) {
                     this.memorize(Memory.Score, -score, player)
@@ -82,7 +82,7 @@ export class ScoringRule extends MaterialRulesPart {
                 if (player ===  preneur && player === calledPlayer) {
                     this.memorize(Memory.Score, score * 3, preneur) //Joueur qui s'est auto appelé.
                 } 
-            } //TODO : Ne fonctionne pas pour le moment.
+            } 
         }
 
         moves.push(this.rules().endGame())
