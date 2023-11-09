@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { MaterialComponent, RulesDialog, ThemeButton, useLegalMoves, usePlay, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { MaterialComponent, RulesDialog, ThemeButton, pointerCursorCss, useLegalMoves, usePlay, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { CustomMove, isCustomMove } from '@gamepark/rules-api'
@@ -30,7 +30,7 @@ const MyCallKingHeader = () => {
       <ul css={cardsListCss}>
           {legalMoves.map(move =>
             <li key={move.data}>
-              <MaterialComponent type={MaterialType.Card} itemId={move.data} onClick={() => play(move)} />
+              <MaterialComponent type={MaterialType.Card} itemId={move.data} css={pointerCursorCss} onClick={() => play(move)} />
             </li>
           )}
         </ul>
@@ -67,6 +67,7 @@ const dialogCss = css`
   gap: 2em;
   list-style-type: none;
   padding: 0;
-  margin: 0;
+  margin: 1em;
+  font-size: 2em;
 }
 `
