@@ -25,13 +25,23 @@ export class PlayerHandLocator extends HandLocator {
 
   getMaxAngle(_item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const players = context.rules.players.length
+    const relativePlayerIndex = this.getRelativePlayerIndex(context, _item.location.player!)
     switch (players) {
       case 3:
-        return 25
+        if (relativePlayerIndex === 1 || relativePlayerIndex === 2) {
+          return 25
+        }
+        return 40
       case 4:
-        return 20
+        if (relativePlayerIndex === 1 || relativePlayerIndex === 2 || relativePlayerIndex === 3) {
+          return 20
+        }
+        return 30
     }
-    return 15
+    if (relativePlayerIndex === 1 || relativePlayerIndex === 2 || relativePlayerIndex === 3 || relativePlayerIndex === 4) {
+      return 15
+    }
+    return 30
   }
 
   isHidden(item: MaterialItem, context: ItemContext): boolean {

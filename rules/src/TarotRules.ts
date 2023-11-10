@@ -1,4 +1,4 @@
-import { CompetitiveScore, hideItemId, MaterialGame, /*hideItemIdToOthers,*/ MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, /*hideItemIdToOthers,*/ MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules } from '@gamepark/rules-api'
 import { MaterialType } from './material/MaterialType'
 import { LocationType } from './material/LocationType'
 import { RuleId } from './rules/RuleId'
@@ -37,7 +37,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
   hidingStrategies = {
     [MaterialType.Card]: {
       [LocationType.Deck]: hideItemId,
-      //[LocationType.Hand]: hideItemIdToOthers,
+      [LocationType.Hand]: hideItemIdToOthers,
       [LocationType.Kitty]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
       [LocationType.Tricks]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
       [LocationType.Ecart]: (item: MaterialItem) => item.location.rotation ? [] : ['id'],
