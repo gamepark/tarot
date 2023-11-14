@@ -23,7 +23,8 @@ export const PlayerPanels: FC<any> = () => {
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {preneur === player.id && <span css={bidCss}>{t(`bid.${rules.remind(Memory.Bid, preneur)}`)}</span>}
-          {callplayer=== player.id && <span css={callPlayerCss}>{t(`callPlayer.${rules.remind(Memory.Bid, preneur)}`)}</span>}
+          {preneur === player.id && rules.remind(Memory.CalledCard) && !rules.remind(Memory.CalledPlayer) && <span css={callPlayerCss}>{t(`calledCard.${rules.remind(Memory.CalledCard)}`)}</span>}
+          {rules.remind(Memory.CalledPlayer) && preneur === player.id && <span css={callPlayerCss}>{t(`callPlayer.${rules.remind(Memory.CalledPlayer, callplayer)}`)}</span>}
           <div css={indicators}>
             <PlayerPanelCounter
               width={3}
@@ -62,7 +63,7 @@ const indicators = css`
 
   const callPlayerCss = css`
   position: absolute;
-  top: 60%;
+  top: 40%;
   left: 5%;
   font-size: 3em;
 `
