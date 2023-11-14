@@ -17,6 +17,7 @@ export class TarotSetup extends MaterialGameSetup<number, MaterialType, Location
     for (const player of this.game.players) {
       this.memorize(Memory.Score,0,player)
     }
+    this.memorize(Memory.Round,1)
   }
 
   start() {

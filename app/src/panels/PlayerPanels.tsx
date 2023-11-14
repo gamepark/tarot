@@ -17,14 +17,15 @@ export const PlayerPanels: FC<any> = () => {
   if (!rules) return null
   const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player))
   const calledPlayer = rules.remind(Memory.CalledPlayer)
+  const calledCard = rules.remind(Memory.CalledCard)
 
   return (
     <>
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {preneur === player.id && <span css={bidCss}>{t(`bid.${rules.remind(Memory.Bid, preneur)}`)}</span>}
-          {preneur === player.id && rules.remind(Memory.CalledCard) && !rules.remind(Memory.CalledPlayer) && <span css={callPlayerCss}>{t(`calledCard.${rules.remind(Memory.CalledCard)}`)}</span>}
-          {calledPlayer === player.id && <span css={callPlayerCss}>{t(`callPlayer.${rules.remind(Memory.CalledPlayer, calledPlayer)}`)}</span>}
+          {preneur === player.id && calledCard && !calledPlayer && <span css={callPlayerCss}>{t(`card.${calledCard}`)}</span>}
+          {calledPlayer === player.id && <span css={callPlayerCss}>{t(`calledPlayer`)}</span>}
           <div css={indicators}>
             <PlayerPanelCounter
               width={3}
