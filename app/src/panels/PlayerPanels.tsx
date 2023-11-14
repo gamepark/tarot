@@ -63,7 +63,7 @@ const indicators = css`
 
   const callPlayerCss = css`
   position: absolute;
-  top: 40%;
+  top: 35%;
   left: 5%;
   font-size: 3em;
 `
