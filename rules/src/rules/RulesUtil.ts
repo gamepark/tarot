@@ -13,7 +13,7 @@ export class RulesUtil extends MaterialRulesPart {
         if (player1 === player2) {
             return true
         }
-        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const preneur = this.preneur
         if (this.game.players.length < 5) {
             return player1 !== preneur && player2 !== preneur
         }
@@ -35,7 +35,7 @@ export class RulesUtil extends MaterialRulesPart {
 
     hasChelem(player: number) {
         let opponentsCards = this.material(MaterialType.Card).location(LocationType.Tricks).player(opponent => !this.isSameSide(opponent!, player)).length
-        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const preneur = this.preneur
         const bid = this.remind(Memory.Bid, preneur)
         const kittySize = this.game.players.length === 5 ? 3 : 6
         if ((this.isSameSide(player, preneur!) && bid === Bid.GuardWithoutTheKitty) || (!this.isSameSide(player, preneur!) && bid !== Bid.GuardWithoutTheKitty)) {
@@ -43,6 +43,15 @@ export class RulesUtil extends MaterialRulesPart {
         }
         return opponentsCards <= 1
     }
+
+    get preneur() {
+        return maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+    }
+
+    isPreneurSide(player?:number) {
+        const preneur = this.preneur
+        return preneur !== undefined && player !== undefined && this.isSameSide(player, preneur)
+    } 
 
 }
 

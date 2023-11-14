@@ -20,7 +20,7 @@ export class ScoringRule extends MaterialRulesPart {
         const bid = this.remind<Bid>(Memory.Bid, preneur)
 
         moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Tricks).rotateItems(true)
+            ...this.material(MaterialType.Card).rotateItems(true)
         )
 
         const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
