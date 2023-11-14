@@ -132,7 +132,6 @@ export class PlayCardRule extends PlayerTurnRule {
     if (isMoveItem(move) && move.location.type === LocationType.Table) {
       if (this.game.players.length === 5 && this.remind(Memory.CalledCard) === this.cardsPlayed[this.cardsPlayed.length - 1]) {
         this.memorize(Memory.CalledPlayer, this.player)
-        console.log(this.remind(Memory.CalledPlayer))
       }
 
       const moves: MaterialMove[] = []

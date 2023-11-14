@@ -8,6 +8,7 @@ import sumBy from "lodash/sumBy";
 import { cardValue, isOudler } from "../Card";
 import { Bid } from "./Bid";
 import { RulesUtil } from "./RulesUtil";
+import { RuleId } from "./RuleId";
 
 
 export class ScoringRule extends MaterialRulesPart {
@@ -85,8 +86,19 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
+        if (this.remind(Memory.Round) === 4) {
         moves.push(this.rules().endGame())
+        return moves }
+
+        console.log(this.remind(Memory.Round))
+            this.memorize(Memory.Round, +1)
+        console.log(this.remind(Memory.Round))
+        
+        moves.push(this.rules().startPlayerTurn(RuleId.Deal, 1))
+
         return moves
+
+
     }
 
     isSameSide(player1: number, player2: number) {
