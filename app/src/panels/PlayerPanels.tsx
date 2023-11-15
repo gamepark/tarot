@@ -46,7 +46,7 @@ const panelPosition = (index: number) => css`
 
 const bidCss = css`
   position: absolute;
-  top: 60%;
+  top: 70%;
   left: 5%;
   font-size: 3em;
 `
@@ -57,14 +57,14 @@ const indicators = css`
   flex-direction: row;
   position: absolute;
   bottom: 2em;
-  right: -4em;
+  right: -7em;
   justify-content: space-evenly;
   flex-wrap: wrap; `
 
 
   const callPlayerCss = css`
   position: absolute;
-  top: 35%;
+  top: 40%;
   left: 5%;
   font-size: 3em;
 `
