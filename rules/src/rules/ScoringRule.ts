@@ -25,7 +25,7 @@ export class ScoringRule extends MaterialRulesPart {
         )
 
         const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
-        const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
+        const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id)) //TODO : Déterminer à qui va le chien.
         const points = pointsTricks + pointsEcart
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
@@ -88,12 +88,11 @@ export class ScoringRule extends MaterialRulesPart {
 
         if (this.remind(Memory.Round) === 4) {
         moves.push(this.rules().endGame())
-        return moves }
-
+        return moves 
+    }
         console.log(this.remind(Memory.Round))
             this.memorize(Memory.Round, +1)
         console.log(this.remind(Memory.Round))
-        
         moves.push(this.rules().startPlayerTurn(RuleId.Deal, 1))
 
         return moves
