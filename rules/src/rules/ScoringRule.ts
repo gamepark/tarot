@@ -25,8 +25,15 @@ export class ScoringRule extends MaterialRulesPart {
         )
 
         const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
-        const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id)) //TODO : Déterminer à qui va le chien.
-        const points = pointsTricks + pointsEcart
+        const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
+        let points = 0
+
+        if (this.remind(Memory.Bid, bid) === 6) {
+            points = pointsTricks
+        } else {
+            points = pointsTricks + pointsEcart
+        }
+
         const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const contrat = points - getContrat(oudlers)
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
@@ -87,14 +94,14 @@ export class ScoringRule extends MaterialRulesPart {
         }
 
         if (this.remind(Memory.Round) === 4) {
-        moves.push(this.rules().endGame())
-        return moves 
-    }
+            moves.push(this.rules().endGame())
+            return moves
+        }
         console.log(this.remind(Memory.Round))
-            this.memorize(Memory.Round, +1)
+        this.memorize(Memory.Round, +1)
         console.log(this.remind(Memory.Round))
-        
-        moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({type : LocationType.Deck}))
+
+        moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ type: LocationType.Deck }))
 
         moves.push(this.rules().startPlayerTurn(RuleId.Deal, 1)) //TODO : Change 1 en nextplayer
 
@@ -107,8 +114,8 @@ export class ScoringRule extends MaterialRulesPart {
         return new RulesUtil(this.game).isSameSide(player1, player2)
     }
 
-    isThisCardInTheEcart(searchedCard:number, ecartCard:number[]) : boolean {
-        return ecartCard.filter(card => card === searchedCard).length === 1 
+    isThisCardInTheEcart(searchedCard: number, ecartCard: number[]): boolean {
+        return ecartCard.filter(card => card === searchedCard).length === 1
     }
 }
 
