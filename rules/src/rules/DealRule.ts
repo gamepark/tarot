@@ -18,6 +18,8 @@ export class DealRule extends PlayerTurnRule {
     this.forget(Memory.PetitLastTrick)
     this.forget(Memory.Poigne)
     this.forget(Memory.ChelemAnnounced)
+
+
     return [this.material(MaterialType.Card).location(LocationType.Deck).shuffle()]
   }
 

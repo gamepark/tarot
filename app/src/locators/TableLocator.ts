@@ -1,4 +1,4 @@
-import { ItemContext, ItemLocator, LocationDescription } from '@gamepark/react-game'
+import { ItemContext, ItemLocator, LocationDescription, getRelativePlayerIndex } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 
@@ -6,9 +6,8 @@ export class TarotTableLocator extends ItemLocator {
   locationDescription = new TableLocationDescription()
 
   getPosition(item: MaterialItem, context: ItemContext) {
-    const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = -context.rules.players.length
-    const angle = 270 - relativePlayerIndex * 360 / players
+    const angle = 270 - getRelativePlayerIndex(context, item.location.player) * 360 / players
     const radiusX = 5
     const radiusY = 5
     const x = Math.cos(angle * Math.PI / 180) * radiusX
@@ -17,9 +16,8 @@ export class TarotTableLocator extends ItemLocator {
   }
 
   getRotateZ(item: MaterialItem, context: ItemContext): number {
-    const relativePlayerIndex = this.getRelativePlayerIndex(context, item.location.player!)
     const players = -context.rules.players.length
-    return relativePlayerIndex * 360 / players
+    return getRelativePlayerIndex(context, item.location.player) * 360 / players
   }
 }
 
