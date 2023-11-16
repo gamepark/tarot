@@ -19,7 +19,6 @@ export class DealRule extends PlayerTurnRule {
     this.forget(Memory.Poigne)
     this.forget(Memory.ChelemAnnounced)
 
-
     return [this.material(MaterialType.Card).location(LocationType.Deck).shuffle()]
   }
 
@@ -34,7 +33,7 @@ export class DealRule extends PlayerTurnRule {
       moves.push(
         ...this.material(MaterialType.Card).location(LocationType.Deck)
           .filter(item => item.location.x! >= (player - 1) * handSize && item.location.x! < (player) * handSize)
-          .moveItems({ type: LocationType.Hand, player })) //TODO : Move.push --> Dans le deck PUIS dans la main des joueurs.
+          .moveItems({ type: LocationType.Hand, player })) 
     }
     moves.push(
       ...this.material(MaterialType.Card)

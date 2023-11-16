@@ -93,7 +93,10 @@ export class ScoringRule extends MaterialRulesPart {
         console.log(this.remind(Memory.Round))
             this.memorize(Memory.Round, +1)
         console.log(this.remind(Memory.Round))
-        moves.push(this.rules().startPlayerTurn(RuleId.Deal, 1))
+        
+        moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({type : LocationType.Deck}))
+
+        moves.push(this.rules().startPlayerTurn(RuleId.Deal, 1)) //TODO : Change 1 en nextplayer
 
         return moves
 

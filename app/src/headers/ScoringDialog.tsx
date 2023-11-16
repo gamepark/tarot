@@ -28,8 +28,8 @@ export const ScoringDialog  = () => {
       {cards !== undefined && <div css={dialogCss}>
         <h2>{t('rules.lastTurn')}</h2>
         <ul css={cardListCss}>
-          {cards.getItems().map(card =>
-            <li key={card.id}>
+          {cards.getItems().map((card, index) =>
+            <li key={index}>
               <MaterialComponent type={MaterialType.Card} itemId={card.id}/>
             </li>
           )}
