@@ -42,6 +42,7 @@ export class DealRule extends PlayerTurnRule {
         .moveItems({ type: LocationType.Kitty }))
 
     this.memorize(Memory.StartPlayer, this.nextPlayer)
+    console.log(this.remind(Memory.StartPlayer))
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer))
     return moves
   }
