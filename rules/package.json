@@ -20,7 +20,7 @@
     "@gamepark/rules-api": ">=6.12"
   },
   "devDependencies": {
-    "@gamepark/rules-api": "~6.13.1",
+    "@gamepark/rules-api": "~6.13.2",
     "@types/lodash": "^4.14.198",
     "i18next": "^22.0.3",
     "lodash": "^4.17.21"
