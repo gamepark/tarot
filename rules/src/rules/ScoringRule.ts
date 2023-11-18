@@ -1,4 +1,4 @@
-import { MaterialMove, MaterialRulesPart } from "@gamepark/rules-api";
+import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import { Poignee } from "./Poignee";
@@ -16,15 +16,32 @@ export class ScoringRule extends MaterialRulesPart {
 
     onRuleStart() {
         const moves: MaterialMove[] = []
-
-        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
-        const bid = this.remind<Bid>(Memory.Bid, preneur)
-
         moves.push(
             ...this.material(MaterialType.Card).rotateItems(true)
         )
+        if (this.remind(Memory.Round) === 4) {
+            moves.push(this.rules().endGame())
+            return moves
+        }
+        this.memorize(Memory.Round, (this.remind(Memory.Round)+1)) 
+        moves.push(this.rules().startPlayerTurn(RuleId.Deal, this.remind(Memory.StartPlayer)))
+        return moves
+    }
 
-        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id)) //TODO : Pb de comptage de score.
+    isSameSide(player1: number, player2: number) {
+        return new RulesUtil(this.game).isSameSide(player1, player2)
+    }
+
+    isThisCardInTheEcart(searchedCard: number, ecartCard: number[]): boolean {
+        return ecartCard.filter(card => card === searchedCard).length === 1
+    }
+
+
+    onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
+        const moves: MaterialMove[] = []
+        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const bid = this.remind<Bid>(Memory.Bid, preneur)
+        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id)) //TODO : Traiter 5 Joueurs IsSameSide
         const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
         let points = 0
 
@@ -36,7 +53,7 @@ export class ScoringRule extends MaterialRulesPart {
 
         console.log(points, 'points')
 
-        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length //TODO : Ne marche pas.
+        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length 
         const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length //TODO : A traiter en cas de Garde Contre.
         const oudlers = oudlersIntricks + oudlersInEcart
         const contrat = points - getContrat(oudlers)
@@ -102,28 +119,11 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
-        if (this.remind(Memory.Round) === 4) {
-            moves.push(this.rules().endGame())
-            return moves
-        }
-        this.memorize(Memory.Round, (this.remind(Memory.Round)+1)) 
         moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ type: LocationType.Deck }))
         moves.push(...this.material(MaterialType.Card).location(LocationType.Ecart).moveItems({ type: LocationType.Deck }))
 
-
-        moves.push(this.rules().startPlayerTurn(RuleId.Deal, this.remind(Memory.StartPlayer)))
-
         return moves
 
-
-    }
-
-    isSameSide(player1: number, player2: number) {
-        return new RulesUtil(this.game).isSameSide(player1, player2)
-    }
-
-    isThisCardInTheEcart(searchedCard: number, ecartCard: number[]): boolean {
-        return ecartCard.filter(card => card === searchedCard).length === 1
     }
 }
 
@@ -144,3 +144,4 @@ export const poigneeScore: Record<Poignee, number> = {
     [Poignee.Double]: 30,
     [Poignee.Triple]: 40,
 }
+
