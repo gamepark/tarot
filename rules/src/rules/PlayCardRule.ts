@@ -15,8 +15,7 @@ export class PlayCardRule extends PlayerTurnRule {
     const moves: MaterialMove[] = []
     if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
-      const excuseInEecart = this.material(MaterialType.Card).location(LocationType.Ecart).id(Card.Excuse)
-      if (excuseInTrick.length && excuseInTrick.getItem()?.location.rotation && !excuseInEecart) {
+      if (excuseInTrick.length === 1 && excuseInTrick.getItem()?.location.rotation) {
         const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
         if (cardsToTrade.length > 0) {
           moves.push(
@@ -61,6 +60,7 @@ export class PlayCardRule extends PlayerTurnRule {
       const calledCard = this.remind<Card>(Memory.CalledCard)
       cardsToPlay = cardsToPlay.filter(item => !isSameColor(item.id, calledCard) || item.id === calledCard)
     }
+
     const moves: MaterialMove[] = cardsToPlay.moveItems({ type: LocationType.Table, player: this.player, z: cardsPlayed.length })
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
       const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
