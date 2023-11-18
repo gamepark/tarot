@@ -24,7 +24,7 @@ export class ScoringRule extends MaterialRulesPart {
             ...this.material(MaterialType.Card).rotateItems(true)
         )
 
-        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
+        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id)) //TODO : Pb de comptage de score.
         const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
         let points = 0
 
@@ -34,9 +34,18 @@ export class ScoringRule extends MaterialRulesPart {
             points = pointsTricks + pointsEcart
         }
 
-        const oudlers = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
+        console.log(points, 'points')
+
+        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length //TODO : Ne marche pas.
+        const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length //TODO : A traiter en cas de Garde Contre.
+        const oudlers = oudlersIntricks + oudlersInEcart
         const contrat = points - getContrat(oudlers)
+        console.log(oudlers, 'oudlers')
+        console.log(oudlersInEcart, 'oudlersin ecart')
+        console.log(oudlersIntricks, 'oudler in trick')
+        console.log(contrat, 'contrat')
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
+        console.log(score, 'score')
         const chelemAnnonce = this.remind(Memory.ChelemAnnounced)
         const petitAuBout = this.remind(Memory.PetitLastTrick)
         for (const player of this.game.players) {

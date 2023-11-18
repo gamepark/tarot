@@ -19,20 +19,19 @@ export class PlayCardRule extends PlayerTurnRule {
     if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
       if (excuseInTrick.length === 1 && excuseInTrick.getItem()?.location.rotation && ( this.game.players.length === 5 ? this.remind(Memory.CalledPlayer) : true)) {
-        const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id(id => cardValue(id as Card) === 0.5);
+        const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id<Card | undefined>(id => id !== undefined && cardValue(id) === 0.5);
         if (cardsToTrade.length > 0) {
           moves.push(
             excuseInTrick.rotateItem(false)
           )
           this.memorize(Memory.Test, (this.remind(Memory.Test)+1))
-          console.log(this.remind(Memory.Test))
           const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
           moves.push(
             cardsToTrade.moveItem({ type: LocationType.Tricks, player: opponent })
           )
         }
       }
-    }
+    } //TODO : 2 cartes données lorsque le joueur s'est auto appelé et fait le pli avec le roi appelé.
     return moves
   }
 
