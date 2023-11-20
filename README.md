@@ -44,6 +44,7 @@ The app part contains a [React](https://react.dev/) application, that will creat
 
 Search and replace in **every file**:
 - `Game Template` => `Name of your Game`
+- `GameTemplate` => `NameOfYourGame`
 - `game-template` => `name-of-your-game`
 
 ### 3.1 The Material
@@ -120,7 +121,7 @@ export class PlayerHandLocator extends HandLocator<PlayerColor, MaterialType, Lo
 
 ### 3.3 The setup
 
-Once you have one Material type and one Location type, you can start to setup a new game in [GameRules.ts](/rules/src/GameRules.ts)
+Once you have one Material type and one Location type, you can start to setup a new game in [TarotRules.ts](/rules/src/TarotRules.ts)
 
 You can easily create and manipulate the material in the setup:
 
@@ -178,10 +179,8 @@ Edit advanced config> n
 
 This configuration is only required once.
 
-Now, to deploy a new version of the board game, you have 2 command lines to run:
-```
-yarn build
-rclone sync app/build [tarot]:[tarot].game-park.com --progress --s3-acl=public-read
-```
+Now you can deploy a new version of the react application with this command:
 
-More details about this deployment method here: https://www.clever-cloud.com/blog/engineering/2020/06/24/deploy-cellar-s3-static-site/
+```
+yarn deploy
+```
