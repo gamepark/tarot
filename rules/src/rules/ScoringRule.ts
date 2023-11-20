@@ -100,16 +100,16 @@ export class ScoringRule extends MaterialRulesPart {
                 const calledPlayer = this.remind(Memory.CalledPlayer)
                 const calledCard = this.remind(Memory.CalledCard)
                 if (player !== preneur && player !== calledPlayer) {
-                    this.memorize(Memory.Score, -score, player)
+                    this.memorize(Memory.Score, this.remind(Memory.Score)-score, player)
                 }
                 if (player === preneur) {
-                    this.memorize(Memory.Score, score * 2, preneur)
+                    this.memorize(Memory.Score, this.remind(Memory.Score)+score * 2, preneur)
                 }
                 if (player === calledPlayer) {
-                    this.memorize(Memory.Score, score, calledPlayer) //Joueur appelé 
+                    this.memorize(Memory.Score, this.remind(Memory.Score)+score, calledPlayer) //Joueur appelé 
                 }
                 if (player === preneur && player === calledPlayer || player === preneur && this.isThisCardInTheEcart(calledCard, this.material(MaterialType.Card).location(LocationType.Ecart).getItems().map(item => item.id))) {
-                    this.memorize(Memory.Score, score * 4, preneur) //Joueur qui s'est auto appelé.
+                    this.memorize(Memory.Score, this.remind(Memory.Score)+score * 4, preneur) //Joueur qui s'est auto appelé.
                 }
             }
         }
