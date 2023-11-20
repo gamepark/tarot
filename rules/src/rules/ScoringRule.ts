@@ -43,19 +43,20 @@ export class ScoringRule extends MaterialRulesPart {
         const bid = this.remind<Bid>(Memory.Bid, preneur)
         const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id)) //TODO : Traiter 5 Joueurs IsSameSide
         const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
+        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length 
+        const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length 
         let points = 0
+        let oudlers = 0
 
         if (this.remind(Memory.Bid, bid) === 6) {
             points = pointsTricks
+            oudlers = oudlersIntricks
         } else {
             points = pointsTricks + pointsEcart
+            oudlers = oudlersIntricks + oudlersInEcart
         }
 
         console.log(points, 'points')
-
-        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length 
-        const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length //TODO : A traiter en cas de Garde Contre.
-        const oudlers = oudlersIntricks + oudlersInEcart
         const contrat = points - getContrat(oudlers)
         console.log(oudlers, 'oudlers')
         console.log(oudlersInEcart, 'oudlersin ecart')
