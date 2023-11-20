@@ -2,7 +2,6 @@ import { ItemMove, MaterialMove, PlayerTurnRule, isShuffle } from '@gamepark/rul
 import { MaterialType } from '../material/MaterialType'
 import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
-import { cards } from '../Card'
 import { Memory } from './Memory'
 
 export class DealRule extends PlayerTurnRule {
@@ -29,19 +28,25 @@ export class DealRule extends PlayerTurnRule {
       return []
     }
     const moves: MaterialMove[] = []
-    const kittySize = this.game.players.length === 5 ? 3 : 6
-    const handSize = (cards.length - kittySize) / this.game.players.length
-    for (const player of this.game.players) {
-      moves.push(
-        ...this.material(MaterialType.Card).location(LocationType.Deck)
-          .filter(item => item.location.x! >= (player - 1) * handSize && item.location.x! < (player) * handSize)
-          .moveItems({ type: LocationType.Hand, player })) 
+    let kittyCardsLeft = this.game.players.length === 5 ? 3 : 6
+    const deck = this.material(MaterialType.Card).location(LocationType.Deck).deck()
+    const startPlayerIndex = this.game.players.indexOf(this.nextPlayer)
+    const players = this.game.players.slice(startPlayerIndex, this.game.players.length).concat(this.game.players.slice(0, startPlayerIndex))
+
+
+    while (deck.length > 0) {
+
+      for (const player of players) {
+        moves.push(
+          ...deck.deal({ type: LocationType.Hand, player }, 3))
+        if (Math.floor(Math.random() * deck.length / 3) < kittyCardsLeft) {
+          moves.push(
+            deck.dealOne({ type: LocationType.Kitty })
+          )
+          kittyCardsLeft--
+        }
+      }
     }
-    moves.push(
-      ...this.material(MaterialType.Card)
-        .sort(item => - item.location.x!)
-        .limit(kittySize)
-        .moveItems({ type: LocationType.Kitty }))
 
     this.memorize(Memory.StartPlayer, this.nextPlayer)
     moves.push(this.rules().startPlayerTurn(RuleId.Bid, this.nextPlayer))
