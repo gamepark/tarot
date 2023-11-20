@@ -23,7 +23,7 @@ export class ScoringRule extends MaterialRulesPart {
             moves.push(this.rules().endGame())
             return moves
         }
-        this.memorize(Memory.Round, (this.remind(Memory.Round)+1)) 
+        this.memorize(Memory.Round, (this.remind(Memory.Round) + 1))
         moves.push(this.rules().startPlayerTurn(RuleId.Deal, this.remind(Memory.StartPlayer)))
         return moves
     }
@@ -40,11 +40,17 @@ export class ScoringRule extends MaterialRulesPart {
     onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
         const moves: MaterialMove[] = []
         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const calledPlayer = this.remind(Memory.CalledPlayer)
         const bid = this.remind<Bid>(Memory.Bid, preneur)
-        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id)) //TODO : Traiter 5 Joueurs IsSameSide
+        const pointsTricksPreneur = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
+        let pointsTricksCalledPlayer = 0
+        if (this.game.players.length === 5) {
+            pointsTricksCalledPlayer = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(calledPlayer).getItems(), item => cardValue(item.id))
+        }
+        const pointsTricks = pointsTricksPreneur + pointsTricksCalledPlayer
         const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
-        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length 
-        const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length 
+        const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
+        const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length
         let points = 0
         let oudlers = 0
 
