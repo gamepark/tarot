@@ -55,7 +55,7 @@ export class BidRule extends PlayerTurnRule {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
         return [
-          this.rules().startRule(RuleId.CallKing)
+          this.rules().startPlayerTurn(RuleId.CallKing, preneur)
         ]
       }
       return this.goToChelemMove(preneur)
