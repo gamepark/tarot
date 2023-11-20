@@ -1,4 +1,4 @@
-import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
+import { MaterialMove, MaterialRulesPart, RuleMove} from "@gamepark/rules-api";
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import { Poignee } from "./Poignee";
@@ -40,14 +40,9 @@ export class ScoringRule extends MaterialRulesPart {
     onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
         const moves: MaterialMove[] = []
         const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
-        const calledPlayer = this.remind(Memory.CalledPlayer)
         const bid = this.remind<Bid>(Memory.Bid, preneur)
-        const pointsTricksPreneur = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).getItems(), item => cardValue(item.id))
-        let pointsTricksCalledPlayer = 0
-        if (this.game.players.length === 5) {
-            pointsTricksCalledPlayer = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(calledPlayer).getItems(), item => cardValue(item.id))
-        }
-        const pointsTricks = pointsTricksPreneur + pointsTricksCalledPlayer
+        const rulesUtil = new RulesUtil(this.game)
+        const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(player => rulesUtil.isPreneurSide(player)).getItems(), item => cardValue(item.id))
         const pointsEcart = sumBy(this.material(MaterialType.Card).location(LocationType.Ecart).getItems(), item => cardValue(item.id))
         const oudlersIntricks = this.material(MaterialType.Card).location(LocationType.Tricks).player(preneur).id(isOudler).length
         const oudlersInEcart = this.material(MaterialType.Card).location(LocationType.Ecart).id(isOudler).length
@@ -61,15 +56,8 @@ export class ScoringRule extends MaterialRulesPart {
             points = pointsTricks + pointsEcart
             oudlers = oudlersIntricks + oudlersInEcart
         }
-
-        console.log(points, 'points')
         const contrat = points - getContrat(oudlers)
-        console.log(oudlers, 'oudlers')
-        console.log(oudlersInEcart, 'oudlersin ecart')
-        console.log(oudlersIntricks, 'oudler in trick')
-        console.log(contrat, 'contrat')
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
-        console.log(score, 'score')
         const chelemAnnonce = this.remind(Memory.ChelemAnnounced)
         const petitAuBout = this.remind(Memory.PetitLastTrick)
         for (const player of this.game.players) {
