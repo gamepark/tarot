@@ -15,6 +15,8 @@ export default function GameDisplay() {
       css={css`border: 1px solid white`} />
 
 
+    <ChelemAnnonce />
+
     <RoundNumber />
 
     <PlayerPanels />
@@ -34,10 +36,33 @@ const RoundNumber = () => {
   return <div css={roundCss}><span>{t('round', { round: rules.remind(Memory.Round), total: 4 })}</span></div>
 }
 
+
+const ChelemAnnonce = () => {
+  const rules = useRules<TarotRules>()
+  const { t } = useTranslation()
+  if (!rules) {
+    return null
+  }
+  return (
+    <div css={chelemCss}>
+      {rules.remind(Memory.ChelemAnnounced) && <span>{t(`chelem`)}</span>}
+    </div>)
+
+}
+
 const roundCss = css`
 position:absolute;
 right:3em;
 bottom:2em;
+> span {
+  font-size: 4em;
+}
+`
+
+const chelemCss = css`
+position:absolute;
+right:3em;
+bottom:7em;
 > span {
   font-size: 4em;
 }
