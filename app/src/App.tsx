@@ -11,6 +11,7 @@ import { BidHeader } from './headers/BidHeader'
 import { PlayCardHeader } from './headers/PlayCardHeader'
 import { ChelemHeader } from './headers/ChelemDialog'
 import { CallKingHeader } from './headers/CallKingDialog'
+import { CreateKittyHeader } from './headers/CreateKittyDialog'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -36,7 +37,7 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.Bid]: BidHeader,
   [RuleId.Chelem]: ChelemHeader,
   [RuleId.CallKing]: CallKingHeader,
-  [RuleId.CreateKitty]: () => <>Vous devez faire votre chien</>,
+  [RuleId.CreateKitty]: CreateKittyHeader,
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: () => <>Décompte du score !</>,
   [RuleId.Poignee]: () => <>Poignée</>,
