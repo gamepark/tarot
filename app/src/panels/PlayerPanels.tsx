@@ -23,7 +23,7 @@ export const PlayerPanels: FC<any> = () => {
     <>
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
-          {preneur === player.id && <span css={bidCss}>{t(`bid.${rules.remind(Memory.Bid, preneur)}`)}</span>}
+          {preneur === player.id && <span css={bidCss}>{t(`bid.small.${rules.remind(Memory.Bid, preneur)}`)}</span>}
           {preneur === player.id && calledCard && !calledPlayer && <span css={callCardCss}>{t(`card.${calledCard}`)}</span>}
           {calledPlayer === player.id && <span css={callPlayerCss}>{t(`calledPlayer`)}</span>}
           <div css={indicators}>
