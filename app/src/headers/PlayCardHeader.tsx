@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
-import { CustomMove, isCustomMoveType } from '@gamepark/rules-api'
-import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
+import { CustomMove, SelectItem, isCustomMoveType, isSelectItemType } from '@gamepark/rules-api'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { PoigneeDialogContent } from './PoigneeDialogContent'
+import { MaterialType } from '@gamepark/tarot/material/MaterialType'
+import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
 
 export const PlayCardHeader = () => {
   const rules = useRules<TarotRules>()!
@@ -20,7 +21,7 @@ export const PlayCardHeader = () => {
 
 const MyPlayCardHeader = () => {
   const { t } = useTranslation()
-  const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Poignee))
+  const poigneeMoves = useLegalMoves<SelectItem | CustomMove>((move) => (isCustomMoveType(CustomMoveType.Poignee)(move) || isSelectItemType(MaterialType.Card)(move)))
   const [dialogOpen, setDialogOpen] = useState(poigneeMoves.length > 0)
   if (!poigneeMoves.length) {
     return <>{t('header.play.mine')}</>

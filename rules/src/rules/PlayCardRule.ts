@@ -65,11 +65,32 @@ export class PlayCardRule extends PlayerTurnRule {
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
       const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
       const numberOfTrumps = this.playerTrumpsForPoignee.length
+      let maxCards = 0
+      const selectedCards = this.playerTrumpsForPoignee.filter((item) => !!item.selected)
       for (const poignee of poignees) {
-        if (numberOfTrumps >= poigneeMinTrumps[poignee]) {
+        if (selectedCards.length === poigneeMinTrumps[poignee]) {
           moves.push(this.rules().customMove(CustomMoveType.Poignee, poignee))
         }
+
+        if (numberOfTrumps >= poigneeMinTrumps[poignee]) {
+          maxCards = poigneeMinTrumps[poignee]
+        }
       }
+
+      if (selectedCards.length < maxCards) {
+        const availableCards = this.playerTrumpsForPoignee.filter((item) => !item.selected)
+        const trump = availableCards.filter((item) => isTrumpValue(item.id))
+        if (trump.length) {
+          moves.push(
+            ...trump.selectItems()
+          )
+        } else {
+          moves.push(
+            ...availableCards.selectItems()
+          )
+        }        
+      } 
+      
     }
     return moves
   }

@@ -1,41 +1,37 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { MaterialComponent, PlayMoveButton, pointerCursorCss, ThemeButton, useLegalMoves, usePlay, useRules } from '@gamepark/react-game'
-import { CustomMove, isCustomMoveType } from '@gamepark/rules-api'
-import { Card } from '@gamepark/tarot/Card'
-import { LocationType } from '@gamepark/tarot/material/LocationType'
+import { CustomMove, isCustomMoveType, isSelectItemType, SelectItem } from '@gamepark/rules-api'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
 import { Poignee } from '@gamepark/tarot/rules/Poignee'
 import { getPoigneeMinTrumps, PlayCardRule } from '@gamepark/tarot/rules/PlayCardRule'
 import { poigneeScore } from '@gamepark/tarot/rules/ScoringRule'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
-import { useCallback, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const poigneeMoves = useLegalMoves<CustomMove>(isCustomMoveType(CustomMoveType.Poignee)).reverse()
+  const selectItems = useLegalMoves<SelectItem>(isSelectItemType(MaterialType.Card))
   const poigneesSize = useMemo(() => getPoigneeMinTrumps(rules.game.players.length), [rules.game.players.length])
   const play = usePlay()
+
+  const selectedItems = useMemo(() => rules.material(MaterialType.Card).filter((item) => !!item.selected).getItems(), [rules])
 
   const playerTrumps = useMemo(() =>
     new PlayCardRule(rules.game).playerTrumpsForPoignee.sort(item => item.id).getItems().map(item => item.id)
     , [rules.game])
 
-  const [selected, setSelected] = useState(() =>
-    playerTrumps.slice(0, Math.max(...Object.values(poigneesSize).filter(size => size <= playerTrumps.length)))
-  )
-
-  const revealSelectedCards = useCallback(() => {
-    for (const card of selected) {
-      console.log("move", rules.material(MaterialType.Card))
-      play(rules.material(MaterialType.Card).id(card).moveItem({ type: LocationType.Poigne }), { delayed: true })
-    }
-  }, [selected, play])
-
-  const illegalExcuseSelection = selected.length < playerTrumps.length && selected.includes(Card.Excuse)
+  const selectCard = (cardId: number) => {
+    const item = rules.material(MaterialType.Card).id(cardId)
+    if (item.getItem()?.selected) return
+    const move = selectItems.find((move) => move.itemIndex === item.getIndex())
+    if (!move) return
+    play(move, { delayed: true })
+  }
 
   return <div css={dialogCss}>
     <h2><Trans defaults="rules.poignee"><span /></Trans></h2>
@@ -48,26 +44,26 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
     <ol css={grid}>
       {playerTrumps.map(card =>
         <li key={card}>
-          <MaterialComponent type={MaterialType.Card} itemId={card} css={pointerCursorCss} playDown={!selected.includes(card)}
-            onClick={() => setSelected(selected =>
-              selected.includes(card) ? selected.filter(c => c !== card) : selected.concat(card)
-            )} />
+          <MaterialComponent 
+            type={MaterialType.Card} 
+            itemId={card} 
+            css={pointerCursorCss}
+            playDown={!selectedItems.some((item) => card === item.id)}
+            onClick={() => selectCard(card)} 
+          />
         </li>
       )}
     </ol>
-    {illegalExcuseSelection &&
-      <p css={css`color: darkred;`} >{t('rules.poignee.excuse')}</p>
-    }
     {poigneeMoves.map(move => {
       const poigneeSize = poigneesSize[move.data as Poignee]
       return <p key={move.data}>
-        <PlayMoveButton move={move} onPlay={revealSelectedCards} disabled={selected.length !== poigneeSize || illegalExcuseSelection}>
+        <PlayMoveButton move={move}>
           {
-            selected.length === poigneeSize ?
+            selectedItems.length === poigneeSize ?
               t('rules.poignee.reveal', { poignee: move.data })
-              : selected.length < poigneeSize ?
-                t('rules.poignee.select.more', { number: poigneeSize - selected.length, poignee: move.data })
-                : t('rules.poignee.select.less', { number: selected.length - poigneeSize, poignee: move.data })
+              : selectedItems.length < poigneeSize ?
+                t('rules.poignee.select.more', { number: poigneeSize - selectedItems.length, poignee: move.data })
+                : t('rules.poignee.select.less', { number: selectedItems.length - poigneeSize, poignee: move.data })
           }
         </PlayMoveButton>
       </p>
