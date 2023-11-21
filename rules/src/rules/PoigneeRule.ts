@@ -13,7 +13,12 @@ export class PoigneeRule extends PlayerTurnRule {
         if (!cards.length) {
             cards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).id(Card.Excuse)
         }
-        return cards.moveItems({ type: LocationType.Poigne })
+        return cards
+            .moveItems({ type: LocationType.Poigne })
+            .map((move) => ({
+                ...move,
+                reveal: {}
+            }))
     }
 
     afterItemMove() {

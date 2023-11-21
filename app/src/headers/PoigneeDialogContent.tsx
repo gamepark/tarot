@@ -30,6 +30,7 @@ export const PoigneeDialogContent = ({ close }: { close: () => void }) => {
 
   const revealSelectedCards = useCallback(() => {
     for (const card of selected) {
+      console.log("move", rules.material(MaterialType.Card))
       play(rules.material(MaterialType.Card).id(card).moveItem({ type: LocationType.Poigne }), { delayed: true })
     }
   }, [selected, play])
