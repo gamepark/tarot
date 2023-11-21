@@ -60,13 +60,13 @@ const PlayerBidHeader = ({ activePlayer }: { activePlayer: number }) => {
 }
 
 const dialogCss = css`
-  max-width: 110em;
-  max-height: 65em;
+  max-width: 100em;
+  max-height: 60em;
   padding-bottom:3em;
   padding-left:5em;
   padding-right:5em;
   padding-top:3em;
-  bottom:7em;
+  bottom:5em;
 
   > h2 {
     text-align: center;
