@@ -18,6 +18,7 @@ export default function GameDisplay() {
     <RoundNumber />
     <PlayerPanels />
     <ScoringDialog />
+    <IsSameSide/>
 
   </>
 }
@@ -46,6 +47,19 @@ const ChelemAnnonce = () => {
 }
 
 
+const IsSameSide = () => {
+  const rules = useRules<TarotRules>()
+  if (!rules) {
+    return null
+  }
+  return (
+  <div css={isSameSide}>
+  {rules.remind(Memory.CalledPlayer) }
+</div>)
+
+}
+
+
 const roundCss = css`
 position:absolute;
 right:3em;
@@ -61,5 +75,16 @@ right:3em;
 bottom:7em;
 > span {
   font-size: 4em;
+}
+`
+
+const isSameSide = css`
+position:absolute;
+right:3em;
+bottom:7em;
+width: 40px;
+height: 40px;
+border-radius: 20px;
+background: blue;
 }
 `
