@@ -17,8 +17,8 @@ export class PlayerHandLocator extends HandLocator {
   }
 
   getBaseAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
-    const players = -context.rules.players.length
-    return  getRelativePlayerIndex(context, item.location.player) * 360 / players
+    const players = context.rules.players.length
+    return  getRelativePlayerIndex(context, item.location.player) * -360 / players
   }
 
   getMaxAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
@@ -55,4 +55,9 @@ export class PlayerHandLocator extends HandLocator {
       return item.location.x!
     }
   }
+
+
 }
+
+
+

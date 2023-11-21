@@ -14,12 +14,9 @@ export default function GameDisplay() {
       margin={{ top: 7, left: 0, right: 30, bottom: 0 }} collisionAlgorithm={pointerWithin}/>
 
 
-    <ChelemAnnonce />
-
+    <ChelemAnnonce/>
     <RoundNumber />
-
     <PlayerPanels />
-
     <ScoringDialog />
 
   </>
@@ -46,8 +43,8 @@ const ChelemAnnonce = () => {
     <div css={chelemCss}>
       {rules.remind(Memory.ChelemAnnounced) && <span>{t(`chelem`)}</span>}
     </div>)
-
 }
+
 
 const roundCss = css`
 position:absolute;
