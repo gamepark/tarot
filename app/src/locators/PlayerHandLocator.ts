@@ -56,7 +56,6 @@ export class PlayerHandLocator extends HandLocator {
     }
   }
 
-
 }
 
 
