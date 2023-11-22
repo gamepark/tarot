@@ -90,9 +90,9 @@ export class ScoringRule extends MaterialRulesPart {
 
             if (this.game.players.length === 3 || this.game.players.length === 4) {
                 if (player !== preneur) {
-                    this.memorize(Memory.Score, -score, player)
+                    this.memorize(Memory.Score, this.remind(Memory.Score)-score, player)
                 } else {
-                    this.memorize(Memory.Score, score * (this.game.players.length - 1), preneur)
+                    this.memorize(Memory.Score, this.remind(Memory.Score)+score * (this.game.players.length - 1), preneur)
                 }
             }
 
