@@ -14,7 +14,7 @@ export class PlayCardRule extends PlayerTurnRule {
   onRuleStart() {
     const moves: MaterialMove[] = []
     if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
-      const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
+      const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Excuse).id(Card.Excuse)
       if (excuseInTrick.length === 1 && excuseInTrick.getItem()?.location.rotation && ( this.game.players.length === 5 ? this.remind(Memory.CalledPlayer) : true)) {
         const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id<Card | undefined>(id => id !== undefined && cardValue(id) === 0.5);
         if (cardsToTrade.length > 0) {
@@ -171,7 +171,7 @@ export class PlayCardRule extends PlayerTurnRule {
         const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
         if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
           moves.push(
-            excuseOnTable.moveItem({ type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation: true}),
+            excuseOnTable.moveItem({ type: LocationType.Excuse, player: excuseOnTable.getItem()?.location.player, rotation: true}),
           )
           moves.push(
             ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ type: LocationType.Tricks, player: trickWinner })
