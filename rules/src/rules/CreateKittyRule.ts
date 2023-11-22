@@ -4,7 +4,7 @@ import { LocationType } from '../material/LocationType'
 import { RuleId } from './RuleId'
 import { Memory } from './Memory'
 import { Bid } from './Bid'
-import { isColor, isKing } from '../Card'
+import { Card, isColor, isKing } from '../Card'
 
 
 export class CreateKittyRule extends PlayerTurnRule {
@@ -15,7 +15,7 @@ export class CreateKittyRule extends PlayerTurnRule {
       case Bid.Small:
       case Bid.Guard:
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).rotateItems(true),
+          ...this.material(MaterialType.Card).location(LocationType.Kitty).rotateItems(true), 
           ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Hand, player: this.player })
         ]
       case Bid.GuardWithoutTheKitty:
@@ -39,6 +39,7 @@ export class CreateKittyRule extends PlayerTurnRule {
   }
 
   getPlayerMoves() {
+    this.memorize(Memory.CardInKitty, Card)
     const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(this.player).filter(card => isColor(card.id) && !isKing(card.id))
     return playerCards.moveItems({ type: LocationType.Ecart })
   }
