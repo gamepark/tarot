@@ -90,9 +90,9 @@ export class ScoringRule extends MaterialRulesPart {
 
             if (this.game.players.length === 3 || this.game.players.length === 4) {
                 if (player !== preneur) {
-                    this.memorize(Memory.Score, this.remind(Memory.Score)-score, player)
+                    this.memorize(Memory.Score, (this.remind(Memory.Score))-score, player)
                 } else {
-                    this.memorize(Memory.Score, score * (this.game.players.length - 1), preneur)
+                    this.memorize(Memory.Score, (this.remind(Memory.Score))+ (score * (this.game.players.length - 1)), preneur)
                 }
             }
 
@@ -100,22 +100,24 @@ export class ScoringRule extends MaterialRulesPart {
                 const calledPlayer = this.remind(Memory.CalledPlayer)
                 const calledCard = this.remind(Memory.CalledCard)
                 if (player !== preneur && player !== calledPlayer) {
-                    this.memorize(Memory.Score, this.remind(Memory.Score)-score, player)
+                    this.memorize(Memory.Score, (this.remind(Memory.Score, score))-score, player)
                 }
                 if (player === preneur) {
-                    this.memorize(Memory.Score, this.remind(Memory.Score)+score * 2, preneur)
+                    this.memorize(Memory.Score, (this.remind(Memory.Score, score))+(score * 2), preneur)
                 }
                 if (player === calledPlayer) {
-                    this.memorize(Memory.Score, this.remind(Memory.Score)+score, calledPlayer) //Joueur appelé 
+                    this.memorize(Memory.Score, (this.remind(Memory.Score, score))+score, calledPlayer) //Joueur appelé 
                 }
                 if (player === preneur && player === calledPlayer || player === preneur && this.isThisCardInTheEcart(calledCard, this.material(MaterialType.Card).location(LocationType.Ecart).getItems().map(item => item.id))) {
-                    this.memorize(Memory.Score, this.remind(Memory.Score)+score * 4, preneur) //Joueur qui s'est auto appelé.
+                    this.memorize(Memory.Score, (this.remind(Memory.Score))+(score * 4), preneur) //Joueur qui s'est auto appelé.
                 }
             }
         }
 
         moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ type: LocationType.Deck }))
         moves.push(...this.material(MaterialType.Card).location(LocationType.Ecart).moveItems({ type: LocationType.Deck }))
+
+
 
         return moves
 
