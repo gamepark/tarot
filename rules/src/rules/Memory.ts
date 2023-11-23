@@ -4,7 +4,6 @@ export enum Memory {
     Bid,
     IsKittyStarted,
     Score,
-    ExcusePlayedByPlayer,
     ExcuseInTrick,
     ChelemAnnounced,
     CalledCard,
