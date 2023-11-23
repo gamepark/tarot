@@ -20,6 +20,7 @@ export class DealRule extends PlayerTurnRule {
     this.forget(Memory.IsKittyStarted)
     this.forget(Memory.PetitLastTrick)
     this.forget(Memory.CardInKitty)
+    this.forget(Memory.DealerPlayer)
 
     return [this.material(MaterialType.Card).location(LocationType.Deck).shuffle()]
   }
@@ -33,7 +34,7 @@ export class DealRule extends PlayerTurnRule {
     const deck = this.material(MaterialType.Card).location(LocationType.Deck).deck()
     const startPlayerIndex = this.game.players.indexOf(this.nextPlayer)
     const players = this.game.players.slice(startPlayerIndex, this.game.players.length).concat(this.game.players.slice(0, startPlayerIndex))
-
+    this.memorize(Memory.DealerPlayer, this.player)
 
     while (deck.length > 0) {
 

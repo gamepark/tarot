@@ -58,9 +58,9 @@ export class PlayerHandDescription extends LocationDescription<number, MaterialT
   }
 
   const callerPlayers = css`
-    background-color: #0000FF80
+    background-color: #0000FF70
   `
 
   const otherPlayer = css`
-    background-color: #FF000080
+    background-color: #FF000070
   `

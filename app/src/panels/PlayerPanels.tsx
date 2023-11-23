@@ -18,14 +18,20 @@ export const PlayerPanels: FC<any> = () => {
   const preneur = maxBy(rules.players, player => rules.remind(Memory.Bid, player))
   const calledPlayer = rules.remind(Memory.CalledPlayer)
   const calledCard = rules.remind(Memory.CalledCard)
+  const firstplayer = rules.remind(Memory.StartPlayer)
+  const dealerplayer = rules.remind(Memory.DealerPlayer)
 
   return (
     <>
       {players.map((player, index) =>
         <PlayerPanel key={player.id} playerId={player.id} css={panelPosition(index)}>
           {preneur === player.id && <span css={bidCss}>{t(`bid.small.${rules.remind(Memory.Bid, preneur)}`)}</span>}
-          {preneur === player.id && calledCard && !calledPlayer && <span css={callCardCss}>{t(`card.${calledCard}`)}</span>}
+          {preneur === player.id && calledCard && <span css={callCardCss}>{t(`card.${calledCard}`)}</span>}
           {calledPlayer === player.id && <span css={callPlayerCss}>{t(`calledPlayer`)}</span>}
+          {firstplayer === player.id && <span css={firstPlayer}>{t(`firstPlayer`)}</span>}
+          {firstplayer === player.id && <span css={firstPlayer}>{t(`firstPlayer`)}</span>}
+          {dealerplayer === player.id && <span css={dealerPlayer}>{t(`dealerPlayer`)}</span>}
+
           <div css={indicators}>
             <PlayerPanelCounter
               width={3}
@@ -47,8 +53,8 @@ const panelPosition = (index: number) => css`
 
 const bidCss = css`
   position: absolute;
-  top: 70%;
-  left: 5%;
+  top: 75%;
+  left: 25%;
   font-size: 2em;
 `
 
@@ -65,14 +71,28 @@ const indicators = css`
 
   const callPlayerCss = css`
   position: absolute;
-  top: 40%;
-  left: 5%;
-  font-size: 1.5em;
+  top: 45%;
+  left: 25%;
+  font-size: 2em;
 `
 
 const callCardCss = css`
 position: absolute;
-top: 40%;
-left: 5%;
+top: 45%;
+left: 7%;
+font-size: 2.5em;
+`
+
+const firstPlayer = css`
+position: absolute;
+top: 75%;
+left: 80%;
+font-size: 2em;
+`
+
+const dealerPlayer = css`
+position: absolute;
+top: 75%;
+left: 80%;
 font-size: 2em;
 `

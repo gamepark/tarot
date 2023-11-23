@@ -13,4 +13,5 @@ export enum Memory {
     CalledPlayer,
     Round, 
     CardInKitty,
+    DealerPlayer,
 }
