@@ -56,7 +56,14 @@ export class ScoringRule extends MaterialRulesPart {
             points = pointsTricks + pointsEcart
             oudlers = oudlersIntricks + oudlersInEcart
         }
-        const contrat = points - getContrat(oudlers)
+        let contrat = points - getContrat(oudlers)
+
+        if (contrat < getContrat(oudlers)) {
+            contrat = Math.floor(contrat)
+        } else if (contrat > getContrat(oudlers)) {
+            contrat = Math.round(contrat)
+        }
+
         let score = (contrat >= 0 ? contrat + 25 : contrat - 25) * bid;
         const chelemAnnonce = this.remind(Memory.ChelemAnnounced)
         const petitAuBout = this.remind(Memory.PetitLastTrick)
@@ -64,6 +71,14 @@ export class ScoringRule extends MaterialRulesPart {
             const poignee = this.remind<Poignee | undefined>(Memory.Poigne, player)
             if (poignee) {
                 score += poigneeScore[poignee]
+            }
+        }
+
+        if (petitAuBout !== undefined) {
+            if (preneur === petitAuBout) {
+                score += 10
+            } else {
+                score -= 10
             }
         }
 
@@ -78,13 +93,7 @@ export class ScoringRule extends MaterialRulesPart {
             score -= 200
         }
 
-        if (petitAuBout !== undefined) {
-            if (preneur === petitAuBout) {
-                score += 10
-            } else {
-                score -= 10
-            }
-        }
+
 
         for (const player of this.game.players) {
 
