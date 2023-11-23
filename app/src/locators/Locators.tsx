@@ -9,7 +9,6 @@ import { TricksLocator } from './TricksLocator'
 import { TableEndLocator } from './TableEndLocator'
 import { PoigneeLocator } from './PoigneeLocator'
 import { EcartLocator } from './EcartLocator'
-import { ExcuseLocator } from './ExcuseLocator'
 
 
 export const Locators: Record<LocationType, ItemLocator<number, MaterialType, LocationType>> = {
@@ -21,5 +20,4 @@ export const Locators: Record<LocationType, ItemLocator<number, MaterialType, Lo
   [LocationType.Ecart]: new EcartLocator(),
   [LocationType.TableEnd]: new TableEndLocator(),
   [LocationType.Poigne]: new PoigneeLocator(),
-  [LocationType.Excuse]: new ExcuseLocator(),
 }
