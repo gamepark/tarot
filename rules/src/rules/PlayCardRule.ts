@@ -62,6 +62,13 @@ export class PlayCardRule extends PlayerTurnRule {
     }
 
     const moves: MaterialMove[] = cardsToPlay.moveItems({ type: LocationType.Table, player: this.player, z: cardsPlayed.length })
+    moves.push(...this.poigneeMoves)
+    
+    return moves
+  }
+
+  get poigneeMoves() {
+    const moves: MaterialMove[] = []
     if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
       const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
       const numberOfTrumps = this.playerTrumpsForPoignee.length
@@ -92,6 +99,7 @@ export class PlayCardRule extends PlayerTurnRule {
       } 
       
     }
+
     return moves
   }
 
@@ -155,6 +163,7 @@ export class PlayCardRule extends PlayerTurnRule {
         this.memorize(Memory.CalledPlayer, this.player)
       }
 
+      this.material(MaterialType.Card).player(this.player).selected(true).getItems().forEach((item) => delete item.selected)
       const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
 
@@ -181,6 +190,7 @@ export class PlayCardRule extends PlayerTurnRule {
             ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ type: LocationType.Tricks, player: trickWinner})
           )
         }
+
 
         if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
           moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
