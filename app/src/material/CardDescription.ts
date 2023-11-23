@@ -170,3 +170,5 @@ export class TarotCardDescription extends CardDescription {
 
   rules = TarotCardRule
 }
+
+export const tarotCardDescription = new TarotCardDescription()

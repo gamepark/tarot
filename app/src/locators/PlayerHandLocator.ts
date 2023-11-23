@@ -1,11 +1,16 @@
+/** @jsxImportSource @emotion/react */
 import { HandLocator, ItemContext, getRelativePlayerIndex } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
+import { PlayerHandDescription } from './description/PlayerHandDescription'
 
 
 
 export class PlayerHandLocator extends HandLocator {
+
+  locationDescription = new PlayerHandDescription()
+
   getCoordinates(location: Location, context: ItemContext) {
     const { rules, type, index } = context
     const item = rules.material(type).index(index).getItem()
@@ -13,7 +18,7 @@ export class PlayerHandLocator extends HandLocator {
     const angle = -90 + getRelativePlayerIndex(context, location.player) * 360 / players
     const radiusX = players === 5 ? 40 : players === 4 ? 40 : 30
     const radiusY = players === 5 ? 25 : players === 4 ? 25 : 20
-    const x = Math.cos(angle * Math.PI / 180) * radiusX
+    const x = Math.cos(angle * Math.PI / 180) * radiusX - (item?.selected? 2: 0)
     const y = -Math.sin(angle * Math.PI / 180) * radiusY - (item?.selected? 2: 0)
     return { x, y, z: 10 }
   }

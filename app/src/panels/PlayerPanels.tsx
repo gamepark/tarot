@@ -30,7 +30,8 @@ export const PlayerPanels: FC<any> = () => {
             <PlayerPanelCounter
               width={3}
               icon={faStar}
-              value={rules?.getScore(player.id)!} /> </div>
+              value={rules?.getScore(player.id)!} /> 
+            </div>
         </PlayerPanel>
       )}
     </>
@@ -48,7 +49,7 @@ const bidCss = css`
   position: absolute;
   top: 70%;
   left: 5%;
-  font-size: 3em;
+  font-size: 2em;
 `
 
 const indicators = css`
@@ -66,12 +67,12 @@ const indicators = css`
   position: absolute;
   top: 40%;
   left: 5%;
-  font-size: 2.5em;
+  font-size: 1.5em;
 `
 
 const callCardCss = css`
 position: absolute;
 top: 40%;
 left: 5%;
-font-size: 3em;
+font-size: 2em;
 `

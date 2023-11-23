@@ -1,5 +1,6 @@
 import { DeckLocator, ItemContext, LocationDescription, getRelativePlayerIndex } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
+import { Card } from '@gamepark/tarot/Card'
 
 
 export class TricksLocator extends DeckLocator {
@@ -13,8 +14,10 @@ export class TricksLocator extends DeckLocator {
     const radiusY = players === 5 ? 15 : players === 4 ? 15 : 10
     const x = Math.cos(angle * Math.PI / 180) * radiusX
     const y = -Math.sin(angle * Math.PI / 180) * radiusY
-    return { x, y, z: 10 }
+    const z = 10 + (item.id === Card.Excuse? 100: 0)
+    return { x, y, z }
   }
+  
 
   getRotateZ(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const players = context.rules.players.length
