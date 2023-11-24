@@ -40,7 +40,6 @@ export class PlayerHandDescription extends LocationDescription<number, MaterialT
     getLocations(context: MaterialContext) {
         const { rules } = context
         const { players } = rules
-        if (rules.game.players.length === 5 && rules.remind(Memory.CalledPlayer)) return []
         return players.map((player) => ({ type: LocationType.Hand, player }))
     }
 
