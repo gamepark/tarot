@@ -29,7 +29,7 @@ const MyPlayCardHeader = () => {
 
   const poigneeMove = poigneeMoves.find(isCustomMoveType(CustomMoveType.Poignee))
   const selectItemMoves = poigneeMoves.filter(isSelectItemType(MaterialType.Card))
-  if (poigneeMove && selectItemMoves) {
+  if (poigneeMove && selectItemMoves.length > 0) {
     //Ajouter des cartes dans la poignée OU annoncer la poignée OU jouer une carte
     return (
       <PlayMoveButton move={poigneeMove}>
