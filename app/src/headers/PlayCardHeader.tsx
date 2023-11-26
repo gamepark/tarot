@@ -13,9 +13,9 @@ export const PlayCardHeader = () => {
   const player = usePlayerId()
   const activePlayer = rules.getActivePlayer()!
   if (player === activePlayer) {
-    return <MyPlayCardHeader/>
+    return <MyPlayCardHeader />
   } else {
-    return <PlayerPlayCardHeader activePlayer={activePlayer}/>
+    return <PlayerPlayCardHeader activePlayer={activePlayer} />
   }
 }
 
@@ -28,24 +28,31 @@ const MyPlayCardHeader = () => {
   }
 
   const poigneeMove = poigneeMoves.find(isCustomMoveType(CustomMoveType.Poignee))
-  if (poigneeMove) {
+  const selectItemMoves = poigneeMoves.filter(isSelectItemType(MaterialType.Card))
+  if (poigneeMove && selectItemMoves) {
+    //Ajouter des cartes dans la poignée OU annoncer la poignée OU jouer une carte
+    return (
+      <PlayMoveButton move={poigneeMove}>
+        {t('rules.poignee.or.play.card.or.reveal', { poignee: poigneeMove.data })}
+      </PlayMoveButton>
+
+    )
+  } else if (poigneeMove) {
     return (
       <PlayMoveButton move={poigneeMove}>
         {t('rules.poignee.reveal', { poignee: poigneeMove.data })}
       </PlayMoveButton>
     )
-  }
-  
-  const selectItemMoves = poigneeMoves.filter(isSelectItemType(MaterialType.Card))
-  if (selectItemMoves) {
-
+  } else if (selectItemMoves) {
     // Ajouter des cartes dans la poignee OU jouer une carte  
     return (
       <>
-        {t('You can choose to complete your poignee or play a card')}
+        {t('rules.poignee.or.play.card')}
       </>
     )
   }
+
+
 
   return <>
     <Trans defaults="header.play.poignee"></Trans>
