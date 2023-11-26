@@ -54,7 +54,7 @@ const panelPosition = (index: number) => css`
 const bidCss = css`
   position: absolute;
   top: 75%;
-  left: 25%;
+  left: 30%;
   font-size: 2em;
 `
 
