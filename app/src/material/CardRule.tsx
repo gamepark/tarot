@@ -2,7 +2,7 @@
 
 import { css } from "@emotion/react"
 import { MaterialRulesProps, usePlayerId, usePlayerName, useRules } from "@gamepark/react-game"
-import { Card } from "@gamepark/tarot/Card"
+import { Card, isOudler, isTrump } from "@gamepark/tarot/Card"
 import { TarotRules } from "@gamepark/tarot/TarotRules"
 import { LocationType } from "@gamepark/tarot/material/LocationType"
 import { MaterialType } from "@gamepark/tarot/material/MaterialType"
@@ -19,35 +19,47 @@ export const TarotCardRule = (props: MaterialRulesProps) => {
   const kitty = item.location?.type === LocationType.Kitty
   const table = item.location?.type === LocationType.Table
   const ecart = item.location?.type === LocationType.Ecart
+  const trick = item.location?.type === LocationType.Tricks
+  const oudlers = rules.material(MaterialType.Card).id(isOudler)
+  const trump = rules.material(MaterialType.Card).id(isTrump)
+
   const player = usePlayerId<Number>()
   const playerName = usePlayerName(item.location!.player!)
 
   return <>
     <section css={cardText}>
-        <h3>{t(item.id !== undefined ?`cardrules.${item.id}`: "cardrule.other")}</h3>
-        {deck && <p>{t('rules.card.deck', { number: rules.material(MaterialType.Card).location(LocationType.Deck).length })}</p>}
-        {hand && item.location?.player === player && <p>{t('rules.card.hand')}</p>}
-        {hand && item.location?.player !== player && <p>{t('rules.card.hand.other', { player: playerName })} </p>}
-        {table && <p>{t('rules.card.table')}</p>}
-        {kitty && <p>{t('card.kitty')}</p>}
-        {kitty && <p>{t('rules.card.kitty.small.guard')}</p>}
-        {kitty && <p>{t('rules.card.kitty.guard.without')}</p>}
-        {kitty && <p>{t('rules.card.kitty.guard.against')}</p>}
+      <h3>{t(item.id !== undefined ? `cardrules.${item.id}` : "cardrule.other")}</h3>
+      {deck && <p>{t('rules.card.deck', { number: rules.material(MaterialType.Card).location(LocationType.Deck).length })}</p>}
+      {hand && item.location?.player === player && <p>{t('rules.card.hand')}</p>}
+      {hand && item.location?.player !== player && <p>{t('rules.card.hand.other', { player: playerName })} </p>}
+      {table && <p>{t('rules.card.table')}</p>}
+      {kitty && <p>{t('card.kitty')}</p>}
+      {kitty && <p>{t('rules.card.kitty.small.guard')}</p>}
+      {kitty && <p>{t('rules.card.kitty.guard.without')}</p>}
+      {kitty && <p>{t('rules.card.kitty.guard.against')}</p>}
 
 
-        {ecart && <p>{t('card.ecart')}</p>}
-        {ecart && <p>{t('rules.card.ecart')}</p>}
+      {ecart && <p>{t('card.ecart')}</p>}
+      {ecart && <p>{t('rules.card.ecart')}</p>}
 
-        <p>{t(item.id !== undefined ? `cardpoints.${item.id}` : `cardpoints.other`)}</p>
-        {item.id === Card.Excuse && <p>{t('rules.card.oudlers')}</p> || item.id === Card.Trump1 && <p>{t('rules.card.oudlers')}</p> || item.id === Card.Trump21 && <p>{t('rules.card.oudlers')}</p>}
-        {item.id === Card.Excuse && <p>{t('rules.contrat')}</p> || item.id === Card.Trump1 && <p>{t('rules.contrat')}</p> || item.id === Card.Trump21 && <p>{t('rules.contrat')}</p>}
-        {item.id === Card.Excuse && <p>{t('rules.card.excuse')}</p>}
-        {item.id === Card.Trump1 && <p>{t('rules.card.petit')}</p>}
-        {item.id === Card.Trump1 && <p>{t('rules.card.petit.bout.excuse.chelem')}</p>}
+      {trick && item.location?.player === player && <p>{t('rules.card.trick')}</p>}
+      {trick && item.location?.player !== player && <p>{t('rules.card.trick.other', { player: playerName })} </p>}
+
+      {oudlers && <p>{t('rules.card.oudlers')}</p>}
+
+      {trump && <p>{t('rules.trump')}</p>}
+      {item.id === Card.Excuse && <p>{t('rules.card.excuse')}</p>}
+      {item.id === Card.Trump1 && <p>{t('rules.card.petit')}</p>}
+      {item.id === Card.Trump1 && <p>{t('rules.card.petit.bout.excuse.chelem')}</p>}
+
+      <p>{t(item.id !== undefined ? `cardpoints.${item.id}` : `cardpoints.other`)}</p>   
+      {oudlers && <p>{t('rules.contrat')}</p>}
 
 
-      </section>
-    
+
+
+    </section>
+
   </>
 }
 
