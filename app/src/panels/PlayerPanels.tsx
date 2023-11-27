@@ -93,6 +93,6 @@ font-size: 2em;
 const dealerPlayer = css`
 position: absolute;
 top: 75%;
-left: 80%;
+left: 70%;
 font-size: 2em;
 `
