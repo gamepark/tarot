@@ -17,19 +17,24 @@ export const TarotCardRule = (props: MaterialRulesProps) => {
   const deck = item.location?.type === LocationType.Deck
   const hand = item.location?.type === LocationType.Hand
   const kitty = item.location?.type === LocationType.Kitty
+  const table = item.location?.type === LocationType.Table
+  const ecart = item.location?.type === LocationType.Ecart
   const player = usePlayerId<Number>()
   const playerName = usePlayerName(item.location!.player!)
 
   return <>
     <section css={cardText}>
-        <h3>{t(item.id !== undefined ?`cardrules.${item.id}`: "cardrule.???")}</h3>
+        <h3>{t(item.id !== undefined ?`cardrules.${item.id}`: "cardrule.other")}</h3>
         {deck && <p>{t('rules.card.deck', { number: rules.material(MaterialType.Card).location(LocationType.Deck).length })}</p>}
         {hand && item.location?.player === player && <p>{t('rules.card.hand')}</p>}
         {hand && item.location?.player !== player && <p>{t('rules.card.hand.other', { player: playerName })} </p>}
-        
+        {table && <p>{t('rules.card.table')}</p>}
         {kitty && <p>{t('rules.card.kitty')}</p>}
-        {item.id === Card.Excuse && <p>{t('rules.card.excuse')}</p>}
+        {ecart && <p>{t('rules.card.ecart')}</p>}
         {item.id === Card.Excuse && <p>{t('rules.card.oudlers')}</p> || item.id === Card.Trump1 && <p>{t('rules.card.oudlers')}</p> || item.id === Card.Trump21 && <p>{t('rules.card.oudlers')}</p>}
+        {item.id === Card.Excuse && <p>{t('rules.card.excuse')}</p>}
+        {item.id === Card.Trump1 && <p>{t('rules.card.petit')}</p>}
+        <p>{t(item.id !== undefined ? `cardpoints.${item.id}` : `cardpoints.other`)}</p>
 
 
       </section>
