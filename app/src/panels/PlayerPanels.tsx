@@ -86,13 +86,13 @@ font-size: 2.5em;
 const firstPlayer = css`
 position: absolute;
 top: 75%;
-left: 80%;
+left: 75%;
 font-size: 2em;
 `
 
 const dealerPlayer = css`
 position: absolute;
 top: 75%;
-left: 70%;
+left: 75%;
 font-size: 2em;
 `
