@@ -27,7 +27,7 @@ export const TarotCardHelp = (props: MaterialHelpProps) => {
       <h3 css={titre}>{t(item.id !== undefined ? `cardrules.${item.id}` : "cardrule.other")}</h3>
       <LocationHelp {...props} />
 
-      {trump && <p>{t('rules.trump')}</p>}
+      {trump && !Card.Excuse && <p>{t('rules.trump')}</p>}
 
       {oudlers && (
         <>
