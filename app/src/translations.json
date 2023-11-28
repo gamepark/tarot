@@ -312,7 +312,7 @@
             "rules.card.excuse": "Cette carte est particulière : Vous pouvez la jouer à n'importe quel moment de la partie. Elle a une valeur de \"0\" et vous ne pourrez donc pas remporter de pli avec. \nCependant, lors de la réalisation d'un pli ou l'Excuse est jouée, cette dernière reste dans votre camp et part directement dans votre pli. \nSi c'est votre équipe qui réalise un pli durant lequel vous avez joué l'Excuse alors rien ne se passe.\nSi c'est l'équipe adverse qui réalise un pli durant lequel vous avez joué l'Excuse, alors vous devez donner une carte qui possède une valeur de 0,5 présente dans vos plis (ou ceux de vos cooéquipiers) en échange.\nAttention, vous ne pouvez pas jouer l'Excuse au dernier tour, sinon elle part dans le camp adverse sauf dans le cas d'un Grand Chelem.",
             "rules.card.hand": "Cette carte se situe dans votre main.",
             "rules.card.oudlers": "Cette carte est un bout. Elle est très importante.",
-            "rules.card.hand.other": "Cette carte est dans la main de votre adversaire.",
+            "rules.card.hand.other": "Cette carte est dans la main de {player}",
             "card.kitty": "Cette carte fait parti du chien. ",
             "rules.poignee.or.play.card": "Vous pouvez compléter votre poignée ou jouer une carte.",
             "rules.poignee.or.play.card.or.reveal": "Vous pouvez compléter votre poignée ou jouer une carte ou <0>réveler votre {poignée}</0>",

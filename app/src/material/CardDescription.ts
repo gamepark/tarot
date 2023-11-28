@@ -1,5 +1,5 @@
 import { CardDescription } from '@gamepark/react-game'
-import { TarotCardRule } from './CardRule'
+import { TarotCardHelp } from './CardRule'
 import Trump1 from '../images/atout_1.jpg'
 import Trump2 from '../images/atout_2.jpg'
 import Trump3 from '../images/atout_3.jpg'
@@ -168,7 +168,7 @@ export class TarotCardDescription extends CardDescription {
     [Card.Excuse]: Excuse,
   }
 
-  rules = TarotCardRule
+  rules = TarotCardHelp
 }
 
 export const tarotCardDescription = new TarotCardDescription()

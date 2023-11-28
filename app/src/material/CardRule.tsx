@@ -9,8 +9,8 @@ import { MaterialType } from "@gamepark/tarot/material/MaterialType"
 import { useTranslation } from "react-i18next"
 
 
-// ICI appelle la TarotCardHelp (on a changé le type)
-export const TarotCardRule = (props: MaterialRulesProps) => {
+
+export const TarotCardHelp = (props: MaterialRulesProps) => {
   const rules = useRules<TarotRules>()!
   const { t } = useTranslation()
   const { item } = props
@@ -20,8 +20,14 @@ export const TarotCardRule = (props: MaterialRulesProps) => {
   const table = item.location?.type === LocationType.Table
   const ecart = item.location?.type === LocationType.Ecart
   const trick = item.location?.type === LocationType.Tricks
-  const oudlers = rules.material(MaterialType.Card).id(isOudler)
-  const trump = rules.material(MaterialType.Card).id(isTrump)
+  const oudlers = item.location?.type === rules.material(MaterialType.Card).location(LocationType.Tricks).id(isOudler).length
+  const trump = item.location?.type === rules.material(MaterialType.Card).location(LocationType.Hand).id(isTrump).length
+
+
+  console.log(trump, "trump")
+  console.log(oudlers, "oudlers")
+
+
 
   const player = usePlayerId<Number>()
   const playerName = usePlayerName(item.location!.player!)
@@ -30,9 +36,11 @@ export const TarotCardRule = (props: MaterialRulesProps) => {
     <section css={cardText}>
       <h3>{t(item.id !== undefined ? `cardrules.${item.id}` : "cardrule.other")}</h3>
       {deck && <p>{t('rules.card.deck', { number: rules.material(MaterialType.Card).location(LocationType.Deck).length })}</p>}
+
       {hand && item.location?.player === player && <p>{t('rules.card.hand')}</p>}
       {hand && item.location?.player !== player && <p>{t('rules.card.hand.other', { player: playerName })} </p>}
       {table && <p>{t('rules.card.table')}</p>}
+
       {kitty && <p>{t('card.kitty')}</p>}
       {kitty && <p>{t('rules.card.kitty.small.guard')}</p>}
       {kitty && <p>{t('rules.card.kitty.guard.without')}</p>}
