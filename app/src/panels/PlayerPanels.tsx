@@ -72,15 +72,15 @@ const indicators = css`
   const callPlayerCss = css`
   position: absolute;
   top: 45%;
-  left: 25%;
-  font-size: 2em;
+  left: 35%;
+  font-size: 1.8em;
 `
 
 const callCardCss = css`
 position: absolute;
 top: 45%;
 left: 7%;
-font-size: 2.5em;
+font-size: 2em;
 `
 
 const firstPlayer = css`
