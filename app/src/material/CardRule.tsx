@@ -124,10 +124,12 @@ export const LocationHelp: FC<MaterialHelpProps> = (props) => {
 }
 
 const cardText = css`
-  h3, p {
+  p {
     margin: 0.3em 0;
   }
 `
 const titre = css`
     text-align: center;
+    margin: 0em 0em 1em ;
+
 `
