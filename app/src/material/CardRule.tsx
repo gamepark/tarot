@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from "@emotion/react"
-import { MaterialRulesProps, usePlayerId, usePlayerName, useRules } from "@gamepark/react-game"
+import { MaterialHelpProps, usePlayerId, usePlayerName, useRules } from "@gamepark/react-game"
 import { Card, isOudler, isTrump } from "@gamepark/tarot/Card"
 import { TarotRules } from "@gamepark/tarot/TarotRules"
 import { LocationType } from "@gamepark/tarot/material/LocationType"
@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next"
 
 
 
-export const TarotCardHelp = (props: MaterialRulesProps) => {
+export const TarotCardHelp = (props: MaterialHelpProps) => {
   const rules = useRules<TarotRules>()!
   const { t } = useTranslation()
   const { item } = props

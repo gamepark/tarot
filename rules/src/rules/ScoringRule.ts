@@ -39,7 +39,7 @@ export class ScoringRule extends MaterialRulesPart {
 
     onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
         const moves: MaterialMove[] = []
-        const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        const preneur = maxBy(this.game.players, (player) => this.remind(Memory.Bid, player))
         const bid = this.remind<Bid>(Memory.Bid, preneur)
         const rulesUtil = new RulesUtil(this.game)
         const pointsTricks = sumBy(this.material(MaterialType.Card).location(LocationType.Tricks).player(player => rulesUtil.isPreneurSide(player)).getItems(), item => cardValue(item.id))

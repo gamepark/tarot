@@ -1,4 +1,4 @@
-import { CardDescription } from '@gamepark/react-game'
+import { CardDescription, ItemContext, getRelativePlayerIndex } from '@gamepark/react-game'
 import { TarotCardHelp } from './CardRule'
 import Trump1 from '../images/atout_1.jpg'
 import Trump2 from '../images/atout_2.jpg'
@@ -80,6 +80,8 @@ import DiamondKing from '../images/Diamond_King.jpg'
 import Excuse from '../images/Excuse.jpg'
 import BackCard from '../images/Back.jpg'
 import { Card } from '@gamepark/tarot/Card'
+import { LocationType } from '@gamepark/tarot/material/LocationType'
+import { MaterialItem } from '@gamepark/rules-api'
 
 export class TarotCardDescription extends CardDescription {
   height = 11.2
@@ -168,7 +170,25 @@ export class TarotCardDescription extends CardDescription {
     [Card.Excuse]: Excuse,
   }
 
-  rules = TarotCardHelp
+  getRotateZ(item: MaterialItem, context: ItemContext): number {
+    const players = context.rules.players.length
+    if (item.location.type === LocationType.Tricks) {
+      return  getRelativePlayerIndex(context, item.location.player) * -360 / players + 90
+    }
+
+    if (item.location.type === LocationType.Ecart) {
+      return 90
+    }
+
+    if (item.location.type === LocationType.Table) {
+      return getRelativePlayerIndex(context, item.location.player) * -360 / players
+    }
+
+    return super.getRotateZ(item, context)
+  }
+
+
+  help = TarotCardHelp
 }
 
 export const tarotCardDescription = new TarotCardDescription()

@@ -11,9 +11,6 @@ export class EcartLocator extends DeckLocator {
     return { x: 40, y: 30, z: 10 }
   }
 
-  getRotateZ(_item: MaterialItem<number, number>, _context: ItemContext<number, number, number>): number {
-    return 90
-  }
 }
 
 class EcartLocationDescription extends LocationDescription {

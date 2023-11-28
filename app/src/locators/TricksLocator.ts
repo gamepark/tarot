@@ -17,12 +17,6 @@ export class TricksLocator extends DeckLocator {
     const z = 10 + (item.id === Card.Excuse? 100: 0)
     return { x, y, z }
   }
-  
-
-  getRotateZ(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
-    const players = context.rules.players.length
-    return getRelativePlayerIndex(context, item.location.player) * -360 / players +90
-  }
 }
 
 class TarotDeckLocatorDescription extends LocationDescription {

@@ -14,8 +14,15 @@ setupTranslation(translations, { debug: false })
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider game="tarot" Rules={TarotRules} optionsSpec={TarotOptionsSpec} GameSetup={TarotSetup}
-                  material={Material} locators={Locators} animations={new MaterialGameAnimations()}>
+    <GameProvider 
+      game="tarot"
+      Rules={TarotRules} 
+      optionsSpec={TarotOptionsSpec} 
+      GameSetup={TarotSetup}
+      material={Material}
+      locators={Locators}
+      animations={new MaterialGameAnimations()}
+    >
       <App/>
     </GameProvider>
   </StrictMode>,

@@ -6,7 +6,6 @@ export class KittyLocator extends PileLocator {
   coordinates = { x: 0, y:-3, z: 0 }
   radius = 3
   locationDescription = new KittyLocationDescription()
-  hidden = true
 }
 
 class KittyLocationDescription extends LocationDescription {
