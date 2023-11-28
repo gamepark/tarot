@@ -29,15 +29,24 @@ export const TarotCardHelp = (props: MaterialHelpProps) => {
 
       {trump && <p>{t('rules.trump')}</p>}
 
-      {oudlers && <p>{t('rules.card.oudlers')}</p>}
-      {oudlers && <p>{t('rules.contrat')}</p>}
+      {oudlers && (
+        <>
+          <p>{t('rules.card.oudlers')}</p>
+          <p>{t('rules.contrat')}</p>
+        </>
+      )}
 
 
       {item.id === Card.Excuse && <p>{t('rules.card.excuse')}</p>}
-      {item.id === Card.Trump1 && <p>{t('rules.card.petit')}</p>}
-      {item.id === Card.Trump1 && <p>{t('rules.card.petit.bout.excuse.chelem')}</p>}
 
 
+      {item.id === Card.Trump1 && (
+        <>
+          <hr />
+          <p>{t('rules.card.petit')}</p>
+          <p>{t('rules.card.petit.bout.excuse.chelem')}</p>
+        </>
+      )}
 
 
       {item.id !== undefined && (
