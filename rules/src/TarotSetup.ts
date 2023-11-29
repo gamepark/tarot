@@ -20,20 +20,6 @@ export class TarotSetup extends MaterialGameSetup<number, MaterialType, Location
     this.memorize(Memory.Round,1)
   }
 
-  dealCards() {
-    const cardsPerPlayer = this.game.players.length === 3 ? 24 : 4 ? 18 : 15
-    for (const player of this.players) {
-      this.dealPlayerCards(player, cardsPerPlayer)
-    }
-  }
-
-  dealPlayerCards(player: number, quantity: number) {
-    this.material(MaterialType.Card).location(LocationType.Deck)
-      .sort(item => -item.location.x!).limit(quantity)
-      .moveItems({ location: { type: LocationType.Hand, player } })
-  }
-
-
   start() {
     this.startPlayerTurn(RuleId.Deal, this.players[this.players.length-1])
   }

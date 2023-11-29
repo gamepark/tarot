@@ -104,9 +104,6 @@ export const isDiamond = (card: Card) => card >= 201 && card <= 214
 export const isClub = (card: Card) => card >= 301 && card <= 314
 export const isSpade = (card: Card) => card >= 401 && card <= 414
 
-export const hand1 = (card:Card) => card === 306 || card === 309 || card === 210 || card === 101 || card === 102 || card === 105 || card === 106 || card === 402 || card === 408 || card === 409 || card === 410 || card === 414 || card === 22 || card === 1 || card === 5 || card === 8 || card === 17 || card === 21
-
-
 
 
 export function cardValue(card: Card): number {
