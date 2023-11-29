@@ -22,7 +22,7 @@ export class DealRule extends PlayerTurnRule {
     this.forget(Memory.CardInKitty)
     this.forget(Memory.DealerPlayer)
 
-    return [this.material(MaterialType.Card).location(LocationType.Deck).shuffle()]
+    return [this.material(MaterialType.Card).shuffle()]
   }
 
   afterItemMove(move: ItemMove) {
