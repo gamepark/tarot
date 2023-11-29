@@ -49,17 +49,13 @@ export class PlayerHandLocator extends HandLocator {
     return 30
   }
 
-  isHidden(item: MaterialItem, context: ItemContext): boolean {
-    return item.location.player !== context.player
-  }
-
   getItemIndex(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     if (item.location.player === context.player) {
       const cards = context.rules.material(MaterialType.Card).location(LocationType.Hand).player(context.player).getItems().map(item => item.id)
       cards.sort((a, b) => a - b)
       return cards.indexOf(item.id)
     } else {
-      return item.location.x!
+      return super.getItemIndex(item, context)
     }
   }
 

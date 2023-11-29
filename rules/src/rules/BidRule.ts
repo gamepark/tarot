@@ -1,15 +1,13 @@
-import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { CustomMove, MaterialMove, PlayerTurnRule, RuleMove, RuleStep } from '@gamepark/rules-api'
+import { maxBy } from 'lodash'
+import max from 'lodash/max'
+import { Card, isTrump } from '../Card'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
 import { Bid, bids } from './Bid'
 import { CustomMoveType } from './CustomMoveType'
-import { RuleId } from './RuleId'
 import { Memory } from './Memory'
-import { MaterialType } from '../material/MaterialType'
-import { LocationType } from '../material/LocationType'
-import { RuleMove } from '@gamepark/rules-api/dist/material/moves'
-import { RuleStep } from '@gamepark/rules-api/dist/material/rules/RuleStep'
-import { Card, isTrump } from '../Card'
-import max from 'lodash/max'
-import { maxBy } from 'lodash'
+import { RuleId } from './RuleId'
 
 
 export class BidRule extends PlayerTurnRule {

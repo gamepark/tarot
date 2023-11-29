@@ -14,11 +14,6 @@ export class TarotTableLocator extends ItemLocator {
     const y = -Math.sin(angle * Math.PI / 180) * radiusY
     return { x, y, z: item.location.z! * 0.1 }
   }
-
-  getRotateZ(item: MaterialItem, context: ItemContext): number {
-    const players = context.rules.players.length
-    return getRelativePlayerIndex(context, item.location.player) * -360 / players
-  }
 }
 
 class TableLocationDescription extends LocationDescription {

@@ -1,14 +1,14 @@
-import { MaterialMove, MaterialRulesPart, RuleMove } from "@gamepark/rules-api";
-import { MaterialType } from "../material/MaterialType";
-import { LocationType } from "../material/LocationType";
-import { Poignee } from "./Poignee";
-import { Memory } from "./Memory";
-import maxBy from "lodash/maxBy";
-import sumBy from "lodash/sumBy";
-import { cardValue, isOudler } from "../Card";
-import { Bid } from "./Bid";
-import { RulesUtil } from "./RulesUtil";
-import { RuleId } from "./RuleId";
+import { MaterialMove, MaterialRulesPart, RuleMove } from '@gamepark/rules-api'
+import maxBy from 'lodash/maxBy'
+import sumBy from 'lodash/sumBy'
+import { cardValue, isOudler } from '../Card'
+import { LocationType } from '../material/LocationType'
+import { MaterialType } from '../material/MaterialType'
+import { Bid } from './Bid'
+import { Memory } from './Memory'
+import { Poignee } from './Poignee'
+import { RuleId } from './RuleId'
+import { RulesUtil } from './RulesUtil'
 
 
 export class ScoringRule extends MaterialRulesPart {
@@ -17,7 +17,7 @@ export class ScoringRule extends MaterialRulesPart {
     onRuleStart() {
         const moves: MaterialMove[] = []
         moves.push(
-            ...this.material(MaterialType.Card).rotateItems(true)
+            ...this.material(MaterialType.Card).moveItemsAtOnce({ rotation: true })
         )
         if (this.remind(Memory.Round) === 4) {
             moves.push(this.rules().endGame())
@@ -123,8 +123,7 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
-        moves.push(...this.material(MaterialType.Card).location(LocationType.Tricks).moveItems({ type: LocationType.Deck }))
-        moves.push(...this.material(MaterialType.Card).location(LocationType.Ecart).moveItems({ type: LocationType.Deck }))
+        moves.push(...this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }))
 
 
 
