@@ -17,7 +17,7 @@ export class ScoringRule extends MaterialRulesPart {
     onRuleStart() {
         const moves: MaterialMove[] = []
         moves.push(
-            ...this.material(MaterialType.Card).moveItemsAtOnce({ rotation: true })
+            this.material(MaterialType.Card).moveItemsAtOnce({ rotation: true })
         )
         if (this.remind(Memory.Round) === 4) {
             moves.push(this.rules().endGame())
@@ -123,7 +123,7 @@ export class ScoringRule extends MaterialRulesPart {
             }
         }
 
-        moves.push(...this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }))
+        moves.push(this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }))
 
 
 
