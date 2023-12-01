@@ -87,12 +87,12 @@ export class TutorialSetup extends TarotSetup {
     this.getCard(Card.Trump19).moveItem({ type: LocationType.Hand, player: this.players[3] })
 
 
-    this.getCard(Card.Spade3).moveItem({ type: LocationType.Kitty})
-    this.getCard(Card.Spade4).moveItem({ type: LocationType.Kitty})
-    this.getCard(Card.Spade6).moveItem({ type: LocationType.Kitty})
-    this.getCard(Card.DiamondQueen).moveItem({ type: LocationType.Kitty})
-    this.getCard(Card.DiamondKing).moveItem({ type: LocationType.Kitty})
-    this.getCard(Card.Trump7).moveItem({ type: LocationType.Kitty})
+    this.getCard(Card.Spade3).moveItem({ type: LocationType.Kitty })
+    this.getCard(Card.Spade4).moveItem({ type: LocationType.Kitty })
+    this.getCard(Card.Spade6).moveItem({ type: LocationType.Kitty })
+    this.getCard(Card.DiamondQueen).moveItem({ type: LocationType.Kitty })
+    this.getCard(Card.DiamondKing).moveItem({ type: LocationType.Kitty })
+    this.getCard(Card.Trump7).moveItem({ type: LocationType.Kitty })
 
 
   }
