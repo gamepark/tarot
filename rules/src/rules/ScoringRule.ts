@@ -139,9 +139,9 @@ function getContrat(oudlers: number): number {
         case 1:
             return 51
         case 2:
-            return 46
+            return 41
     }
-    return 41
+    return 36
 }
 
 export const poigneeScore: Record<Poignee, number> = {

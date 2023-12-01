@@ -74,7 +74,7 @@ export class BidRule extends PlayerTurnRule {
 
   get goToDealMoves() {
     return [
-      ...this.material(MaterialType.Card).moveItems({ type: LocationType.Deck }),
+      this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }),
       this.rules().startPlayerTurn(RuleId.Deal, this.nextPlayer)
     ]
   }
