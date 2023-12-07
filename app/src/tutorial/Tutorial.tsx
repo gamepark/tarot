@@ -67,20 +67,6 @@ export class Tutorial extends MaterialTutorial {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.explain"><strong /><em /></Trans> },
         },
 
-        {
-            popup: { text: () => <Trans defaults="tuto.you.bid.guard.explain.guard"><strong /><em /></Trans> },
-        },
-
-        {
-            popup: { text: () => <Trans defaults="tuto.you.bid.guard.explain.guard.without"><strong /><em /></Trans> },
-        },
-
-
-        {
-            popup: { text: () => <Trans defaults="tuto.you.bid.guard.explain.guard.against"><strong /><em /></Trans> },
-            
-        },
-
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard"><strong /><em /></Trans> },
@@ -92,7 +78,7 @@ export class Tutorial extends MaterialTutorial {
                 this.location(LocationType.Hand).player(game.players[0]),
                 this.material(game, MaterialType.Card).id(Card.Trump1),
 
-              ],
+            ],
         },
 
         {
@@ -101,7 +87,7 @@ export class Tutorial extends MaterialTutorial {
                 this.location(LocationType.Hand).player(game.players[0]),
                 this.material(game, MaterialType.Card).id(Card.Trump21),
 
-              ],
+            ],
         },
 
         {
@@ -112,8 +98,40 @@ export class Tutorial extends MaterialTutorial {
             ],
         },
 
+        {
+            popup: { text: () => <Trans defaults="tuto.you.bid.guard.2"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.you.bid.guard.3"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.you.bid.guard.4"><strong /><em /></Trans> },
+        },
 
 
+        {
+            move: {
+                player: 0,
+                filter: isCustomMoveType(CustomMoveType.Bid) 
+            }
+        },
+
+        {
+            move: {
+                player: 1,
+                filter: isCustomMoveType(CustomMoveType.Pass) 
+            }
+        },
+
+
+        {
+            move: {
+                player: 1,
+                filter: isCustomMoveType(CustomMoveType.Pass) 
+            }
+        },        
     ]
 
 
