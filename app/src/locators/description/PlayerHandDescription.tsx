@@ -48,18 +48,25 @@ export class PlayerHandDescription extends LocationDescription<number, MaterialT
         const called = rules.remind(Memory.CalledPlayer)
         const caller = maxBy(rules.players, (player) => rules.remind(Memory.Bid, player))
 
-        if (location.player === called || location.player === caller) {
+      if (!caller){
+        return withPlayer    }
+
+        else if (location.player === called || location.player === caller) {
             return callerPlayers
         }
 
         return otherPlayer
-    }
-  }
+
+  }}
 
   const callerPlayers = css`
-    background-color: #0000FF70
+    background-color: #FF000070
   `
 
   const otherPlayer = css`
-    background-color: #FF000070
+    background-color: #0000FF70
   `
+
+  const withPlayer = css`
+  background-color: #FFFFFF70
+`

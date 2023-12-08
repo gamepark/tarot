@@ -2,11 +2,13 @@
 import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
 import { TutorialSetup } from './TutorialSetup'
 import { Trans } from 'react-i18next'
-import { MaterialGame, isCustomMoveType } from '@gamepark/rules-api'
+import { MaterialGame, MaterialMove, isCustomMoveType } from '@gamepark/rules-api'
 import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { Card } from '@gamepark/tarot/Card'
+import { Bid } from '@gamepark/tarot/rules/Bid'
+
 
 
 
@@ -40,33 +42,38 @@ export class Tutorial extends MaterialTutorial {
             popup: { text: () => <Trans defaults="tuto.welcome"><strong /><em /></Trans> }
         },
 
-
         {
             popup: { text: () => <Trans defaults="tuto.explain.bid"><strong /><em /></Trans> }
         },
 
         {
             popup: { text: () => <Trans defaults="tuto.first.player.pass"><strong /><em /></Trans> },
+
+        },
+
+        {
             move: {
                 player: 2,
                 filter: isCustomMoveType(CustomMoveType.Pass)
             }
+
         },
 
-
         {
-            popup: { text: () => <Trans defaults="tuto.second.player.bid.small"><strong /><em /></Trans> },
             move: {
                 player: 3,
-                filter: isCustomMoveType(CustomMoveType.Bid) //Choisir Petite.
+                filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Small
             }
         },
 
+        {
+            popup: { text: () => <Trans defaults="tuto.second.player.bid.small"><strong /><em /></Trans> },
+
+        },
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.explain"><strong /><em /></Trans> },
         },
-
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard"><strong /><em /></Trans> },
@@ -114,24 +121,23 @@ export class Tutorial extends MaterialTutorial {
         {
             move: {
                 player: 0,
-                filter: isCustomMoveType(CustomMoveType.Bid) 
+                filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Guard
             }
         },
 
         {
             move: {
                 player: 1,
-                filter: isCustomMoveType(CustomMoveType.Pass) 
+                filter: isCustomMoveType(CustomMoveType.Pass)
             }
         },
 
 
-        {
-            move: {
-                player: 1,
-                filter: isCustomMoveType(CustomMoveType.Pass) 
-            }
-        },        
+
+
+
+
+
     ]
 
 
