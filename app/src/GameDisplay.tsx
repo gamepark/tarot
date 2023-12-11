@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { GameTable, usePlayers, useRules } from '@gamepark/react-game'
+import { GameTable, useRules } from '@gamepark/react-game'
 import { PlayerPanels } from './panels/PlayerPanels'
 import { pointerWithin } from '@dnd-kit/core'
 import { ScoringDialog } from './headers/ScoringDialog'
@@ -16,7 +16,6 @@ export default function GameDisplay() {
 
     <ChelemAnnonce />
     <RoundNumber />
-    <PlayerName />
     <PlayerPanels />
     <ScoringDialog />
 
@@ -34,24 +33,7 @@ const RoundNumber = () => {
 }
 
 
-const PlayerName = () => {
-  const rules = useRules<TarotRules>()
-  const players = usePlayers({ sortFromMe: true })
 
-
-  if (!rules) {
-
-    return null
-  }
-  return (
-    <>
-      {players.map((player) =>
-        <span key={player.id} css={playerNameCss}>
-        </span>
-      )}
-    </>
-  )
-}
 
 
 const ChelemAnnonce = () => {
@@ -86,11 +68,4 @@ bottom:7em;
 }
 `
 
-const playerNameCss = css`
-position:absolute;
-right:3em;
-bottom:7em;
-> span {
-  font-size: 4em;
-}
-`
+
