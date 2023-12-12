@@ -2,7 +2,7 @@
 import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
 import { TutorialSetup } from './TutorialSetup'
 import { Trans } from 'react-i18next'
-import { MaterialGame, MaterialMove, isCustomMoveType } from '@gamepark/rules-api'
+import { MaterialGame, MaterialMove, isCustomMoveType, isMoveItemType } from '@gamepark/rules-api'
 import { CustomMoveType } from '@gamepark/tarot/rules/CustomMoveType'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
@@ -114,11 +114,6 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            popup: { text: () => <Trans defaults="tuto.you.bid.guard.4"><strong /><em /></Trans> },
-        },
-
-
-        {
             move: {
                 player: 0,
                 filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Guard
@@ -132,7 +127,49 @@ export class Tutorial extends MaterialTutorial {
             }
         },
 
+        //TODO : Après que le joueur passe il y a redistribution des cartes. Moi pas comprendre.
 
+        {
+            popup: { text: () => <Trans defaults="tuto.you.bid.guard.4"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.create.kitty.1"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.create.kitty.2"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.create.kitty.3"><strong /><em /></Trans> },
+        },
+
+        {
+            popup: { text: () => <Trans defaults="tuto.create.kitty.4"><strong /><em /></Trans> },
+        },
+        
+        {
+            move: {
+                player: 0,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Kitty &&
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart6 && 
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.HeartQueen &&
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade9 &&  
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Diamond10 &&  
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart1 &&  
+                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade6
+                
+            }
+        },
+
+
+
+
+        {
+            popup: { text: () => <Trans defaults="tuto.create.kitty.end"><strong /><em /></Trans> },
+        },
+        
 
 
 
