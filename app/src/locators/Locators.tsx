@@ -11,7 +11,7 @@ import { PoigneeLocator } from './PoigneeLocator'
 import { EcartLocator } from './EcartLocator'
 
 
-export const Locators: Record<LocationType, ItemLocator<number, MaterialType, LocationType>> = {
+export const Locators: Partial<Record<LocationType, ItemLocator<number, MaterialType, LocationType>>> = {
   [LocationType.Deck]: new TarotDeckLocator(),
   [LocationType.Hand]: new PlayerHandLocator(),
   [LocationType.Kitty]: new KittyLocator(),
