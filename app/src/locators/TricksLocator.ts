@@ -28,12 +28,12 @@ class TricksLocatorDescription extends LocationDescription {
   borderRadius = 1
   alwaysVisible = true
 
-  getLocations(context: MaterialContext): Location[] {
+  /* getLocations(context: MaterialContext): Location[] {
     return context.rules.players.map((player) => ({
       type: LocationType.PlayerName,
       player
     }))
-  }
+  } */
 
   getCoordinates(location: Location, context: ItemContext) {
     const players = context.rules.players.length

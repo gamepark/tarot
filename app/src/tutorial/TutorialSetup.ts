@@ -2,6 +2,7 @@ import { Card } from '@gamepark/tarot/Card'
 import { TarotSetup } from '@gamepark/tarot/TarotSetup'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
+import { Memory } from '@gamepark/tarot/rules/Memory'
 import { RuleId } from '@gamepark/tarot/rules/RuleId'
 
 export class TutorialSetup extends TarotSetup {
@@ -9,8 +10,7 @@ export class TutorialSetup extends TarotSetup {
 
 
   start() {
-    const player = this.players[1]
-    this.startPlayerTurn(RuleId.Deal, player)
+
     this.material(MaterialType.Card).id(Card.Club6).moveItem({ type: LocationType.Hand, player: this.players[0] })
     this.material(MaterialType.Card).id(Card.Club9).moveItem({ type: LocationType.Hand, player: this.players[0] })
     this.material(MaterialType.Card).id(Card.Diamond10).moveItem({ type: LocationType.Hand, player: this.players[0] })
@@ -98,6 +98,12 @@ export class TutorialSetup extends TarotSetup {
     this.material(MaterialType.Card).id(Card.DiamondQueen).moveItem({ type: LocationType.Kitty })
     this.material(MaterialType.Card).id(Card.DiamondKing).moveItem({ type: LocationType.Kitty })
     this.material(MaterialType.Card).id(Card.Trump7).moveItem({ type: LocationType.Kitty })
+
+    const player = this.players[2]
+    this.memorize(Memory.StartPlayer, player)
+    this.memorize(Memory.DealerPlayer, this.players[1])
+    this.startPlayerTurn(RuleId.Bid, player)
+
   }
 
 }

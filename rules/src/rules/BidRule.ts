@@ -49,7 +49,7 @@ export class BidRule extends PlayerTurnRule {
     }
     if (this.isLastPlayer) {
       const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
-      if (!preneur) {
+      if (preneur === undefined) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {
         return [

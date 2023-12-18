@@ -13,22 +13,22 @@ import { Bid } from '@gamepark/tarot/rules/Bid'
 
 
 export class Tutorial extends MaterialTutorial {
-    options = { players: [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }] }
+    options = { players:4 }
     setup = new TutorialSetup()
 
 
     players = [
-        { id: 0 },
+        { id: 1 },
         {
-            id: 1,
+            id: 2,
             name: 'Roi de Coeur',
         },
         {
-            id: 2,
+            id: 3,
             name: 'Dame de Pique',
         },
         {
-            id: 3,
+            id: 4,
             name: 'Valet de Trèfle',
         },
 
@@ -53,7 +53,7 @@ export class Tutorial extends MaterialTutorial {
 
         {
             move: {
-                player: 2,
+                player: 3,
                 filter: isCustomMoveType(CustomMoveType.Pass)
             }
 
@@ -61,7 +61,7 @@ export class Tutorial extends MaterialTutorial {
 
         {
             move: {
-                player: 3,
+                player: 4,
                 filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Small
             }
         },
@@ -115,19 +115,19 @@ export class Tutorial extends MaterialTutorial {
 
         {
             move: {
-                player: 0,
+                player: 1,
                 filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Guard
             }
         },
 
         {
             move: {
-                player: 1,
+                player: 2,
                 filter: isCustomMoveType(CustomMoveType.Pass)
             }
         },
 
-        //TODO : Après que le joueur passe il y a redistribution des cartes. Moi pas comprendre.
+        //TODO : Chelem passe 
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.4"><strong /><em /></Trans> },
@@ -151,7 +151,7 @@ export class Tutorial extends MaterialTutorial {
         
         {
             move: {
-                player: 0,
+                player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Kitty &&
                 this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart6 && 
                 this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.HeartQueen &&
