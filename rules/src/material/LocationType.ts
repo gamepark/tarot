@@ -1,3 +1,3 @@
 export enum LocationType {
-  Deck = 1, Hand, Kitty, Table, Ecart, Tricks, TableEnd, Poigne, PlayerName
+  Deck = 1, Hand, Kitty, Table, Ecart, Tricks, TableEnd, Poigne, PlayerReminder,
 }

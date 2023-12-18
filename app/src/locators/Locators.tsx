@@ -9,6 +9,7 @@ import { TricksLocator } from './TricksLocator'
 import { TableEndLocator } from './TableEndLocator'
 import { PoigneeLocator } from './PoigneeLocator'
 import { EcartLocator } from './EcartLocator'
+import { PlayerReminderLocator } from './PlayerReminderLocator'
 
 
 export const Locators: Partial<Record<LocationType, ItemLocator<number, MaterialType, LocationType>>> = {
@@ -20,4 +21,5 @@ export const Locators: Partial<Record<LocationType, ItemLocator<number, Material
   [LocationType.Ecart]: new EcartLocator(),
   [LocationType.TableEnd]: new TableEndLocator(),
   [LocationType.Poigne]: new PoigneeLocator(),
+  [LocationType.PlayerReminder]: new PlayerReminderLocator(),
 }
