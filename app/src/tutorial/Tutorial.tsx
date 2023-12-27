@@ -21,15 +21,15 @@ export class Tutorial extends MaterialTutorial {
         { id: 1 },
         {
             id: 2,
-            name: 'Roi de Coeur',
+            name: 'Charles',
         },
         {
             id: 3,
-            name: 'Dame de Pique',
+            name: 'Alexandre',
         },
         {
             id: 4,
-            name: 'Valet de Trèfle',
+            name: 'César',
         },
 
 
@@ -120,6 +120,7 @@ export class Tutorial extends MaterialTutorial {
             }
         },
 
+
         {
             move: {
                 player: 2,
@@ -127,7 +128,16 @@ export class Tutorial extends MaterialTutorial {
             }
         },
 
-        //TODO : Chelem passe 
+        {
+            popup: { text: () => <Trans defaults="tuto.chelem.pass"><strong /><em /></Trans> },
+        },
+
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.TakeChelem)(move) && move.data === false
+            }
+        },
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.4"><strong /><em /></Trans> },

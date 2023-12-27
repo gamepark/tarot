@@ -31,7 +31,7 @@ export class TutorialSetup extends TarotSetup {
     this.material(MaterialType.Card).id(Card.Trump21).moveItem({ type: LocationType.Hand, player: this.players[0] })
 
 
-    this.material(MaterialType.Card).id(Card.Heart2).moveItem({ type: LocationType.Hand, player: this.players[2] })
+    this.material(MaterialType.Card).id(Card.Spade1).moveItem({ type: LocationType.Hand, player: this.players[1] })
     this.material(MaterialType.Card).id(Card.Heart9).moveItem({ type: LocationType.Hand, player: this.players[1] })
     this.material(MaterialType.Card).id(Card.Heart10).moveItem({ type: LocationType.Hand, player: this.players[1] })
     this.material(MaterialType.Card).id(Card.HeartKing).moveItem({ type: LocationType.Hand, player: this.players[1] })
@@ -51,7 +51,7 @@ export class TutorialSetup extends TarotSetup {
     this.material(MaterialType.Card).id(Card.Trump20).moveItem({ type: LocationType.Hand, player: this.players[1] })
 
 
-    this.material(MaterialType.Card).id(Card.Spade1).moveItem({ type: LocationType.Hand, player: this.players[1] })
+    this.material(MaterialType.Card).id(Card.Heart2).moveItem({ type: LocationType.Hand, player: this.players[2] })
     this.material(MaterialType.Card).id(Card.SpadeKnight).moveItem({ type: LocationType.Hand, player: this.players[2] })
     this.material(MaterialType.Card).id(Card.SpadeQueen).moveItem({ type: LocationType.Hand, player: this.players[2] })
     this.material(MaterialType.Card).id(Card.Heart3).moveItem({ type: LocationType.Hand, player: this.players[2] })
