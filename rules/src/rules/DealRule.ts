@@ -43,7 +43,7 @@ export class DealRule extends PlayerTurnRule {
           ...deck.deal({ type: LocationType.Hand, player }, 3))
         if (Math.random() * (deck.length - kittyCardsLeft) / 3 < kittyCardsLeft) {
           moves.push(
-            deck.dealOne({ type: LocationType.Kitty }) //Todo : Check si la partie casse.
+            deck.dealOne({ type: LocationType.Kitty })
           )
           kittyCardsLeft--
         }
