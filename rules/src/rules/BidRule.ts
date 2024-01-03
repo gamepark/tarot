@@ -12,7 +12,7 @@ import { RuleId } from './RuleId'
 
 export class BidRule extends PlayerTurnRule {
   onRuleStart(_move: RuleMove, previousRules: RuleStep) {
-    if (previousRules.id !== RuleId.Bid) {
+    if (previousRules?.id !== RuleId.Bid) {
       if (this.game.players.some(player => this.smallTrumpOnly(player))) {
         return [
           this.rules().startPlayerTurn(RuleId.Deal, this.player)

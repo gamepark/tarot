@@ -13,7 +13,7 @@ import { Bid } from '@gamepark/tarot/rules/Bid'
 
 
 export class Tutorial extends MaterialTutorial {
-    options = { players:4 }
+    options = { players: 4 }
     setup = new TutorialSetup()
 
 
@@ -158,29 +158,80 @@ export class Tutorial extends MaterialTutorial {
         {
             popup: { text: () => <Trans defaults="tuto.create.kitty.4"><strong /><em /></Trans> },
         },
-        
+
         {
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Kitty &&
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart6 && 
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.HeartQueen &&
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade9 &&  
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Diamond10 &&  
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart1 &&  
-                this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade6
-                
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart6
             }
         },
 
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.HeartQueen 
+
+            }
+        },
+
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade9 
+            }
+        },
+
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Diamond10
+            }
+        },
+
+
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart1
+
+            }
+        },
+
+        {
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade6
+
+            }
+        },
 
 
 
         {
             popup: { text: () => <Trans defaults="tuto.create.kitty.end"><strong /><em /></Trans> },
         },
-        
 
+
+
+        {
+            move: {
+                player: 3,
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
+                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade5
+
+            }
+        },
+
+
+        {
+            popup: { text: () => <Trans defaults="tuto.rules.1"><strong /><em /></Trans> },
+        },
 
 
 
