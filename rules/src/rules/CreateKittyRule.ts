@@ -21,19 +21,19 @@ export class CreateKittyRule extends PlayerTurnRule {
       case Bid.GuardWithoutTheKitty:
         return [
           ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: this.player }),
-          this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+          this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
       case Bid.GuardAgainstTheKitty:
         const facingPlayer = this.game.players[(this.game.players.indexOf(this.player) + 2) % this.game.players.length]
         if (this.game.players.length === 5) {
           return [
             ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: undefined }),
-            this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+            this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
           ]
         }
         return [
           ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: facingPlayer }),
-          this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+          this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
     }
   }
@@ -47,7 +47,7 @@ export class CreateKittyRule extends PlayerTurnRule {
     if (isMoveItem(move) && move.location.type === LocationType.Ecart
       && this.material(MaterialType.Card).location(LocationType.Ecart).length === getKittySize(this.game.players.length)) {
       return [
-        this.rules().startPlayerTurn(RuleId.PlayCard, 1)
+        this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
       ]
     }
     return []
