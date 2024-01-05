@@ -46,18 +46,6 @@ export class Tutorial extends MaterialTutorial {
             popup: { text: () => <Trans defaults="tuto.explain.bid"><strong /><em /></Trans> }
         },
 
-        {
-            popup: { text: () => <Trans defaults="tuto.first.player.pass"><strong /><em /></Trans> },
-
-        },
-
-        {
-            move: {
-                player: 3,
-                filter: isCustomMoveType(CustomMoveType.Pass)
-            }
-
-        },
 
         {
             move: {
@@ -65,6 +53,8 @@ export class Tutorial extends MaterialTutorial {
                 filter: (move: MaterialMove) => isCustomMoveType(CustomMoveType.Bid)(move) && move.data === Bid.Small
             }
         },
+
+   
 
         {
             popup: { text: () => <Trans defaults="tuto.second.player.bid.small"><strong /><em /></Trans> },
@@ -129,6 +119,14 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
+            move: {
+                player: 3,
+                filter: isCustomMoveType(CustomMoveType.Pass)
+            }
+
+        },
+
+        {
             popup: { text: () => <Trans defaults="tuto.chelem.pass"><strong /><em /></Trans> },
         },
 
@@ -181,6 +179,7 @@ export class Tutorial extends MaterialTutorial {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
                     this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade9 
+                    
             }
         },
 
@@ -224,7 +223,6 @@ export class Tutorial extends MaterialTutorial {
                 player: 3,
                 filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
                     this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade5
-
             }
         },
 

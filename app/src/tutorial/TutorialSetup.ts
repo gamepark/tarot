@@ -99,9 +99,9 @@ export class TutorialSetup extends TarotSetup {
     this.material(MaterialType.Card).id(Card.DiamondKing).moveItem({ type: LocationType.Kitty })
     this.material(MaterialType.Card).id(Card.Trump7).moveItem({ type: LocationType.Kitty })
 
-    const player = this.players[2]
+    const player = this.players[3]
     this.memorize(Memory.StartPlayer, player)
-    this.memorize(Memory.DealerPlayer, this.players[1])
+    this.memorize(Memory.DealerPlayer, this.players[2])
     this.startPlayerTurn(RuleId.Bid, player)
 
   }
