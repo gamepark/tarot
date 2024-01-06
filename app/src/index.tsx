@@ -1,28 +1,29 @@
 /** @jsxImportSource @emotion/react */
-import { TarotRules } from '@gamepark/tarot/TarotRules'
+import { GameProvider, setupTranslation } from '@gamepark/react-game'
 import { TarotOptionsSpec } from '@gamepark/tarot/TarotOptions'
+import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { TarotSetup } from '@gamepark/tarot/TarotSetup'
-import { GameProvider, MaterialGameAnimations, setupTranslation } from '@gamepark/react-game'
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
+import { tarotAnimations } from './animations/TarotAnimations'
 import App from './App'
-import translations from './translations.json'
-import { Material } from './material/Material'
 import { Locators } from './locators/Locators'
+import { Material } from './material/Material'
+import translations from './translations.json'
 import { Tutorial } from './tutorial/Tutorial'
 
 setupTranslation(translations, { debug: false })
 
 ReactDOM.render(
   <StrictMode>
-    <GameProvider 
+    <GameProvider
       game="tarot"
-      Rules={TarotRules} 
-      optionsSpec={TarotOptionsSpec} 
+      Rules={TarotRules}
+      optionsSpec={TarotOptionsSpec}
       GameSetup={TarotSetup}
       material={Material}
       locators={Locators}
-      animations={new MaterialGameAnimations()}
+      animations={tarotAnimations}
       tutorial={new Tutorial()}
     >
       <App/>
