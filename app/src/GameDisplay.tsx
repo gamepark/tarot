@@ -1,23 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { GameTable, useRules } from '@gamepark/react-game'
-import { PlayerPanels } from './panels/PlayerPanels'
 import { pointerWithin } from '@dnd-kit/core'
-import { ScoringDialog } from './headers/ScoringDialog'
 import { css } from '@emotion/react'
+import { GameTable, GameTableNavigation, useRules } from '@gamepark/react-game'
+import { Memory } from '@gamepark/tarot/rules/Memory'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useTranslation } from 'react-i18next'
-import { Memory } from '@gamepark/tarot/rules/Memory'
+import { ScoringDialog } from './headers/ScoringDialog'
+import { PlayerPanels } from './panels/PlayerPanels'
 
 export default function GameDisplay() {
   return <>
     <GameTable xMin={-50} xMax={50} yMin={-35} yMax={35}
-      margin={{ top: 7, left: 0, right: 30, bottom: 0 }} collisionAlgorithm={pointerWithin} />
-
-
-    <ChelemAnnonce />
-    <RoundNumber />
-    <PlayerPanels />
-    <ScoringDialog />
+               margin={{ top: 7, left: 0, right: 30, bottom: 0 }} collisionAlgorithm={pointerWithin}>
+      <GameTableNavigation css={navigationCss}/>
+    </GameTable>
+    <ChelemAnnonce/>
+    <RoundNumber/>
+    <PlayerPanels/>
+    <ScoringDialog/>
 
   </>
 }
@@ -33,9 +33,6 @@ const RoundNumber = () => {
 }
 
 
-
-
-
 const ChelemAnnonce = () => {
   const rules = useRules<TarotRules>()
   const { t } = useTranslation()
@@ -49,23 +46,27 @@ const ChelemAnnonce = () => {
 }
 
 
-
 const roundCss = css`
-position:absolute;
-right:3em;
-bottom:2em;
-> span {
-  font-size: 4em;
-}
+  position: absolute;
+  right: 3em;
+  bottom: 2em;
+
+  > span {
+    font-size: 4em;
+  }
 `
 
 const chelemCss = css`
-position:absolute;
-right:3em;
-bottom:7em;
-> span {
-  font-size: 4em;
-}
+  position: absolute;
+  right: 3em;
+  bottom: 7em;
+
+  > span {
+    font-size: 4em;
+  }
 `
 
-
+const navigationCss = css`
+  left: auto;
+  right: 37em;
+`
