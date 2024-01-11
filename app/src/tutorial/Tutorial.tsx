@@ -160,54 +160,92 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart6
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
             }
         },
 
         {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.HeartQueen 
-
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
             }
         },
 
         {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade9 
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
             }
         },
 
         {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Diamond10
-            }
-        },
-
-
-        {
-            move: {
-                player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Heart1
-
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
             }
         },
 
         {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
             move: {
                 player: 1,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Spade6
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
+            }
+        },
 
+        {
+            focus: (game: MaterialGame) => [
+                this.location(LocationType.Table),
+                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(id))
+            ],
+            move: {
+                player: 1,
+                filter: (move: MaterialMove, game: MaterialGame) => {
+                    return isMoveItemType(MaterialType.Card)(move) && 
+                        [Card.Heart6, Card.HeartQueen, Card.Spade9, Card.Diamond10, Card.Heart1, Card.Spade6].includes(this.material(game, move.itemType).getItem(move.itemIndex)?.id)
+                }
+        
             }
         },
 
@@ -251,9 +289,7 @@ export class Tutorial extends MaterialTutorial {
         {
             move: {
                 player: 2,
-                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) &&
-                    this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Trump2
-
+                filter: (move: MaterialMove, game: MaterialGame) => isMoveItemType(MaterialType.Card)(move) && this.material(game, move.itemType).getItem(move.itemIndex)?.id === Card.Trump2
             }
         },
 
