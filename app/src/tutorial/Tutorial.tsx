@@ -81,28 +81,26 @@ export class Tutorial extends MaterialTutorial {
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.petit"><strong /><em /></Trans> },
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Hand).player(game.players[0]),
-                this.material(game, MaterialType.Card).id(Card.Trump1),
-
-            ],
+            focus: (game: MaterialGame) => ({
+                locations: [{type: LocationType.Hand, player: 1}],
+                materials: [this.material(game, MaterialType.Card).id(Card.Trump1)]
+            })
         },
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.trump21"><strong /><em /></Trans> },
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Hand).player(game.players[0]),
-                this.material(game, MaterialType.Card).id(Card.Trump21),
-
-            ],
+            focus: (game: MaterialGame) => ({
+                locations: [{type: LocationType.Hand, player: 1}],
+                materials: [this.material(game, MaterialType.Card).id(Card.Trump21)]
+            })
         },
 
         {
             popup: { text: () => <Trans defaults="tuto.you.bid.guard.excuse"><strong /><em /></Trans> },
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Hand).player(game.players[0]),
-                this.material(game, MaterialType.Card).id(Card.Excuse),
-            ],
+            focus: (game: MaterialGame) => ({
+                locations: [{type: LocationType.Hand, player: 1}],
+                materials: [this.material(game, MaterialType.Card).id(Card.Excuse)]
+            })
         },
 
         {
@@ -157,10 +155,11 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => ({
+                locations: [{type: LocationType.Table}],
+                materials: [this.material(game, MaterialType.Card).location(LocationType.Hand).player(1)
+                  .id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))]
+            }),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
@@ -172,10 +171,7 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => this.steps[game.tutorialStep! - 1].focus!(game),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
@@ -187,10 +183,7 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => this.steps[game.tutorialStep! - 2].focus!(game),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
@@ -202,10 +195,7 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => this.steps[game.tutorialStep! - 3].focus!(game),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
@@ -217,10 +207,7 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => this.steps[game.tutorialStep! - 4].focus!(game),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
@@ -232,10 +219,7 @@ export class Tutorial extends MaterialTutorial {
         },
 
         {
-            focus: (game: MaterialGame) => [
-                this.location(LocationType.Table),
-                this.material(game, MaterialType.Card).location(LocationType.Hand).player(1).id((id: Card) => [Card.Heart6, Card.HeartQueen, Card.Club9, Card.Diamond10, Card.Heart1, Card.Club6].includes(id))
-            ],
+            focus: (game: MaterialGame) => this.steps[game.tutorialStep! - 5].focus!(game),
             move: {
                 player: 1,
                 filter: (move: MaterialMove, game: MaterialGame) => {
