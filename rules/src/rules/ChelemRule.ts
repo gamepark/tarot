@@ -1,15 +1,14 @@
-import { CustomMove, MaterialMove, PlayerTurnRule } from "@gamepark/rules-api";
-import { RuleId } from "./RuleId";
-import { Memory } from "./Memory";
-import { CustomMoveType } from "./CustomMoveType";
-import { maxBy } from "lodash";
+import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { maxBy } from 'lodash'
+import { CustomMoveType } from './CustomMoveType'
+import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
 
 export class ChelemRule extends PlayerTurnRule {
 
   getPlayerMoves(): MaterialMove<number, number, number>[] {
-    const move = [this.rules().customMove(CustomMoveType.TakeChelem, true), this.rules().customMove(CustomMoveType.TakeChelem, false)]
-    return move
+    return [this.rules().customMove(CustomMoveType.TakeChelem, true), this.rules().customMove(CustomMoveType.TakeChelem, false)]
   }
 
   onCustomMove(move: CustomMove): MaterialMove[] {
@@ -24,7 +23,7 @@ export class ChelemRule extends PlayerTurnRule {
       ]
     }
     return [
-      this.rules().startRule(RuleId.CreateKitty)
+      this.rules().startSimultaneousRule(RuleId.CreateKitty)
     ]
   }
 }

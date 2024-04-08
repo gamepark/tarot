@@ -5,6 +5,7 @@ import { GameTable, GameTableNavigation, useRules } from '@gamepark/react-game'
 import { Memory } from '@gamepark/tarot/rules/Memory'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useTranslation } from 'react-i18next'
+import { AcknowledgeKittyDialog } from './dialogs/AcknowledgeKittyDialog'
 import { ScoringDialog } from './headers/ScoringDialog'
 import { PlayerPanels } from './panels/PlayerPanels'
 
@@ -13,12 +14,12 @@ export default function GameDisplay() {
     <GameTable xMin={-50} xMax={50} yMin={-35} yMax={35}
                margin={{ top: 7, left: 0, right: 30, bottom: 0 }} collisionAlgorithm={pointerWithin}>
       <GameTableNavigation css={navigationCss}/>
+      <AcknowledgeKittyDialog/>
     </GameTable>
     <ChelemAnnonce/>
     <RoundNumber/>
     <PlayerPanels/>
     <ScoringDialog/>
-
   </>
 }
 

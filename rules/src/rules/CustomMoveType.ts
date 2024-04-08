@@ -4,4 +4,5 @@ export enum CustomMoveType {
   Poignee,
   CallKing,
   TakeChelem,
+  AcknowledgeKitty
 }

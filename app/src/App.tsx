@@ -11,7 +11,7 @@ import { BidHeader } from './headers/BidHeader'
 import { PlayCardHeader } from './headers/PlayCardHeader'
 import { ChelemHeader } from './headers/ChelemDialog'
 import { CallKingHeader } from './headers/CallKingDialog'
-import { CreateKittyHeader } from './headers/CreateKittyDialog'
+import { CreateKittyHeader } from './headers/CreateKittyHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()

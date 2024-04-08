@@ -32,7 +32,7 @@ export class CallCardRule extends PlayerTurnRule {
       this.memorize(Memory.CalledCard, move.data)
     }
     return [
-      this.rules().startRule(RuleId.CreateKitty)
+      this.rules().startSimultaneousRule(RuleId.CreateKitty)
     ]
   }
 }
