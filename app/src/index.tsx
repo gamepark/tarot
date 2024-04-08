@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { css, Global } from '@emotion/react'
 import { GameProvider, setupTranslation } from '@gamepark/react-game'
 import { TarotOptionsSpec } from '@gamepark/tarot/TarotOptions'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
@@ -14,6 +15,13 @@ import { Tutorial } from './tutorial/Tutorial'
 
 setupTranslation(translations, { debug: false })
 
+
+const playMatCss = css`
+  #root {
+    background: linear-gradient(to bottom right, #52c234, #061700 120%);
+  }
+`
+
 ReactDOM.render(
   <StrictMode>
     <GameProvider
@@ -25,8 +33,16 @@ ReactDOM.render(
       locators={Locators}
       animations={tarotAnimations}
       tutorial={new Tutorial()}
+      theme={{
+        root: {
+          background: {
+            overlay: 'linear-gradient(to bottom right,  #31741f, #061700 120%)'
+          }
+        }
+      }}
     >
       <App/>
+      <Global styles={playMatCss}/>
     </GameProvider>
   </StrictMode>,
   document.getElementById('root')
