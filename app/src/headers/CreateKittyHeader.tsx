@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
+import { RulesUtil } from '@gamepark/tarot/rules/RulesUtil'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { CustomMove, isCustomMove } from '@gamepark/rules-api'
@@ -9,11 +10,11 @@ import { css } from '@emotion/react'
 export const CreateKittyHeader = () => {
   const rules = useRules<TarotRules>()!
   const player = usePlayerId()
-  const activePlayer = rules.getActivePlayer()!
-  if (player === activePlayer) {
+  const preneur = new RulesUtil(rules.game).preneur!
+  if (player === preneur) {
     return <MyCreateKittyHeader />
   } else {
-    return <PlayerCreateKittyHeader activePlayer={activePlayer} />
+    return <PlayerCreateKittyHeader activePlayer={preneur} />
   }
 }
 
