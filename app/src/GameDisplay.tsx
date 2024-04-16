@@ -9,14 +9,15 @@ import { AcknowledgeKittyDialog } from './dialogs/AcknowledgeKittyDialog'
 import { ScoringDialog } from './headers/ScoringDialog'
 import { PlayerPanels } from './panels/PlayerPanels'
 
-export default function GameDisplay() {
+export default function GameDisplay({ players }: { players: number }) {
+  const xMax = players === 5 ? 50 : players === 4 ? 53 : 57
   return <>
-    <GameTable xMin={-50} xMax={50} yMin={-35} yMax={35}
-               margin={{ top: 7, left: 0, right: 30, bottom: 0 }} collisionAlgorithm={pointerWithin}>
-      <GameTableNavigation css={navigationCss}/>
+    <GameTable xMin={-xMax} xMax={xMax}
+               yMin={players === 5 ? -31 : players === 4 ? -32 : -29} yMax={39}
+               collisionAlgorithm={pointerWithin} css={css`border: 1px solid white;`}>
+      <GameTableNavigation css={navigationCss(players)}/>
       <AcknowledgeKittyDialog/>
     </GameTable>
-    <ChelemAnnonce/>
     <RoundNumber/>
     <PlayerPanels/>
     <ScoringDialog/>
@@ -34,19 +35,6 @@ const RoundNumber = () => {
 }
 
 
-const ChelemAnnonce = () => {
-  const rules = useRules<TarotRules>()
-  const { t } = useTranslation()
-  if (!rules) {
-    return null
-  }
-  return (
-    <div css={chelemCss}>
-      {rules.remind(Memory.ChelemAnnounced) && <span>{t(`chelem`)}</span>}
-    </div>)
-}
-
-
 const roundCss = css`
   position: absolute;
   right: 3em;
@@ -57,17 +45,8 @@ const roundCss = css`
   }
 `
 
-const chelemCss = css`
-  position: absolute;
-  right: 3em;
-  bottom: 7em;
-
-  > span {
-    font-size: 4em;
-  }
-`
-
-const navigationCss = css`
+const navigationCss = (players: number) => css`
+  top: ${players === 4 ? 9 : 20}em;
   left: auto;
-  right: 37em;
+  right: 2em;
 `

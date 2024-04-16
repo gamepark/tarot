@@ -22,7 +22,7 @@ export default function App() {
   const loading = !game || isJustDisplayed
   return (
     <>
-      {!loading && <GameDisplay/>}
+      {!loading && <GameDisplay players={game.players.length}/>}
       <LoadingScreen display={loading} developer="Mapow"/>
       <MaterialHeader rulesStepsHeaders={RulesHeaders} GameOver={GameOverHeader} loading={loading}/>
       <Menu/>

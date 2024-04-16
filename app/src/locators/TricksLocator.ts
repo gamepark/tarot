@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { DeckLocator, ItemContext, LocationDescription, getRelativePlayerIndex } from '@gamepark/react-game'
-import { MaterialItem, Location } from '@gamepark/rules-api'
+import { DeckLocator, ItemContext, LocationDescription } from '@gamepark/react-game'
+import { Location, MaterialItem } from '@gamepark/rules-api'
 import { Card } from '@gamepark/tarot/Card'
+import { playerHandLocator } from './PlayerHandLocator'
 import { PlayerName } from './PlayerName'
 
 
@@ -10,12 +11,10 @@ export class TricksLocator extends DeckLocator {
   delta = { x: -0.05, y: -0.05, z: 0.1 }
 
   getCoordinates(item: MaterialItem, context: ItemContext) {
-    const players = context.rules.players.length
-    const angle = -90 + getRelativePlayerIndex(context, item.location.player) * 360 / players
-    const radiusX = players === 5 ? 30 : players === 4 ? 30 : 20
-    const radiusY = players === 5 ? 15 : players === 4 ? 15 : 10
-    const x = Math.cos(angle * Math.PI / 180) * radiusX
-    const y = -Math.sin(angle * Math.PI / 180) * radiusY
+    const angle = playerHandLocator.getPlayerAngle(item.location.player!, context)
+    const radius = 15
+    const x = Math.cos(angle * Math.PI / 180) * radius
+    const y = -Math.sin(angle * Math.PI / 180) * radius
     const z = 10 + (item.id === Card.Excuse ? 100 : 0)
     return { x, y, z }
   }
@@ -28,12 +27,10 @@ class TricksLocatorDescription extends LocationDescription {
   alwaysVisible = true
 
   getCoordinates(location: Location, context: ItemContext) {
-    const players = context.rules.players.length
-    const angle = -90 + getRelativePlayerIndex(context, location.player) * 360 / players
-    const radiusX = players === 5 ? 30 : players === 4 ? 30 : 20
-    const radiusY = players === 5 ? 15 : players === 4 ? 15 : 10
-    const x = Math.cos(angle * Math.PI / 180) * radiusX
-    const y = -Math.sin(angle * Math.PI / 180) * radiusY
+    const angle = playerHandLocator.getPlayerAngle(location.player!, context)
+    const radius = 15
+    const x = Math.cos(angle * Math.PI / 180) * radius
+    const y = -Math.sin(angle * Math.PI / 180) * radius
     const z = 10
     return { x, y, z }
   }

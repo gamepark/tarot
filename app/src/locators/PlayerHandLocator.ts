@@ -1,52 +1,44 @@
 /** @jsxImportSource @emotion/react */
-import { HandLocator, ItemContext, getRelativePlayerIndex } from '@gamepark/react-game'
+import { getRelativePlayerIndex, HandLocator, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
-import { PlayerHandDescription } from './description/PlayerHandDescription'
 
-
-
-export class PlayerHandLocator extends HandLocator {
-
-  locationDescription = new PlayerHandDescription()
+class PlayerHandLocator extends HandLocator {
 
   getCoordinates(location: Location, context: ItemContext) {
     const { rules, type, index } = context
     const item = rules.material(type).index(index).getItem()
-    const players = context.rules.players.length
-    const angle = -90 + getRelativePlayerIndex(context, location.player) * 360 / players
-    const radiusX = players === 5 ? 40 : players === 4 ? 40 : 30
-    const radiusY = players === 5 ? 25 : players === 4 ? 25 : 20
-    const x = Math.cos(angle * Math.PI / 180) * radiusX - (item?.selected? 2: 0)
-    const y = -Math.sin(angle * Math.PI / 180) * radiusY - (item?.selected? 2: 0)
+    const angle = this.getPlayerAngle(location.player!, context)
+    const radius = 25
+    const x = Math.cos(angle * Math.PI / 180) * radius - (item?.selected ? 2 : 0)
+    const y = -Math.sin(angle * Math.PI / 180) * radius - (item?.selected ? 2 : 0)
     return { x, y, z: 10 }
+  }
+
+  getRadius() {
+    return 300
+  }
+
+  getPlayerAngle(player: number, context: MaterialContext) {
+    const players = context.rules.players.length
+    return -90 + getRelativePlayerIndex(context, player) * 360 / players
   }
 
   getBaseAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const players = context.rules.players.length
-    return  getRelativePlayerIndex(context, item.location.player) * -360 / players
+    return getRelativePlayerIndex(context, item.location.player) * -360 / players
   }
 
   getMaxAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
-    const players = context.rules.players.length
     const relativePlayerIndex = getRelativePlayerIndex(context, item.location.player)
-    switch (players) {
-      case 3:
-        if (relativePlayerIndex === 1 || relativePlayerIndex === 2) {
-          return 25
-        }
-        return 40
-      case 4:
-        if (relativePlayerIndex === 1 || relativePlayerIndex === 2 || relativePlayerIndex === 3) {
-          return 20
-        }
-        return 30
-    }
-    if (relativePlayerIndex === 1 || relativePlayerIndex === 2 || relativePlayerIndex === 3 || relativePlayerIndex === 4) {
-      return 15
-    }
-    return 30
+    if (relativePlayerIndex === 0) return 20
+    const players = context.rules.players.length
+    return players === 3 ? 5 : players === 4 ? 4 : 3
+  }
+
+  getGapMaxAngle() {
+    return 1.1
   }
 
   getItemIndex(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
@@ -61,5 +53,4 @@ export class PlayerHandLocator extends HandLocator {
 
 }
 
-
-
+export const playerHandLocator = new PlayerHandLocator()
