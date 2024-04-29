@@ -2,11 +2,21 @@
   "name": "@gamepark/tarot",
   "version": "0.2.2",
   "description": "The rules of Tarot adapted for Game Park",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "dist/TarotRules.js",
+  "exports": {
+    ".": {
+      "default": "./dist/TarotRules.js",
+      "types": "./dist/TarotRules.d.ts"
+    },
+    "./TarotOptions": {
+      "default": "./dist/TarotOptions",
+      "types": "./dist/TarotOptions.d.ts"
+    },
+    "./TarotSetup": {
+      "default": "./dist/TarotSetup",
+      "types": "./dist/TarotSetup.d.ts"
+    }
+  },
   "author": "Romain Fromi <romain@game-park.com> (https://game-park.com/)",
   "license": "ISC",
   "publishConfig": {
