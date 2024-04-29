@@ -5,16 +5,22 @@
   "main": "dist/TarotRules.js",
   "exports": {
     ".": {
-      "types": "./dist/TarotRules.d.ts",
-      "default": "./dist/TarotRules.js"
+      "import": {
+        "types": "./dist/TarotRules.d.ts",
+        "default": "./dist/TarotRules.js"
+      }
     },
     "./TarotOptions": {
-      "types": "./dist/TarotOptions.d.ts",
-      "default": "./dist/TarotOptions"
+      "import": {
+        "types": "./dist/TarotOptions.d.ts",
+        "default": "./dist/TarotOptions"
+      }
     },
     "./TarotSetup": {
-      "types": "./dist/TarotSetup.d.ts",
-      "default": "./dist/TarotSetup"
+      "import": {
+        "types": "./dist/TarotSetup.d.ts",
+        "default": "./dist/TarotSetup"
+      }
     }
   },
   "author": "Romain Fromi <romain@game-park.com> (https://game-park.com/)",
