@@ -24,7 +24,7 @@ const MyBidHeader = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
-  const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
+  const [dialogOpen, setDialogOpen] = useState(false)
   return <>
     <Trans defaults="header.bid.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>

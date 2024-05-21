@@ -6,6 +6,7 @@ import { Memory } from '@gamepark/tarot/rules/Memory'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useTranslation } from 'react-i18next'
 import { AcknowledgeKittyDialog } from './dialogs/AcknowledgeKittyDialog'
+import { PoigneeValidation } from './dialogs/PoigneeValidation'
 import { ScoringDialog } from './headers/ScoringDialog'
 import { PlayerPanels } from './panels/PlayerPanels'
 
@@ -18,6 +19,7 @@ export default function GameDisplay({ players }: { players: number }) {
       <GameTableNavigation css={navigationCss(players)}/>
       <AcknowledgeKittyDialog/>
     </GameTable>
+      <PoigneeValidation />
     <RoundNumber/>
     <PlayerPanels/>
     <ScoringDialog/>

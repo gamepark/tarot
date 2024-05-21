@@ -7,4 +7,5 @@ export enum RuleId {
   PlayCard,
   Scoring,
   Poignee,
+  AcknownledgePoignee,
 }

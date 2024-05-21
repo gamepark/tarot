@@ -1,18 +1,31 @@
-import { CustomMove, isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { Card, cardValue, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { Bid } from "./Bid";
-import { RuleId } from './RuleId'
-import { Card, cardValue, isColor, isSameColor, isTrump, isTrumpValue } from '../Card'
+import { Bid } from './Bid'
 import { Memory } from './Memory'
-import { CustomMoveType } from './CustomMoveType'
-import { Poignee, poignees } from './Poignee'
-import { RulesUtil } from './RulesUtil';
+import { getPoigneeMinTrumps, poignees } from './Poignee'
+import { RuleId } from './RuleId'
+import { RulesUtil } from './RulesUtil'
 
 export class PlayCardRule extends PlayerTurnRule {
 
   onRuleStart() {
     const moves: MaterialMove[] = []
+
+    const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
+    const numberOfTrumps = this.playerTrumpsForPoignee.length
+    let maxCards = 0
+    for (const poignee of poignees) {
+      if (numberOfTrumps >= poigneeMinTrumps[poignee]) {
+        maxCards = poigneeMinTrumps[poignee]
+      }
+    }
+
+    if (maxCards && this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
+      return [this.rules().startRule(RuleId.Poignee)]
+    }
+
     if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
       if (excuseInTrick.length === 1 && excuseInTrick.getItem()?.location.rotation && ( this.game.players.length === 5 ? this.remind(Memory.CalledPlayer) : true)) {
@@ -62,46 +75,9 @@ export class PlayCardRule extends PlayerTurnRule {
     }
 
     const moves: MaterialMove[] = cardsToPlay.moveItems({ type: LocationType.Table, player: this.player, z: cardsPlayed.length })
-    moves.push(...this.poigneeMoves)
-    
     return moves
   }
 
-  get poigneeMoves() {
-    const moves: MaterialMove[] = []
-    if (this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
-      const poigneeMinTrumps = getPoigneeMinTrumps(this.game.players.length)
-      const numberOfTrumps = this.playerTrumpsForPoignee.length
-      let maxCards = 0
-      const selectedCards = this.playerTrumpsForPoignee.filter((item) => !!item.selected)
-      for (const poignee of poignees) {
-        if (selectedCards.length === poigneeMinTrumps[poignee]) {
-          moves.push(this.rules().customMove(CustomMoveType.Poignee, poignee))
-        }
-
-        if (numberOfTrumps >= poigneeMinTrumps[poignee]) {
-          maxCards = poigneeMinTrumps[poignee]
-        }
-      }
-
-      if (selectedCards.length < maxCards) {
-        const availableCards = this.playerTrumpsForPoignee.filter((item) => !item.selected)
-        const trump = availableCards.filter((item) => isTrumpValue(item.id))
-        if (trump.length) {
-          moves.push(
-            ...trump.selectItems()
-          )
-        } else {
-          moves.push(
-            ...availableCards.selectItems()
-          )
-        }        
-      } 
-      
-    }
-
-    return moves
-  }
 
   get firstMeaningfullCardPlayed(): Card | undefined {
     const card = this.cardsPlayed[0];
@@ -146,14 +122,6 @@ export class PlayCardRule extends PlayerTurnRule {
 
   get isLastTrick() {
     return this.material(MaterialType.Card).location(LocationType.Hand).length === 0
-  }
-
-  onCustomMove(move: CustomMove): MaterialMove[] {
-    if (move.type === CustomMoveType.Poignee) {
-      this.memorize(Memory.Poigne, move.data, this.player)
-      return [this.rules().startRule(RuleId.Poignee)]
-    }
-    return []
   }
 
 
@@ -203,29 +171,5 @@ export class PlayCardRule extends PlayerTurnRule {
       }
     }
     return []
-  }
-}
-
-
-export function getPoigneeMinTrumps(numberPlayer: number): Record<Poignee, number> {
-  switch (numberPlayer) {
-    case 3:
-      return {
-        [Poignee.Simple]: 13,
-        [Poignee.Double]: 15,
-        [Poignee.Triple]: 18,
-      }
-    case 4:
-      return {
-        [Poignee.Simple]: 10,
-        [Poignee.Double]: 13,
-        [Poignee.Triple]: 15,
-      }
-    default:
-      return {
-        [Poignee.Simple]: 8,
-        [Poignee.Double]: 10,
-        [Poignee.Triple]: 13,
-      }
   }
 }

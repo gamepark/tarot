@@ -21,6 +21,8 @@ export class PoigneeLocator extends HandLocator {
     cards.sort((a, b) => a - b)
     return cards.indexOf(item.id)
   }
+
+  navigationSorts = [(item: MaterialItem) => item.id]
 }
 
 

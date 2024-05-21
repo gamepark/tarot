@@ -12,6 +12,7 @@ import {
 } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
+import { AcknowledgePoigneeRule } from './rules/AcknowledgePoigneeRule'
 import { BidRule } from './rules/BidRule'
 import { CallCardRule } from './rules/CallCardRule'
 import { ChelemRule } from './rules/ChelemRule'
@@ -62,7 +63,8 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.CreateKitty]: CreateKittyRule,
     [RuleId.PlayCard]: PlayCardRule,
     [RuleId.Scoring]: ScoringRule,
-    [RuleId.Poignee]: PoigneeRule
+    [RuleId.Poignee]: PoigneeRule,
+    [RuleId.AcknownledgePoignee]: AcknowledgePoigneeRule
   }
 
   keepMoveSecret(move: MaterialMove<number, MaterialType, LocationType>, playerId: number): boolean {

@@ -11,9 +11,9 @@ class PlayerHandLocator extends HandLocator {
     const item = rules.material(type).index(index).getItem()
     const angle = this.getPlayerAngle(location.player!, context)
     const radius = 25
-    const x = Math.cos(angle * Math.PI / 180) * radius - (item?.selected ? 2 : 0)
+    const x = Math.cos(angle * Math.PI / 180) * radius
     const y = -Math.sin(angle * Math.PI / 180) * radius - (item?.selected ? 2 : 0)
-    return { x, y, z: 10 }
+    return { x, y, z: (item?.selected ? 10 : 0) }
   }
 
   getRadius() {
@@ -50,6 +50,8 @@ class PlayerHandLocator extends HandLocator {
       return super.getItemIndex(item, context)
     }
   }
+
+  navigationSorts = [(item: MaterialItem) => !item.id? item.location.x: item.id]
 
 }
 
