@@ -20,7 +20,7 @@ export class AcknowledgePoigneeRule extends SimultaneousRule {
     }
 
     return [
-      ...this.poignee.moveItems({ type: LocationType.Hand, player: poigneePlayer }),
+      this.poignee.moveItemsAtOnce({ type: LocationType.Hand, player: poigneePlayer }),
       this.rules().startPlayerTurn(RuleId.PlayCard, poigneePlayer)
     ]
   }

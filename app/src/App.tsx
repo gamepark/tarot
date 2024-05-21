@@ -5,6 +5,7 @@ import { MaterialGame } from '@gamepark/rules-api'
 import { RuleId } from '@gamepark/tarot/rules/RuleId'
 import { useEffect, useState } from 'react'
 import GameDisplay from './GameDisplay'
+import { AcknowledgePoigneeHeader } from './headers/AcknowledgePoigneeHeader'
 import { BidHeader } from './headers/BidHeader'
 import { CallKingHeader } from './headers/CallKingDialog'
 import { ChelemHeader } from './headers/ChelemDialog'
@@ -41,5 +42,5 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: () => <>Décompte du score !</>,
   [RuleId.Poignee]: () => <>Poignée</>,
-  [RuleId.AcknownledgePoignee]: () => <>Acknowledge Poignée</>
+  [RuleId.AcknownledgePoignee]: AcknowledgePoigneeHeader
 }
