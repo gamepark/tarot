@@ -1,6 +1,7 @@
 import { ItemContext, ItemLocator, LocationDescription, getRelativePlayerIndex } from '@gamepark/react-game'
 import { MaterialItem } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
+import { tarotCardDescription } from '../material/CardDescription'
 
 export class TarotTableLocator extends ItemLocator {
   locationDescription = new TableLocationDescription()
@@ -12,7 +13,7 @@ export class TarotTableLocator extends ItemLocator {
     const radiusY = players === 5 ? 5 : players === 4 ? 5 : 0
     const x = Math.cos(angle * Math.PI / 180) * radiusX
     const y = -Math.sin(angle * Math.PI / 180) * radiusY
-    return { x, y, z: item.location.z! * 0.1 }
+    return { x, y, z: 5 + (item.location.z! * tarotCardDescription.width) }
   }
 }
 

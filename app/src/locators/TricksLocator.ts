@@ -15,7 +15,7 @@ export class TricksLocator extends DeckLocator {
     const radius = 15
     const x = Math.cos(angle * Math.PI / 180) * radius
     const y = -Math.sin(angle * Math.PI / 180) * radius
-    const z = 10 + (item.id === Card.Excuse ? 100 : 0)
+    const z = 0 + (item.id === Card.Excuse ? 5 : 0)
     return { x, y, z }
   }
 }

@@ -13,6 +13,7 @@ import { CreateKittyHeader } from './headers/CreateKittyHeader'
 import { DealHeader } from './headers/DealHeader'
 import { GameOverHeader } from './headers/GameOverHeader'
 import { PlayCardHeader } from './headers/PlayCardHeader'
+import { PoigneeHeader } from './headers/PoigneeHeader'
 
 export default function App() {
   const game = useGame<MaterialGame>()
@@ -41,6 +42,6 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.CreateKitty]: CreateKittyHeader,
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: () => <>Décompte du score !</>,
-  [RuleId.Poignee]: () => <>Poignée</>,
+  [RuleId.Poignee]: PoigneeHeader,
   [RuleId.AcknownledgePoignee]: AcknowledgePoigneeHeader
 }

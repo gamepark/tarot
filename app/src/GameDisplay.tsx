@@ -6,7 +6,7 @@ import { Memory } from '@gamepark/tarot/rules/Memory'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useTranslation } from 'react-i18next'
 import { AcknowledgeKittyDialog } from './dialogs/AcknowledgeKittyDialog'
-import { PoigneeValidation } from './dialogs/PoigneeValidation'
+import { AcknowledgePoigneeDialog } from './dialogs/AcknowledgePoigneeDialog'
 import { ScoringDialog } from './headers/ScoringDialog'
 import { PlayerPanels } from './panels/PlayerPanels'
 
@@ -18,8 +18,8 @@ export default function GameDisplay({ players }: { players: number }) {
                collisionAlgorithm={pointerWithin} css={css`border: 1px solid white;`}>
       <GameTableNavigation css={navigationCss(players)}/>
       <AcknowledgeKittyDialog/>
+      <AcknowledgePoigneeDialog/>
     </GameTable>
-      <PoigneeValidation />
     <RoundNumber/>
     <PlayerPanels/>
     <ScoringDialog/>

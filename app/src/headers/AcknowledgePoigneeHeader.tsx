@@ -11,7 +11,7 @@ export const AcknowledgePoigneeHeader = () => {
     return (
       <>
         <PlayMoveButton move={acknowledge}>
-          {t('Acknowledge')}
+          {t('dialog.validate-poignee')}
         </PlayMoveButton>
       </>
     )

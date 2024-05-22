@@ -1,8 +1,8 @@
-import { ItemMove, MaterialMove, PlayerTurnRule, isShuffle } from '@gamepark/rules-api'
-import { MaterialType } from '../material/MaterialType'
+import { isShuffle, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
-import { RuleId } from './RuleId'
+import { MaterialType } from '../material/MaterialType'
 import { Memory } from './Memory'
+import { RuleId } from './RuleId'
 
 export class DealRule extends PlayerTurnRule {
   getPlayerMoves() {
@@ -39,8 +39,7 @@ export class DealRule extends PlayerTurnRule {
     while (deck.length > 0) {
 
       for (const player of players) {
-        moves.push(
-          ...deck.deal({ type: LocationType.Hand, player }, 3))
+        moves.push(deck.dealAtOnce({ type: LocationType.Hand, player }, 3))
         if (Math.random() * (deck.length - kittyCardsLeft) / 3 < kittyCardsLeft) {
           moves.push(
             deck.dealOne({ type: LocationType.Kitty })

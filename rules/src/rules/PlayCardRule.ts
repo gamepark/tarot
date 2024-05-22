@@ -22,7 +22,7 @@ export class PlayCardRule extends PlayerTurnRule {
       }
     }
 
-    if (maxCards && this.isFirstTrick && !this.remind(Memory.Poigne, this.player)) {
+    if (maxCards && this.isFirstTrick && !this.hasChosenPoignee) {
       return [this.rules().startRule(RuleId.Poignee)]
     }
 
@@ -171,5 +171,9 @@ export class PlayCardRule extends PlayerTurnRule {
       }
     }
     return []
+  }
+
+  get hasChosenPoignee() {
+    return this.remind(Memory.Poigne, this.player) !== undefined
   }
 }

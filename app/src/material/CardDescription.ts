@@ -1,5 +1,5 @@
 import { CardDescription, getRelativePlayerIndex, ItemContext } from '@gamepark/react-game'
-import { isMoveItemTypeAtOnce, MaterialItem } from '@gamepark/rules-api'
+import { isMoveItemType, isMoveItemTypeAtOnce, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import { Card } from '@gamepark/tarot/Card'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
@@ -188,6 +188,10 @@ export class TarotCardDescription extends CardDescription {
     }
 
     return super.getRotateZ(item, context)
+  }
+
+  canShortClick(move: MaterialMove, context: ItemContext): boolean {
+    return isMoveItemType(MaterialType.Card)(move) && move.itemIndex === context.index && move.location.type === LocationType.Table
   }
 
   getShortClickLocalMove(context: ItemContext) {

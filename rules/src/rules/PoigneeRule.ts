@@ -19,10 +19,11 @@ export class PoigneeRule extends PlayerTurnRule {
     const indexes = playerTrumpsOrdered.getIndexes()
     for (const poignee of poignees) {
       moves.push(
-        ...getCombinations(indexes, poigneeMinTrumps[poignee]).map((list) => this.material(MaterialType.Card).indexes(list).moveItemsAtOnce({ type: LocationType.Poigne }))
+        ...getCombinations(indexes, poigneeMinTrumps[poignee]).map((list) => this.material(MaterialType.Card).indexes(list).moveItemsAtOnce({ type: LocationType.Poigne, player: this.player }))
       )
     }
 
+    moves.push(this.rules().startRule(RuleId.PlayCard))
     return moves
   }
 
@@ -49,6 +50,13 @@ export class PoigneeRule extends PlayerTurnRule {
       return [this.rules().startSimultaneousRule(RuleId.AcknownledgePoignee, this.game.players.filter((p) => p !== this.player))]
     }
 
+    return []
+  }
+
+  onRuleEnd() {
+    if (!this.remind(Memory.Poigne, this.player)) {
+      this.memorize(Memory.Poigne, false, this.player)
+    }
     return []
   }
 }
