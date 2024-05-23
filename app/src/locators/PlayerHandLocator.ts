@@ -6,11 +6,12 @@ import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 
 class PlayerHandLocator extends HandLocator {
 
+
   getCoordinates(location: Location, context: ItemContext) {
     const { rules, type, index } = context
     const item = rules.material(type).index(index).getItem()
     const angle = this.getPlayerAngle(location.player!, context)
-    const radius = 25
+    const radius = 27
     const x = Math.cos(angle * Math.PI / 180) * radius
     const y = -Math.sin(angle * Math.PI / 180) * radius - (item?.selected ? 2 : 0)
     return { x, y, z: (item?.selected ? 10 : 0) }
@@ -22,12 +23,12 @@ class PlayerHandLocator extends HandLocator {
 
   getPlayerAngle(player: number, context: MaterialContext) {
     const players = context.rules.players.length
-    return -90 + getRelativePlayerIndex(context, player) * 360 / players
+    return -90 - getRelativePlayerIndex(context, player) * 360 / players
   }
 
   getBaseAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {
     const players = context.rules.players.length
-    return getRelativePlayerIndex(context, item.location.player) * -360 / players
+    return getRelativePlayerIndex(context, item.location.player) * 360 / players
   }
 
   getMaxAngle(item: MaterialItem<number, number>, context: ItemContext<number, number, number>): number {

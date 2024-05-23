@@ -20,19 +20,19 @@ export class CreateKittyRule extends SimultaneousRule {
         return this.material(MaterialType.Card).location(LocationType.Kitty).sort(item => item.location.x!).rotateItems(true)
       case Bid.GuardWithoutTheKitty:
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: preneur }),
+          this.material(MaterialType.Card).location(LocationType.Kitty).moveItemsAtOnce({ type: LocationType.Ecart, player: preneur }),
           this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
       case Bid.GuardAgainstTheKitty:
         const facingPlayer = this.game.players[(this.game.players.indexOf(preneur) + 2) % this.game.players.length]
         if (this.game.players.length === 5) {
           return [
-            ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: undefined }),
+            this.material(MaterialType.Card).location(LocationType.Kitty).moveItemsAtOnce({ type: LocationType.Ecart, player: preneur }),
             this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
           ]
         }
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).moveItems({ type: LocationType.Ecart, player: facingPlayer }),
+          this.material(MaterialType.Card).location(LocationType.Kitty).moveItemsAtOnce({ type: LocationType.Ecart, player: facingPlayer }),
           this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
     }
