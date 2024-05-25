@@ -2,12 +2,13 @@
 import { css } from '@emotion/react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons/faCircleQuestion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { RulesDialog, usePlayerName, usePlayers, useRules } from '@gamepark/react-game'
+import { Avatar, RulesDialog, usePlayerName, usePlayers, useRules } from '@gamepark/react-game'
 import { isHeart, isSpade } from '@gamepark/tarot/Card'
 import { Bid } from '@gamepark/tarot/rules/Bid'
 import { Memory } from '@gamepark/tarot/rules/Memory'
 import { RulesUtil } from '@gamepark/tarot/rules/RulesUtil'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
+import sum from 'lodash/sum'
 import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -15,7 +16,7 @@ export const Summary: FC = () => {
   const players = usePlayers()
   return (
     <div css={summaryCss(players.length)}>
-      <FirstPlayer/>
+      <FirstLine/>
       <CalledCard/>
       <Preneur/>
       <RoundSummary/>
@@ -31,21 +32,32 @@ const RoundSummary: FC = () => {
   return (
     <>
       <hr css={css`width: 100%`}/>
-      <div onClick={() => setOpened(true)}>Round summary <FontAwesomeIcon icon={faCircleQuestion} css={openSummaryCss}/></div>
+      <div onClick={() => setOpened(true)}>Scores <FontAwesomeIcon icon={faCircleQuestion} css={openSummaryCss}/></div>
       <RulesDialog open={opened} css={dialogCss} onBackdropClick={() => setOpened(false)} close={() => setOpened(false)}>
-        <h2>Rounds summary</h2>
+        <h2>Scoring</h2>
         <table css={tableCss}>
           <thead>
-          <tr>
-            <td>Round</td>
-            {rules.players.map((p) => <RoundColumnTitle key={p} player={p} />)}
-          </tr>
+            <tr>
+              <td css={css`border: 0px !important;`}></td>
+              {rules.players.map((p) => <RoundColumnTitle key={p} player={p}/>)}
+            </tr>
           </thead>
           <tbody>
-          {roundSummary.map((entries: any, index: number) => (
-            <RoundSummaryEntry key={index} entries={entries} round={index + 1}/>
-          ))}
+            {roundSummary.map((entries: any, index: number) => (
+              <RoundSummaryEntry key={index} entries={entries} round={index + 1}/>
+            ))}
           </tbody>
+          <tfoot>
+          <tr>
+            <td>Total</td>
+            {rules.players.map((p) => {
+              const total = sum(roundSummary.map((round: any) => round[p - 1].score))
+              return (
+                <td key={p}>{total}</td>
+              )
+            })}
+          </tr>
+          </tfoot>
         </table>
       </RulesDialog>
     </>
@@ -60,13 +72,18 @@ const RoundColumnTitle: FC<RoundColumnTitleProps> = (props) => {
   const { player } = props
   const name = usePlayerName(player)
   return (
-    <td>{name}</td>
+    <td>
+      <div css={playerHeadCss}>
+        <Avatar playerId={player}  css={avatarCss} />
+        {name}
+      </div>
+    </td>
   )
 }
 
 type RoundSummaryEntryProps = {
   round: number
-  entries: {player: number, score: number}[]
+  entries: { player: number, score: number }[]
 }
 
 const RoundSummaryEntry: FC<RoundSummaryEntryProps> = (props) => {
@@ -86,9 +103,11 @@ const CalledCard: FC = () => {
   if (!calledCard) return null
   const isRed = isHeart(calledCard) || isSpade(calledCard)
   return (
-    <div css={css`display: flex; flex-direction: column`}>
-      <span css={css`text-decoration: underline; font-weight: bold`}>Called:</span>
-      <span css={css`color: ${isRed? 'red': 'black'}`}>{t(`card.${calledCard}`)}</span>
+    <div css={css`display: flex;
+      flex-direction: column`}>
+      <span css={css`text-decoration: underline;
+        font-weight: bold`}>Called:</span>
+      <span css={css`color: ${isRed ? 'red' : 'black'}`}>{t(`card.${calledCard}`)}</span>
     </div>
   )
 }
@@ -101,15 +120,17 @@ const Preneur: FC = () => {
   const name = usePlayerName(preneur)
   if (!preneur || !bid) return null
   return (
-    <div css={css`display: flex; flex-direction: column`}>
-      <span css={css`text-decoration: underline; font-weight: bold`}>{name}:</span>
+    <div css={css`display: flex;
+      flex-direction: column`}>
+      <span css={css`text-decoration: underline;
+        font-weight: bold`}>{name}:</span>
       <span>{t(`bid.${bid}`)}</span>
     </div>
   )
 
 }
 
-const FirstPlayer: FC = () => {
+const FirstLine: FC = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const startPlayer = rules.remind(Memory.StartPlayer)
@@ -117,10 +138,15 @@ const FirstPlayer: FC = () => {
 
   if (!startPlayer) return null
   return (
-    <div css={css`display: flex; flex-direction: column`}>
-      <span css={css`font-weight: bold; display: flex; flex-direction: row; justify-content: space-between`}>
-        <span css={css`align-self: flex-start; text-decoration: underline; `}>Starting:</span>
-        <span css={css`align-self: flex-end`}>{t('round', { round: rules.remind(Memory.Round), total: 4})}</span>
+    <div css={css`display: flex;
+      flex-direction: column`}>
+      <span css={css`font-weight: bold;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between`}>
+        <span css={css`align-self: flex-start;
+          text-decoration: underline; `}>Starting:</span>
+        <span css={css`align-self: flex-end`}>{t('round', { round: rules.remind(Memory.Round), total: 4 })}</span>
       </span>
       <span>{name}</span>
     </div>
@@ -155,6 +181,7 @@ const tableCss = css`
   border-collapse: collapse;
   font-size: 3em;
   width: 100%;
+
   td {
     padding: 0.5em;
     border: 0.05em solid black;
@@ -163,11 +190,28 @@ const tableCss = css`
 
 const dialogCss = css`
   padding: 3em;
-  
+
   > h2 {
     margin-top: 0;
     text-align: center;
     font-size: 2.5em;
     text-decoration: underline;
-  } 
+  }
+`
+
+const avatarCss = css`
+  position: relative;
+  top: -0.1em;
+  border-radius: 100%;
+  height: 2em;
+  width: 2em;
+  color: black;
+  z-index: 1; 
+`
+
+const playerHeadCss = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `
