@@ -8,9 +8,7 @@ import { Poignee } from './Poignee'
 import { RuleId } from './RuleId'
 import { RulesUtil } from './RulesUtil'
 
-
 export class ScoringRule extends MaterialRulesPart {
-
 
   onRuleStart() {
     const moves: MaterialMove[] = []

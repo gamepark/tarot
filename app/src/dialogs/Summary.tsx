@@ -3,20 +3,24 @@ import { css } from '@emotion/react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons/faCircleQuestion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Avatar, RulesDialog, usePlayerName, usePlayers, useRules } from '@gamepark/react-game'
-import { isHeart, isSpade } from '@gamepark/tarot/Card'
+import { isDiamond, isHeart } from '@gamepark/tarot/Card'
 import { Bid } from '@gamepark/tarot/rules/Bid'
 import { Memory } from '@gamepark/tarot/rules/Memory'
 import { RulesUtil } from '@gamepark/tarot/rules/RulesUtil'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import sum from 'lodash/sum'
 import { FC, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 
 export const Summary: FC = () => {
   const players = usePlayers()
   return (
     <div css={summaryCss(players.length)}>
-      <FirstLine/>
+
+      <span css={firstLineCss}>
+        <StartingPlayer/>
+        <Round/>
+      </span>
       <CalledCard/>
       <Preneur/>
       <Chelem/>
@@ -26,31 +30,32 @@ export const Summary: FC = () => {
 }
 
 const RoundSummary: FC = () => {
+  const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const [opened, setOpened] = useState(false)
   const roundSummary = rules.remind(Memory.RoundSummary) ?? []
   if (!roundSummary.length) return null
   return (
     <>
-      <hr css={css`width: 100%`}/>
-      <div onClick={() => setOpened(true)}>Scores <FontAwesomeIcon icon={faCircleQuestion} css={openSummaryCss}/></div>
+      <hr css={separatorCss}/>
+      <span css={openSummaryCss} onClick={() => setOpened(true)}>{t('summary.scoring')} <FontAwesomeIcon icon={faCircleQuestion}/></span>
       <RulesDialog open={opened} css={dialogCss} onBackdropClick={() => setOpened(false)} close={() => setOpened(false)}>
-        <h2>Scoring</h2>
+        <h2>{t('summary.scoring')}</h2>
         <table css={tableCss}>
           <thead>
-            <tr>
-              <td css={css`border: 0px !important;`}></td>
-              {rules.players.map((p) => <RoundColumnTitle key={p} player={p}/>)}
-            </tr>
+          <tr>
+            <td css={noBorderCss}></td>
+            {rules.players.map((p) => <RoundColumnTitle key={p} player={p}/>)}
+          </tr>
           </thead>
           <tbody>
-            {roundSummary.map((entries: any, index: number) => (
-              <RoundSummaryEntry key={index} entries={entries} round={index + 1}/>
-            ))}
+          {roundSummary.map((entries: any, index: number) => (
+            <RoundSummaryEntry key={index} entries={entries} round={index + 1}/>
+          ))}
           </tbody>
           <tfoot>
           <tr>
-            <td>Total</td>
+            <td>{t('summary.scoring.total')}</td>
             {rules.players.map((p) => {
               const total = sum(roundSummary.map((round: any) => round[p - 1].score))
               return (
@@ -75,7 +80,7 @@ const RoundColumnTitle: FC<RoundColumnTitleProps> = (props) => {
   return (
     <td>
       <div css={playerHeadCss}>
-        <Avatar playerId={player}  css={avatarCss} />
+        <Avatar playerId={player} css={avatarCss}/>
         {name}
       </div>
     </td>
@@ -102,14 +107,14 @@ const CalledCard: FC = () => {
   const calledCard = rules.remind(Memory.CalledCard)
   const { t } = useTranslation()
   if (!calledCard) return null
-  const isRed = isHeart(calledCard) || isSpade(calledCard)
+  const isRed = isHeart(calledCard) || isDiamond(calledCard)
   return (
-    <div css={css`display: flex;
-      flex-direction: column`}>
-      <span css={css`text-decoration: underline;
-        font-weight: bold`}>Called:</span>
-      <span css={css`color: ${isRed ? 'red' : 'black'}`}>{t(`card.${calledCard}`)}</span>
-    </div>
+    <span>
+      <Trans defaults="summary.called" values={{ card: t(`card.${calledCard}`) }}>
+        <u />
+        <span css={css`color: ${isRed ? 'red' : 'black'}`} />
+      </Trans>
+    </span>
   )
 }
 
@@ -121,12 +126,11 @@ const Preneur: FC = () => {
   const name = usePlayerName(preneur)
   if (!preneur || !bid) return null
   return (
-    <div css={css`display: flex;
-      flex-direction: column`}>
-      <span css={css`text-decoration: underline;
-        font-weight: bold`}>{name}:</span>
-      <span>{t(`bid.${bid}`)}</span>
-    </div>
+    <span>
+      <Trans defaults="summary.bid" values={{ name, bid: t(`bid.${bid}`) }}>
+        <u />
+      </Trans>
+    </span>
   )
 
 }
@@ -134,40 +138,40 @@ const Preneur: FC = () => {
 const Chelem: FC = () => {
   const rules = useRules<TarotRules>()!
   const chelem = rules.remind(Memory.ChelemAnnounced)
-  const { t } = useTranslation()
   const name = usePlayerName(chelem)
   if (!chelem) return null
   return (
-    <div css={css`display: flex;
-      flex-direction: column`}>
-      <span css={css`text-decoration: underline;
-        font-weight: bold`}>{name}:</span>
-      <span>{t(`chelem`)}</span>
-    </div>
+    <span>
+      <Trans defaults="summary.chelem" values={{ name }}>
+        <u/>
+      </Trans>
+    </span>
   )
 
 }
 
-const FirstLine: FC = () => {
-  const { t } = useTranslation()
+const StartingPlayer: FC = () => {
   const rules = useRules<TarotRules>()!
   const startPlayer = rules.remind(Memory.StartPlayer)
   const name = usePlayerName(startPlayer)
 
   if (!startPlayer) return null
   return (
-    <div css={css`display: flex;
-      flex-direction: column`}>
-      <span css={css`font-weight: bold;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between`}>
-        <span css={css`align-self: flex-start;
-          text-decoration: underline; `}>Starting:</span>
-        <span css={css`align-self: flex-end`}>{t('round', { round: rules.remind(Memory.Round), total: 4 })}</span>
-      </span>
-      <span>{name}</span>
-    </div>
+    <span>
+      <Trans defaults="summary.starting" values={{ name }}>
+        <u/>
+      </Trans>
+    </span>
+  )
+}
+
+const Round: FC = () => {
+  const { t } = useTranslation()
+  const rules = useRules<TarotRules>()!
+  const round = rules.remind(Memory.Round)
+
+  return (
+    <span css={roundCss}>{t('round', { round, total: 4 })}</span>
   )
 }
 
@@ -189,9 +193,18 @@ const summaryCss = (players: number) => css`
   padding: 0.7em 0.7em 1.2em;
   gap: 1em;
   color: black;
+  
+  > * {
+    white-space: break-spaces;
+  }
 
-  > div {
+  > span {
     font-size: 2em;
+
+    > u {
+      font-weight: bold;
+    }
+    
   }
 `
 
@@ -224,7 +237,7 @@ const avatarCss = css`
   height: 2em;
   width: 2em;
   color: black;
-  z-index: 1; 
+  z-index: 1;
 `
 
 const playerHeadCss = css`
@@ -232,4 +245,26 @@ const playerHeadCss = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`
+
+const firstLineCss = css`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  u {
+    font-weight: bold;
+  }
+`
+
+const roundCss = css`
+  align-self: flex-start
+`
+
+const separatorCss = css`
+  width: 100%
+`
+
+const noBorderCss = css`
+  border: 0 !important;
 `
