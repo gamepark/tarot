@@ -14,9 +14,6 @@ export class TarotSetup extends MaterialGameSetup<number, MaterialType, Location
 
   setupMaterial() {
     this.material(MaterialType.Card).createItems(cards.map(card => ({ id: card, location: { type: LocationType.Deck } })))
-    for (const player of this.game.players) {
-      this.memorize(Memory.Score,0,player)
-    }
     this.memorize(Memory.Round,1)
   }
 

@@ -3,8 +3,6 @@ export enum Memory {
     StartPlayer = 1,
     Bid,
     IsKittyStarted,
-    Score,
-    ExcuseInTrick,
     ChelemAnnounced,
     CalledCard,
     Chelem,

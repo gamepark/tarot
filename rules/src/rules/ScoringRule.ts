@@ -15,11 +15,13 @@ export class ScoringRule extends MaterialRulesPart {
     moves.push(
       this.material(MaterialType.Card).moveItemsAtOnce({ rotation: true })
     )
-    if (this.remind(Memory.Round) === 4) {
+
+    this.memorize(Memory.Round, (this.remind(Memory.Round) + 1))
+    // TODO: Extract 4 from options
+    if (this.remind(Memory.Round) > 4) {
       moves.push(this.rules().endGame())
       return moves
     }
-    this.memorize(Memory.Round, (this.remind(Memory.Round) + 1))
     moves.push(this.rules().startPlayerTurn(RuleId.Deal, this.remind(Memory.StartPlayer)))
     return moves
   }
@@ -31,7 +33,6 @@ export class ScoringRule extends MaterialRulesPart {
     for (const player of this.game.players) {
       const score = new ScoringHelper(this.game, player).score
       this.addSummary(round, player, score)
-      this.memorize(Memory.Score, (actualScore: number) => actualScore + score, new RulesUtil(this.game).preneur)
     }
 
     moves.push(this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }))
@@ -43,6 +44,7 @@ export class ScoringRule extends MaterialRulesPart {
     const preneur = new RulesUtil(this.game).preneur
     this.memorize(Memory.RoundSummary, (r = []) => {
       const rounds = r ? [...r]: []
+      console.log(round, round - 2, rounds.length)
       if (!rounds[round - 2]) {
         rounds.push([])
       }

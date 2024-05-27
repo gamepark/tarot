@@ -169,9 +169,11 @@ const Round: FC = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const round = rules.remind(Memory.Round)
-
+  // TODO: Extract from memory
+  const total = 4
+  if (round > total) return null
   return (
-    <span css={roundCss}>{t('round', { round, total: 4 })}</span>
+    <span css={roundCss}>{t('round', { round, total })}</span>
   )
 }
 

@@ -6,7 +6,7 @@ import {
   MaterialItem,
   MaterialMove,
   PositiveSequenceStrategy,
-  SecretMaterialRules
+  SecretMaterialRules, TimeLimit
 } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
@@ -21,6 +21,7 @@ import { PlayCardRule } from './rules/PlayCardRule'
 import { PoigneeRule } from './rules/PoigneeRule'
 import { RuleId } from './rules/RuleId'
 import { ScoringRule } from './rules/ScoringRule'
+import sum from 'lodash/sum'
 
 
 /**
@@ -28,7 +29,8 @@ import { ScoringRule } from './rules/ScoringRule'
  * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
  */
 export class TarotRules extends SecretMaterialRules<number, MaterialType, LocationType>
-  implements CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number> {
+  implements CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>,
+    TimeLimit<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>{
 
   locationsStrategies = {
     [MaterialType.Card]: {
@@ -75,7 +77,11 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
   }*/
 
   getScore(player: number): number {
-    return this.remind(Memory.Score, player)
+    const playerRoundSummary = this.remind(Memory.RoundSummary).map((round: any) => round.find((s: any) => s.player === player))
+    return sum(playerRoundSummary.map((s: any) => s.score))
   }
 
+  giveTime(): number {
+    return 60
+  }
 }
