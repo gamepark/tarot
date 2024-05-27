@@ -14,5 +14,6 @@ export enum Memory {
     Round, 
     CardInKitty,
     DealerPlayer,
-    RoundSummary
+    RoundSummary,
+    CurrentPoigneePlayer
 }

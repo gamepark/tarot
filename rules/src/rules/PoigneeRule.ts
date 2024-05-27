@@ -47,6 +47,8 @@ export class PoigneeRule extends PlayerTurnRule {
       for (const item of this.material(MaterialType.Card).indexes(move.indexes).getItems()) {
         delete item.selected
       }
+
+      this.memorize(Memory.CurrentPoigneePlayer, this.player)
       return [this.rules().startSimultaneousRule(RuleId.AcknownledgePoignee, this.game.players.filter((p) => p !== this.player))]
     }
 

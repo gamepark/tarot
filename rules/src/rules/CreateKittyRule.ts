@@ -47,7 +47,7 @@ export class CreateKittyRule extends SimultaneousRule {
         return [this.rules().customMove(CustomMoveType.AcknowledgeKitty, playerId)]
       } else {
         const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(playerId).filter(card => isColor(card.id) && !isKing(card.id))
-        return playerCards.moveItems({ type: LocationType.Ecart })
+        return playerCards.moveItems({ type: LocationType.Ecart, player: playerId })
       }
     } else {
       return [this.rules().customMove(CustomMoveType.AcknowledgeKitty, playerId)]
@@ -63,11 +63,14 @@ export class CreateKittyRule extends SimultaneousRule {
       const preneur = new RulesUtil(this.game).preneur!
       if (move.data === preneur) {
         return [
-          ...this.material(MaterialType.Card).location(LocationType.Kitty).sort(item => -item.location.x!)
-            .moveItems({ type: LocationType.Hand, player: preneur }),
-          this.material(MaterialType.Card).filter(item =>
-            item.location.type === LocationType.Kitty || (item.location.type === LocationType.Hand && item.location.player === preneur)
-          ).shuffle()
+          this.material(MaterialType.Card)
+            .location(LocationType.Kitty)
+            .sort(item => -item.location.x!)
+            .moveItemsAtOnce({ type: LocationType.Hand, player: preneur }),
+          this
+            .material(MaterialType.Card)
+            .filter(item => item.location.type === LocationType.Kitty || (item.location.type === LocationType.Hand && item.location.player === preneur))
+            .shuffle()
         ]
       } else {
         return [this.rules().endPlayerTurn(move.data)]

@@ -11,14 +11,12 @@ export class AcknowledgePoigneeRule extends SimultaneousRule {
   }
 
   getMovesAfterPlayersDone(): MaterialMove<number, number, number>[] {
-    const poigneePlayer = this.game.players.find((p) => {
-      return this.remind(Memory.Poigne, p) !== undefined
-    })!
-
+    const poigneePlayer = this.remind(Memory.CurrentPoigneePlayer)
     if (!poigneePlayer) {
       console.error("There is a issue while searching poignee player")
     }
 
+    this.forget(Memory.CurrentPoigneePlayer)
     return [
       this.poignee.moveItemsAtOnce({ type: LocationType.Hand, player: poigneePlayer }),
       this.rules().startPlayerTurn(RuleId.PlayCard, poigneePlayer)

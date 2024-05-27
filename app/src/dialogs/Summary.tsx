@@ -19,6 +19,7 @@ export const Summary: FC = () => {
       <FirstLine/>
       <CalledCard/>
       <Preneur/>
+      <Chelem/>
       <RoundSummary/>
     </div>
   )
@@ -125,6 +126,23 @@ const Preneur: FC = () => {
       <span css={css`text-decoration: underline;
         font-weight: bold`}>{name}:</span>
       <span>{t(`bid.${bid}`)}</span>
+    </div>
+  )
+
+}
+
+const Chelem: FC = () => {
+  const rules = useRules<TarotRules>()!
+  const chelem = rules.remind(Memory.ChelemAnnounced)
+  const { t } = useTranslation()
+  const name = usePlayerName(chelem)
+  if (!chelem) return null
+  return (
+    <div css={css`display: flex;
+      flex-direction: column`}>
+      <span css={css`text-decoration: underline;
+        font-weight: bold`}>{name}:</span>
+      <span>{t(`chelem`)}</span>
     </div>
   )
 
