@@ -4,6 +4,7 @@ import { css } from '@emotion/react'
 import { GameTable, GameTableNavigation } from '@gamepark/react-game'
 import { AcknowledgeKittyDialog } from './dialogs/AcknowledgeKittyDialog'
 import { AcknowledgePoigneeDialog } from './dialogs/AcknowledgePoigneeDialog'
+import { RoundSummaryDialog } from './dialogs/RoundSummaryDialog'
 import { Summary } from './dialogs/Summary'
 import { ScoringDialog } from './headers/ScoringDialog'
 import { PlayerPanels } from './panels/PlayerPanels'
@@ -22,6 +23,7 @@ export default function GameDisplay({ players }: { players: number }) {
     <PlayerPanels/>
     <Summary />
     <ScoringDialog/>
+    <RoundSummaryDialog />
   </>
 }
 

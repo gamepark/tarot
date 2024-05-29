@@ -79,7 +79,7 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
   getScore(player: number): number {
     const summaries = this.remind(Memory.RoundSummary)
     if (!summaries?.length) return 0
-    const playerRoundSummary = summaries.map((round: any) => round.find((s: any) => s.player === player))
+    const playerRoundSummary = summaries.map((round: any) => round.players.find((s: any) => s.id === player))
     return sum(playerRoundSummary.map((s: any) => s.score)) ?? 0
 
   }

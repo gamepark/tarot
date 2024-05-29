@@ -1,7 +1,6 @@
 import { MaterialMove, MaterialRulesPart, RuleMove } from '@gamepark/rules-api'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
-import { Bid } from './Bid'
 import { ScoringHelper } from './helper/ScoringHelper'
 import { Memory } from './Memory'
 import { Poignee } from './Poignee'
@@ -29,10 +28,8 @@ export class ScoringRule extends MaterialRulesPart {
 
   onRuleEnd<RuleId extends number>(_move: RuleMove<number, RuleId>): MaterialMove<number, number, number>[] {
     const moves: MaterialMove[] = []
-    const round = this.remind(Memory.Round)
     for (const player of this.game.players) {
-      const score = new ScoringHelper(this.game, player).score
-      this.addSummary(round, player, score)
+      this.addSummary(player)
     }
 
     moves.push(this.material(MaterialType.Card).moveItemsAtOnce({ type: LocationType.Deck }))
@@ -40,24 +37,34 @@ export class ScoringRule extends MaterialRulesPart {
 
   }
 
-  addSummary = (round: number, player: number, score: number) => {
+  hasWin = (player: number) => new ScoringHelper(this.game, player)
+
+  addSummary = (player: number) => {
     const preneur = new RulesUtil(this.game).preneur
+    const scoring = new ScoringHelper(this.game, player)
+    const round = this.remind(Memory.Round)
     this.memorize(Memory.RoundSummary, (r = []) => {
       const rounds = r ? [...r]: []
-      console.log(round, round - 2, rounds.length)
       if (!rounds[round - 2]) {
-        rounds.push([])
+        rounds.push({
+          preneur: preneur,
+          calledPlayer: this.remind(Memory.CalledPlayer),
+          calledCard: this.remind(Memory.CalledCard),
+          players: []
+        })
       }
 
-      rounds[round - 2].push({
-        player,
-        score,
-        bid: this.remind<Bid>(Memory.Bid, ),
-        chelem: this.remind(Memory.ChelemAnnounced),
-        preneur: preneur,
-        calledCard: this.remind(Memory.CalledCard),
-        petitAuBout: this.remind(Memory.PetitLastTrick)
-
+      rounds[round - 2].players.push({
+        id: player,
+        score: scoring.score,
+        bid: scoring.bid,
+        contrat: scoring.contrat,
+        contratScore: scoring.contratScore,
+        points: scoring.points,
+        petitAuBout: scoring.petitAuBout,
+        poignee: scoring.poignees,
+        chelem: scoring.chelem,
+        factor: scoring.scoreFactor,
       })
       return rounds
     })

@@ -50,14 +50,14 @@ const RoundSummary: FC = () => {
           </thead>
           <tbody>
           {roundSummary.map((entries: any, index: number) => (
-            <RoundSummaryEntry key={index} entries={entries} round={index + 1}/>
+            <RoundSummaryEntry key={index} entries={entries.players} round={index + 1}/>
           ))}
           </tbody>
           <tfoot>
           <tr>
             <td>{t('summary.scoring.total')}</td>
             {rules.players.map((p) => {
-              const total = sum(roundSummary.map((round: any) => round[p - 1].score))
+              const total = sum(roundSummary.map((round: any) => round.players.find((line: any) => line.id === p).score))
               return (
                 <td key={p}>{total}</td>
               )
@@ -111,8 +111,8 @@ const CalledCard: FC = () => {
   return (
     <span>
       <Trans defaults="summary.called" values={{ card: t(`card.${calledCard}`) }}>
-        <u />
-        <span css={css`color: ${isRed ? 'red' : 'black'}`} />
+        <u/>
+        <span css={css`color: ${isRed ? 'red' : 'black'}`}/>
       </Trans>
     </span>
   )
@@ -128,7 +128,7 @@ const Preneur: FC = () => {
   return (
     <span>
       <Trans defaults="summary.bid" values={{ name, bid: t(`bid.${bid}`) }}>
-        <u />
+        <u/>
       </Trans>
     </span>
   )
@@ -195,7 +195,7 @@ const summaryCss = (players: number) => css`
   padding: 0.7em 0.7em 1.2em;
   gap: 1em;
   color: black;
-  
+
   > * {
     white-space: break-spaces;
   }
@@ -206,7 +206,7 @@ const summaryCss = (players: number) => css`
     > u {
       font-weight: bold;
     }
-    
+
   }
 `
 
@@ -253,7 +253,7 @@ const firstLineCss = css`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  
+
   u {
     font-weight: bold;
   }

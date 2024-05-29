@@ -106,11 +106,11 @@ export class ScoringHelper extends MaterialRulesPart {
       points = Math.round(points)
     }
 
-    return (points >= 0 ? points + 25 : points - 25) * this.bid
+    return (points >= 0 ? points + 25 : points - 25)
   }
 
   get score() {
-    const score = this.contratScore + this.poignees + this.petitAuBout + this.chelem
+    const score = ((this.contratScore + this.petitAuBout) * this.bid) + this.chelem + this.poignees
     return score * this.scoreFactor
   }
 
@@ -118,9 +118,9 @@ export class ScoringHelper extends MaterialRulesPart {
     const petitAuBout = this.remind(Memory.PetitLastTrick)
     if (petitAuBout !== undefined) {
       if (this.ruleUtils.preneur === petitAuBout) {
-        return 10 * this.bid
+        return 10
       } else {
-        return - 10 * this.bid
+        return - 10
       }
     }
 
