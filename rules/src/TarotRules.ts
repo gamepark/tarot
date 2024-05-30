@@ -1,7 +1,7 @@
 import {
   CompetitiveScore,
   hideItemId,
-  hideItemIdToOthers,
+  hideItemIdToOthers, isCustomMoveType, isMoveItemType,
   MaterialGame,
   MaterialItem,
   MaterialMove,
@@ -15,11 +15,13 @@ import { BidRule } from './rules/BidRule'
 import { CallCardRule } from './rules/CallCardRule'
 import { ChelemRule } from './rules/ChelemRule'
 import { CreateKittyRule } from './rules/CreateKittyRule'
+import { CustomMoveType } from './rules/CustomMoveType'
 import { DealRule } from './rules/DealRule'
 import { Memory } from './rules/Memory'
 import { PlayCardRule } from './rules/PlayCardRule'
 import { PoigneeRule } from './rules/PoigneeRule'
 import { RuleId } from './rules/RuleId'
+import { RulesUtil } from './rules/RulesUtil'
 import { ScoringRule } from './rules/ScoringRule'
 import sum from 'lodash/sum'
 
@@ -65,16 +67,15 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.AcknownledgePoignee]: AcknowledgePoigneeRule
   }
 
-  /*keepMoveSecret(move: MaterialMove<number, MaterialType, LocationType>, playerId?: number): boolean {
+  keepMoveSecret(move: MaterialMove<number, MaterialType, LocationType>, playerId?: number): boolean {
     if (this.game.rule?.id === RuleId.CreateKitty) {
       const preneur = new RulesUtil(this.game).preneur!
-      console.log(preneur, playerId)
       if (preneur === playerId) return false
       return (isCustomMoveType(CustomMoveType.AcknowledgeKitty)(move) && move.data === preneur)
         || (isMoveItemType(MaterialType.Card)(move) && !move.location.rotation)
     }
     return false
-  }*/
+  }
 
   getScore(player: number): number {
     const summaries = this.remind(Memory.RoundSummary)
