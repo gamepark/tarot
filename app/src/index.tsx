@@ -12,13 +12,14 @@ import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import translations from './translations.json'
 import { Tutorial } from './tutorial/Tutorial'
+import BackgroundCover from './images/background.jpg'
 
 setupTranslation(translations, { debug: false })
 
 
 const playMatCss = css`
   #root {
-    background: linear-gradient(to bottom right, #52c234, #061700 120%);
+    background: url(${BackgroundCover}) center/cover;
   }
 `
 
@@ -36,7 +37,7 @@ ReactDOM.render(
       theme={{
         root: {
           background: {
-            overlay: 'linear-gradient(to bottom right,  #31741f, #061700 120%)'
+            image: BackgroundCover
           }
         }
       }}

@@ -15,7 +15,9 @@ export default function GameDisplay({ players }: { players: number }) {
     <GameTable xMin={-xMax} xMax={xMax}
                verticalCenter
                yMin={players === 5 ? -31 : players === 4 ? -32 : -29} yMax={39}
-               collisionAlgorithm={pointerWithin} css={css`border: 1px solid white;`}>
+               collisionAlgorithm={pointerWithin}
+               //css={css`border: 1px solid white;`}
+    >
       <GameTableNavigation css={navigationCss(players)}/>
       <AcknowledgeKittyDialog/>
       <AcknowledgePoigneeDialog/>
