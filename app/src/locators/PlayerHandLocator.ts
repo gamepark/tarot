@@ -35,7 +35,7 @@ class PlayerHandLocator extends HandLocator {
     const relativePlayerIndex = getRelativePlayerIndex(context, item.location.player)
     if (relativePlayerIndex === 0) return 20
     const players = context.rules.players.length
-    return players === 3 ? 5 : players === 4 ? 4 : 3
+    return players === 3 ? 5 : players === 4 ? 6 : 3
   }
 
   getGapMaxAngle() {
