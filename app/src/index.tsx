@@ -19,7 +19,7 @@ setupTranslation(translations, { debug: false })
 
 const playMatCss = css`
   #root {
-    background: url(${BackgroundCover}) center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${BackgroundCover}) center/cover
   }
 `
 
@@ -34,13 +34,6 @@ ReactDOM.render(
       locators={Locators}
       animations={tarotAnimations}
       tutorial={new Tutorial()}
-      theme={{
-        root: {
-          background: {
-            image: BackgroundCover
-          }
-        }
-      }}
     >
       <App/>
       <Global styles={playMatCss}/>
