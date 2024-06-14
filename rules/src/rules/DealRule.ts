@@ -18,7 +18,6 @@ export class DealRule extends PlayerTurnRule {
     this.forget(Memory.Poigne)
     this.forget(Memory.ChelemAnnounced)
     this.forget(Memory.IsKittyStarted)
-    this.forget(Memory.PetitLastTrick)
     this.forget(Memory.CardInKitty)
     this.forget(Memory.DealerPlayer)
 
