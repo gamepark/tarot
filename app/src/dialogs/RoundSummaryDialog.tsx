@@ -47,6 +47,18 @@ export const RoundSummaryDialog: FC = () => {
           ))}
         </tr>
         <tr>
+          <td>{t('summary.contract')}</td>
+          {summary.players.map((entry: any) => (
+            <td key={entry.id}>{(entry.id === preneur) ? `${entry.contrat}` : '/'}</td>
+          ))}
+        </tr>
+        <tr>
+          <td>{t('summary.contract.title')}</td>
+          {summary.players.map((entry: any) => (
+            <td key={entry.id}>{(entry.id === preneur) ? `${entry.contratScore}` : '/'}</td>
+          ))}
+        </tr>
+        <tr>
           <td>{t('summary.petit.title')}</td>
           {summary.players.map((entry: any) => (
             <td key={entry.id}>{(entry.id === preneur) ? entry.petitAuBout : '/'}</td>
