@@ -19,7 +19,7 @@ export const TarotPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, players,
   const playerId = usePlayerId()
   const rules = useRules<TarotRules>()!
   const { t } = useTranslation()
-  const position = (player - (playerId ?? 1) + players) % players + 1
+  const position = (-player + (playerId ?? 1) + players) % players + 1
   const long = position === 1 || (players === 4 && position === 3)
   const direction = speechBubbleDirection(position, players)
   return (
