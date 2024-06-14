@@ -41,9 +41,9 @@ export const RoundSummaryDialog: FC = () => {
         </thead>
         <tbody>
         <tr>
-          <td>{t('summary.contract.title')}</td>
+          <td>{t('summary.points')}</td>
           {summary.players.map((entry: any) => (
-            <td key={entry.id}>{(entry.id === preneur) ? `${entry.contratScore}` : '/'}</td>
+            <td key={entry.id}>{(entry.id === preneur) ? `${entry.points}` : '/'}</td>
           ))}
         </tr>
         <tr>

@@ -14,3 +14,7 @@ tarotAnimations.when()
 tarotAnimations.when()
   .move(move => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Table)
   .duration(0.4)
+
+  tarotAnimations.when()
+  .move(move => isMoveItemType(MaterialType.Card)(move)  && move.location.type === LocationType.Tricks) // TODO : && Condition 1 seule carte sur la table.
+  .duration(1)
