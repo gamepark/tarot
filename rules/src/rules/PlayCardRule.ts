@@ -140,6 +140,7 @@ export class PlayCardRule extends PlayerTurnRule {
         const petitOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Trump1);
 
         if (petitOnTable && this.isLastTrick) {
+          console.log(this.isLastTrick)
           this.memorize(Memory.PetitLastTrick, trickWinner)
         } else if (this.material(MaterialType.Card).location(LocationType.Table).player(trickWinner).getItem()?.id !== Card.Excuse) {
           this.forget(Memory.PetitLastTrick)
