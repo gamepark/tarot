@@ -103,27 +103,6 @@ export class PlayCardRule extends PlayerTurnRule {
     return this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.z!).getItems().map(item => item.id)
   }
 
-  get trickWinner() {
-    const firstCardPlayed = this.material(MaterialType.Card).location(LocationType.Table).sort(item => item.location.z!).getItem()!
-    if (this.isLastTrick && firstCardPlayed.id === Card.Excuse && new RulesUtil(this.game).hasChelem(firstCardPlayed.location.player!)) {
-      return firstCardPlayed.location.player!
-    }
-    const cardsPlayed = this.cardsPlayed
-    const trumps = cardsPlayed.filter(isTrumpValue)
-    if (trumps.length > 0) {
-      const bestTrump = Math.max(...trumps)!
-      return this.material(MaterialType.Card).id(bestTrump).getItem()!.location.player!
-    }
-    const firstCard = this.firstMeaningfullCardPlayed!
-    const cardsSameColor = cardsPlayed.filter(card => isSameColor(card, firstCard))
-    const bestCard = Math.max(...cardsSameColor)!
-    return this.material(MaterialType.Card).id(bestCard).getItem()!.location.player!
-  }
-
-  get isLastTrick() {
-    return this.material(MaterialType.Card).location(LocationType.Hand).length === 0
-  }
-
 
   afterItemMove(move: ItemMove) {
     if (isMoveItem(move) && move.location.type === LocationType.Table) {
@@ -132,40 +111,10 @@ export class PlayCardRule extends PlayerTurnRule {
       }
 
       this.material(MaterialType.Card).player(this.player).selected(true).getItems().forEach((item) => delete item.selected)
-      const moves: MaterialMove[] = []
       const numberPlayedCards = this.cardsPlayed.length
 
       if (numberPlayedCards === this.game.players.length) {
-        const trickWinner = this.trickWinner
-        const petitOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Trump1);
-
-        if (petitOnTable.length === 1 && this.isLastTrick) {
-          this.memorize(Memory.PetitLastTrick, trickWinner)
-        } else if (this.material(MaterialType.Card).location(LocationType.Table).player(trickWinner).getItem()?.id !== Card.Excuse) {
-          this.forget(Memory.PetitLastTrick)
-        }
-
-        const excuseOnTable = this.material(MaterialType.Card).location(LocationType.Table).id(Card.Excuse);
-        if (excuseOnTable.length === 1 && !this.isSameSide(trickWinner, excuseOnTable.getItem()!.location.player!) && !this.isLastTrick) {
-          moves.push(
-            excuseOnTable.moveItem({ type: LocationType.Tricks, player: excuseOnTable.getItem()?.location.player, rotation: true }),
-          )
-          moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).id(id => id !== Card.Excuse).moveItems({ type: LocationType.Tricks, player: trickWinner })
-          )
-        } else {
-          moves.push(
-            ...this.material(MaterialType.Card).location(LocationType.Table).moveItems({ type: LocationType.Tricks, player: trickWinner })
-          )
-        }
-
-
-        if (this.material(MaterialType.Card).location(LocationType.Hand).length > 0) {
-          moves.push(this.rules().startPlayerTurn(RuleId.PlayCard, trickWinner))
-        } else {
-          moves.push(this.rules().startRule(RuleId.Scoring))
-        }
-        return moves
+        return [this.rules().startRule(RuleId.SolveTrick)]
       } else {
         return [this.rules().startPlayerTurn(RuleId.PlayCard, this.nextPlayer)]
       }

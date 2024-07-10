@@ -42,6 +42,7 @@ const RulesHeaders: Record<RuleId, () => ReactJSXElement> = {
   [RuleId.CreateKitty]: CreateKittyHeader,
   [RuleId.PlayCard]: PlayCardHeader,
   [RuleId.Scoring]: () => <>Décompte du score !</>,
+  [RuleId.SolveTrick]: () => <>Resoltion du pli</>,
   [RuleId.Poignee]: PoigneeHeader,
   [RuleId.AcknownledgePoignee]: AcknowledgePoigneeHeader
 }

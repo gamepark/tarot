@@ -24,6 +24,7 @@ import { RuleId } from './rules/RuleId'
 import { RulesUtil } from './rules/RulesUtil'
 import { ScoringRule } from './rules/ScoringRule'
 import sum from 'lodash/sum'
+import { SolveTrickRule } from './rules/SolveTrickRule'
 
 
 /**
@@ -64,7 +65,8 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
     [RuleId.PlayCard]: PlayCardRule,
     [RuleId.Scoring]: ScoringRule,
     [RuleId.Poignee]: PoigneeRule,
-    [RuleId.AcknownledgePoignee]: AcknowledgePoigneeRule
+    [RuleId.AcknownledgePoignee]: AcknowledgePoigneeRule,
+    [RuleId.SolveTrick]: SolveTrickRule
   }
 
   keepMoveSecret(move: MaterialMove<number, MaterialType, LocationType>, playerId?: number): boolean {
