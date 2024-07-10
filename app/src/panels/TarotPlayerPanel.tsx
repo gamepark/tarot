@@ -228,48 +228,32 @@ const timerShortCss = css`
   left: 2.9em;
 `
 
-const longPlayerFirstCss = css`
+const firstCss = css`
   background-color: goldenrod;
   height: 1.5em;
   width: 1.8em;
   border-radius: 0.5em;
-  top: 0.4em;
   display: flex;
   align-items: center;
   justify-content: center;
   padding:  0.1em 0.1em 0.1em 0 ;
   font-size: 2.5em;
   position: absolute;
-  right: 4.5em;
   color: black;
   border: 0.05em solid black;
-  
+  top: 0.3em;
+  right: 0.4em;
+
   > pre {
     font-size: 0.5em;
     align-self: flex-end;
   }
 `
 
-const firstCss = css`
-  background-color: goldenrod;
-  height: 1.5em;
-  width: 1.8em;
-  border-radius: 0.5em;
-  top: 0.3em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding:  0.1em 0.1em 0.1em 0 ;
-  font-size: 2.5em;
-  position: absolute;
-  right: 0.4em;
-  color: black;
-  border: 0.05em solid black;
-
-  > pre {
-    font-size: 0.5em;
-    align-self: flex-end;
-  }
+const longPlayerFirstCss = css`
+  ${firstCss};
+  top: 0.4em;
+  right: 4.5em;
 `
 
 const bubbleCss = css`box-shadow: 0 0 0.1em black;`
