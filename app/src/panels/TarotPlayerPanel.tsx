@@ -22,6 +22,7 @@ export const TarotPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, players,
   const position = (-player + (playerId ?? 1) + players) % players + 1
   const long = position === 1 || (players === 4 && position === 3)
   const direction = speechBubbleDirection(position, players)
+  const first = (rules.remind(Memory.TrickWinner) ?? rules.remind(Memory.StartPlayer)) === player
   return (
     <div css={[panelCss, long ? longPanelCss : shortPanelCss, getBackground(player, rules.game), positionCss(position, players)]} {...props}>
       <Avatar css={avatarStyle} playerId={player} speechBubbleProps={{ direction, css: bubbleCss }}>
@@ -29,6 +30,7 @@ export const TarotPlayerPanel: FC<FarawayPlayerPanelProps> = ({ player, players,
       </Avatar>
       <h2 css={[nameStyle]}>{playerName}</h2>
       <Timer player={player} long={long}/>
+      {first && <div css={long? longPlayerFirstCss: firstCss}>1<pre>st</pre></div>}
       <span css={[scoreCss, long ? scoreLongCss : scoreShortCss]}>{t('points', { score: rules?.getScore(player) })}</span>
     </div>
   )
@@ -224,6 +226,50 @@ const timerLongCss = css`
 const timerShortCss = css`
   top: 2em;
   left: 2.9em;
+`
+
+const longPlayerFirstCss = css`
+  background-color: goldenrod;
+  height: 1.5em;
+  width: 1.8em;
+  border-radius: 0.5em;
+  top: 0.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:  0.1em 0.1em 0.1em 0 ;
+  font-size: 2.5em;
+  position: absolute;
+  right: 4.5em;
+  color: black;
+  border: 0.05em solid black;
+  
+  > pre {
+    font-size: 0.5em;
+    align-self: flex-end;
+  }
+`
+
+const firstCss = css`
+  background-color: goldenrod;
+  height: 1.5em;
+  width: 1.8em;
+  border-radius: 0.5em;
+  top: 0.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:  0.1em 0.1em 0.1em 0 ;
+  font-size: 2.5em;
+  position: absolute;
+  right: 0.4em;
+  color: black;
+  border: 0.05em solid black;
+
+  > pre {
+    font-size: 0.5em;
+    align-self: flex-end;
+  }
 `
 
 const bubbleCss = css`box-shadow: 0 0 0.1em black;`
