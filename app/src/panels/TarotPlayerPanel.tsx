@@ -233,7 +233,7 @@ const longPlayerFirstCss = css`
   height: 1.5em;
   width: 1.8em;
   border-radius: 0.5em;
-  top: 0.3em;
+  top: 0.4em;
   display: flex;
   align-items: center;
   justify-content: center;
