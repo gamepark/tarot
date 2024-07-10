@@ -14,7 +14,6 @@ export const RoundSummaryDialog: FC = () => {
   const round = rules.remind(Memory.Round)
   const [lastRound, setLastRound] = useState<number>(rules.remind(Memory.Round))
   useEffect(() => {
-    console.log(lastRound, round)
     if (lastRound !== round) {
       setOpened(true)
       setLastRound(round)

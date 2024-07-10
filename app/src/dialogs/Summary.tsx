@@ -152,7 +152,7 @@ const Chelem: FC = () => {
 
 const StartingPlayer: FC = () => {
   const rules = useRules<TarotRules>()!
-  const startPlayer = rules.remind(Memory.StartPlayer)
+  const startPlayer = rules.remind(Memory.TrickWinner) ?? rules.remind(Memory.StartPlayer)
   const name = usePlayerName(startPlayer)
 
   if (!startPlayer) return null

@@ -1,6 +1,6 @@
 import { AnimationStep } from '@gamepark/react-client'
 import { MaterialGameAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
-import { isMoveItem, isMoveItemType, isStartRule, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItem, isMoveItemType, isMoveItemTypeAtOnce, isStartRule, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { RuleId } from '@gamepark/tarot/rules/RuleId'
@@ -23,3 +23,7 @@ tarotAnimations.when()
   .move(move => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Table)
   .duration(0.4)
 
+tarotAnimations
+  .when()
+  .move(isMoveItemTypeAtOnce(MaterialType.Card))
+  .duration(0.2)
