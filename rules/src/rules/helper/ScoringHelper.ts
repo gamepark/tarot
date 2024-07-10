@@ -116,12 +116,11 @@ export class ScoringHelper extends MaterialRulesPart {
 
   get petitAuBout() {
     const petitAuBout = this.remind(Memory.PetitLastTrick)
-    console.log(petitAuBout)
     if (petitAuBout !== undefined) {
       if (this.ruleUtils.preneur === petitAuBout) {
         return 10
       } else {
-        return - 10
+        return -10
       }
     }
 
