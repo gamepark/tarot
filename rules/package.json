@@ -1,6 +1,6 @@
 {
   "name": "@gamepark/tarot",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "The rules of Tarot adapted for Game Park",
   "sideEffects": false,
   "main": "dist/index.js",
