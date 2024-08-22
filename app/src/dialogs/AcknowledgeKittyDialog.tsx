@@ -42,10 +42,12 @@ const backdropCss = css`
 
 const dialogCss = css`
   padding: 0 3em;
-  width: 80em;
+  width: 50em;
   pointer-events: auto;
   transition: transform 0.1s ease-in-out;
   transform: translate(-15em, -30em);
+  right: 30em;
+  top: 15em;
 
   > p {
     font-size: 3em;
