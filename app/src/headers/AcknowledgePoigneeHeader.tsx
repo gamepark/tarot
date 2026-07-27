@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { PlayMoveButton, useLegalMove } from '@gamepark/react-game'
 import { isEndPlayerTurn } from '@gamepark/rules-api'
 import { useTranslation } from 'react-i18next'

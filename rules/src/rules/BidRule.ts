@@ -1,6 +1,6 @@
 import { CustomMove, MaterialMove, PlayerTurnRule, RuleMove, RuleStep } from '@gamepark/rules-api'
-import { maxBy } from 'lodash'
-import max from 'lodash/max'
+import { maxBy } from 'es-toolkit'
+import { max } from 'es-toolkit/compat'
 import { Card, isTrump } from '../Card'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
@@ -32,7 +32,7 @@ export class BidRule extends PlayerTurnRule {
   }
 
   getPlayerMoves() {
-    const moves = [this.rules().customMove(CustomMoveType.Pass)]
+    const moves: MaterialMove[] = [this.rules().customMove(CustomMoveType.Pass)]
     const lastBid = this.lastBid
     const filteredBids = bids.filter(bid => !lastBid || lastBid < bid)
     moves.push(...filteredBids.map(bid => this.rules().customMove(CustomMoveType.Bid, bid)))
@@ -48,7 +48,10 @@ export class BidRule extends PlayerTurnRule {
       }
     }
     if (this.isLastPlayer) {
-      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+      const preneur = maxBy(
+        this.game.players.filter((player) => this.remind(Memory.Bid, player) !== undefined),
+        (player) => this.remind(Memory.Bid, player)
+      )
       if (preneur === undefined) {
         return this.goToDealMoves
       } if (this.game.players.length === 5) {

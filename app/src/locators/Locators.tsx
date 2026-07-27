@@ -1,4 +1,4 @@
-import { ItemLocator } from '@gamepark/react-game'
+import { Locator } from '@gamepark/react-game'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { TarotDeckLocator } from './DeckLocator'
@@ -10,8 +10,7 @@ import { TableEndLocator } from './TableEndLocator'
 import { TarotTableLocator } from './TableLocator'
 import { TricksLocator } from './TricksLocator'
 
-
-export const Locators: Partial<Record<LocationType, ItemLocator<number, MaterialType, LocationType>>> = {
+export const Locators: Partial<Record<LocationType, Locator<number, MaterialType, LocationType>>> = {
   [LocationType.Deck]: new TarotDeckLocator(),
   [LocationType.Hand]: playerHandLocator,
   [LocationType.Kitty]: new KittyLocator(),

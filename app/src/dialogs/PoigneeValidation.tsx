@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { PlayMoveButton, RulesDialog, useLegalMoves, useRules } from '@gamepark/react-game'
 import { RuleId } from '@gamepark/tarot/rules/RuleId'
@@ -7,11 +6,7 @@ import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
 import { getValidPoignee } from '../utils/poignee.utils'
 
-export type PoigneeValidationProps = {
-
-}
-
-export const PoigneeValidation: FC<PoigneeValidationProps> = () => {
+export const PoigneeValidation: FC = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const legalMoves = useLegalMoves()

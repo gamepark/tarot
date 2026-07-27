@@ -1,5 +1,5 @@
 import { CustomMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
-import { maxBy } from 'lodash'
+import { maxBy } from 'es-toolkit'
 import { CustomMoveType } from './CustomMoveType'
 import { Memory } from './Memory'
 import { RuleId } from './RuleId'
@@ -17,7 +17,10 @@ export class ChelemRule extends PlayerTurnRule {
     }
 
     if (this.game.players.length === 5) {
-      const preneur = maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+      const preneur = maxBy(
+        this.game.players.filter((player) => this.remind(Memory.Bid, player) !== undefined),
+        (player) => this.remind(Memory.Bid, player)
+      )
       return [
         this.rules().startPlayerTurn(RuleId.CallKing, preneur!)
       ]

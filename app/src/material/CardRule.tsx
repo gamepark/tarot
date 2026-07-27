@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-
 import { css } from "@emotion/react"
 import { MaterialHelpProps, usePlayerId, usePlayerName, useRules } from "@gamepark/react-game"
 import { Card, cardValue, isOudler, isTrump } from "@gamepark/tarot/Card"
@@ -70,7 +68,7 @@ export const LocationHelp: FC<MaterialHelpProps> = (props) => {
   const { item } = props
 
   const rules = useRules<TarotRules>()!
-  const player = usePlayerId<Number>()
+  const player = usePlayerId<number>()
   const playerName = usePlayerName(item.location!.player!)
 
   const { t } = useTranslation()

@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { PlayMoveButton, RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
@@ -26,9 +25,9 @@ const MyBidHeader = () => {
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(false)
   return <>
-    <Trans defaults="header.bid.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
+    <Trans i18nKey="header.bid.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
-      <h2><Trans defaults="header.bid.choice"><span /></Trans></h2>
+      <h2><Trans i18nKey="header.bid.choice"><span /></Trans></h2>
       {rules.players.map(player => {
         const bid = rules.remind<Bid | undefined>(Memory.Bid, player)
         return bid && <PlayerBidInfo key={bid} player={player} bid={bid} />

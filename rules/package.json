@@ -2,8 +2,8 @@
   "name": "@gamepark/tarot",
   "version": "0.4.0",
   "description": "The rules of Tarot adapted for Game Park",
-  "type": "module",
   "sideEffects": false,
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -15,14 +15,19 @@
     "access": "public"
   },
   "scripts": {
+    "test": "vitest",
     "build": "tsc",
-    "prepublishOnly": "tsc"
+    "prepack": "yarn build",
+    "publish": "yarn version ${0:-patch} && yarn npm publish && git commit -am v$(node -p \"require('./package.json').version\") && git tag v$(node -p \"require('./package.json').version\") && git push --follow-tags",
+    "lint": "eslint --fix"
   },
   "peerDependencies": {
-    "@gamepark/rules-api": ">=6.23"
+    "@gamepark/rules-api": ">=7",
+    "es-toolkit": "^1.45.1"
   },
   "devDependencies": {
-    "@gamepark/rules-api": "~6.23.0",
-    "i18next": "^22.0.3"
+    "@gamepark/rules-api": "~7.6.5",
+    "es-toolkit": "^1.49.0",
+    "vitest": "^4.1.10"
   }
 }

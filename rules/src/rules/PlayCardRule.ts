@@ -29,12 +29,13 @@ export class PlayCardRule extends PlayerTurnRule {
     if (this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
       const excuseInTrick = this.material(MaterialType.Card).location(LocationType.Tricks).id(Card.Excuse)
       if (excuseInTrick.length === 1 && excuseInTrick.getItem()?.location.rotation && ( this.game.players.length === 5 ? this.remind(Memory.CalledPlayer) : true)) {
-        const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excuseInTrick.getItem()?.location.player!)).id<Card | undefined>(id => id !== undefined && cardValue(id) === 0.5);
+        const excusePlayer = excuseInTrick.getItem()!.location.player!
+        const cardsToTrade = this.material(MaterialType.Card).location(LocationType.Tricks).player(player => this.isSameSide(player!, excusePlayer)).id<Card | undefined>(id => id !== undefined && cardValue(id) === 0.5);
         if (cardsToTrade.length > 0) {
           moves.push(
             excuseInTrick.rotateItem(false)
           )
-          const opponent = this.game.players.find(player => !this.isSameSide(player!, excuseInTrick.getItem()?.location.player!) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
+          const opponent = this.game.players.find(player => !this.isSameSide(player!, excusePlayer) && this.material(MaterialType.Card).location(LocationType.Tricks).player(player).length > 0)
           moves.push(
             cardsToTrade.moveItem({ type: LocationType.Tricks, player: opponent })
           )
@@ -55,23 +56,23 @@ export class PlayCardRule extends PlayerTurnRule {
     const trumps = cardsPlayed.filter(isTrumpValue)
     const bestTrump = Math.max(...trumps)
     if (trumps.length > 0 && cardsToPlay.getItems().some(item => isTrumpValue(item.id) && item.id > bestTrump)) {
-      cardsToPlay = cardsToPlay.filter(item => !isTrumpValue(item.id) || item.id > bestTrump)
+      cardsToPlay = cardsToPlay.filter<Card>(item => !isTrumpValue(item.id) || item.id > bestTrump)
     }
     if (firstCardPlayed !== undefined) {
       if (isTrumpValue(firstCardPlayed) && cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
-        cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
+        cardsToPlay = cardsToPlay.filter<Card>(item => isTrumpValue(item.id) || item.id === Card.Excuse)
       }
       if (isColor(firstCardPlayed)) {
         if (cardsToPlay.getItems().some(item => isSameColor(item.id, firstCardPlayed))) {
-          cardsToPlay = cardsToPlay.filter(item => isSameColor(item.id, firstCardPlayed) || item.id === Card.Excuse)
+          cardsToPlay = cardsToPlay.filter<Card>(item => isSameColor(item.id, firstCardPlayed) || item.id === Card.Excuse)
         } else if (cardsToPlay.getItems().some(item => isTrumpValue(item.id))) {
-          cardsToPlay = cardsToPlay.filter(item => isTrumpValue(item.id) || item.id === Card.Excuse)
+          cardsToPlay = cardsToPlay.filter<Card>(item => isTrumpValue(item.id) || item.id === Card.Excuse)
         }
       }
     }
     if (this.game.players.length === 5 && this.isFirstTrick && this.material(MaterialType.Card).location(LocationType.Table).length === 0) {
       const calledCard = this.remind<Card>(Memory.CalledCard)
-      cardsToPlay = cardsToPlay.filter(item => !isSameColor(item.id, calledCard) || item.id === calledCard)
+      cardsToPlay = cardsToPlay.filter<Card>(item => !isSameColor(item.id, calledCard) || item.id === calledCard)
     }
 
     const moves: MaterialMove[] = cardsToPlay.moveItems({ type: LocationType.Table, player: this.player, z: cardsPlayed.length })

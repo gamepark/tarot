@@ -20,7 +20,7 @@ export const PoigneeHeader = () => {
     if (!validPoignee) {
       return (
         <>
-          <Trans defaults="header.poignee.can" values={{ poignee: t(`poignee.${validPoignee}`) }}>
+          <Trans i18nKey="header.poignee.can" values={{ poignee: t(`poignee.${validPoignee}`) }}>
             <PlayMoveButton move={ignore} />
           </Trans>
         </>
@@ -29,7 +29,7 @@ export const PoigneeHeader = () => {
     if (validPoignee) {
       return (
         <>
-          <Trans defaults="header.poignee.annonce" values={{ poignee: t(`poignee.${validPoignee}`) }}>
+          <Trans i18nKey="header.poignee.annonce" values={{ poignee: t(`poignee.${validPoignee}`) }}>
             <PlayMoveButton move={move} />
           </Trans>
         </>

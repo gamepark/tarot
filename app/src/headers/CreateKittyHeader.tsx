@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { RulesDialog, ThemeButton, useLegalMoves, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { RulesUtil } from '@gamepark/tarot/rules/RulesUtil'
 import { Trans, useTranslation } from 'react-i18next'
@@ -22,7 +21,7 @@ const MyCreateKittyHeader = () => {
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   return <>
-    <Trans defaults="header.createKitty.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
+    <Trans i18nKey="header.createKitty.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
     </RulesDialog>
   </>

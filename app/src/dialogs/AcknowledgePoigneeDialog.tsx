@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { PlayMoveButton, RulesDialog, useFocusContext, useLegalMove, usePlayerName, useRules } from '@gamepark/react-game'
 import { isEndPlayerTurn } from '@gamepark/rules-api'
@@ -6,7 +5,7 @@ import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
 import { getPoigneeMinTrumps, poignees } from '@gamepark/tarot/rules/Poignee'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const AcknowledgePoigneeDialog = () => {
@@ -19,9 +18,9 @@ export const AcknowledgePoigneeDialog = () => {
   const validatedPoignee = poignees.find((p) => poigneeMinTrumps[p] === poigneeMaterial.length)!
   const player = usePlayerName(poigneePlayer)
   const { setFocus } = useFocusContext()
-  const [open, setOpen] = useState(false)
+  const open = acknowledge !== undefined
   useEffect(() => {
-    if (acknowledge) {
+    if (open) {
       setFocus({
         materials: [poigneeMaterial],
         staticItems: [], locations: [],
@@ -31,8 +30,8 @@ export const AcknowledgePoigneeDialog = () => {
     } else {
       setFocus()
     }
-    setOpen(acknowledge !== undefined)
-  }, [acknowledge])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
   return <RulesDialog open={open} css={dialogCss} backdropCss={backdropCss}>
     <p css={css`white-space: break-spaces;`}>{t('dialog.see-poignee', { player: player, poignee: t(`poignee.${validatedPoignee}`)})}</p>
     <p css={css`text-align: end;`}><PlayMoveButton move={acknowledge}>{t('dialog.validate-poignee')}</PlayMoveButton></p>

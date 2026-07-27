@@ -1,6 +1,5 @@
-/** @jsxImportSource @emotion/react */
 import { MaterialComponent, RulesDialog, useRules } from '@gamepark/react-game'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { css } from '@emotion/react'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
@@ -14,11 +13,12 @@ export const ScoringDialog  = () => {
   const rules = useRules<TarotRules>()
   const scoring = rules?.game.rule?.id === RuleId.Scoring
   const [dialogOpen, setDialogOpen] = useState(scoring)
+  const [wasScoring, setWasScoring] = useState(scoring)
 
-  useEffect(() => {
+  if (wasScoring !== scoring) {
+    setWasScoring(scoring)
     if (scoring) setDialogOpen(true)
-  }, [scoring]
-  )
+  }
   if (!rules) return null
   const rulesUtil = new RulesUtil(rules.game)
   const cards = rules.material(MaterialType.Card).location(LocationType.Tricks).player(player => rulesUtil.isPreneurSide(player)).sort(item => -item.location.x!)

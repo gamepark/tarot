@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { usePlayers } from '@gamepark/react-game'
 import { TarotPlayerPanel } from './TarotPlayerPanel'
 

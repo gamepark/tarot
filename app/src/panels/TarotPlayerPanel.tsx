@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Avatar, PlayerTimer, SpeechBubble, SpeechBubbleDirection, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { MaterialGame } from '@gamepark/rules-api'

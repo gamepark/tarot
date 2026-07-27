@@ -1,29 +1,25 @@
-/** @jsxImportSource @emotion/react */
 import { css, Global } from '@emotion/react'
-import { GameProvider, setupTranslation } from '@gamepark/react-game'
+import { GameProvider } from '@gamepark/react-game'
 import { TarotOptionsSpec } from '@gamepark/tarot/TarotOptions'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { TarotSetup } from '@gamepark/tarot/TarotSetup'
 import { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { tarotAnimations } from './animations/TarotAnimations'
-import App from './App'
+import { App } from './App'
+import BackgroundCover from './images/background.jpg'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
-import translations from './translations.json'
+import { tarotScoring } from './scoring/TarotScoring'
 import { Tutorial } from './tutorial/Tutorial'
-import BackgroundCover from './images/background.jpg'
-
-setupTranslation(translations, { debug: false })
-
 
 const playMatCss = css`
   #root {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${BackgroundCover}) center/cover
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${BackgroundCover}) center/cover;
   }
 `
 
-ReactDOM.render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GameProvider
       game="tarot"
@@ -33,11 +29,11 @@ ReactDOM.render(
       material={Material}
       locators={Locators}
       animations={tarotAnimations}
+      scoring={tarotScoring}
       tutorial={new Tutorial()}
     >
-      <App/>
-      <Global styles={playMatCss}/>
+      <App />
+      <Global styles={playMatCss} />
     </GameProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )

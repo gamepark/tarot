@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { faCircleQuestion } from '@fortawesome/free-regular-svg-icons/faCircleQuestion'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,9 +5,10 @@ import { Avatar, RulesDialog, usePlayerName, usePlayers, useRules } from '@gamep
 import { isDiamond, isHeart } from '@gamepark/tarot/Card'
 import { Bid } from '@gamepark/tarot/rules/Bid'
 import { Memory } from '@gamepark/tarot/rules/Memory'
+import { PlayerRoundSummary, RoundSummary as RoundSummaryData } from '@gamepark/tarot/rules/RoundSummary'
 import { RulesUtil } from '@gamepark/tarot/rules/RulesUtil'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
-import sum from 'lodash/sum'
+import { sum } from 'es-toolkit'
 import { FC, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -33,7 +33,7 @@ const RoundSummary: FC = () => {
   const { t } = useTranslation()
   const rules = useRules<TarotRules>()!
   const [opened, setOpened] = useState(false)
-  const roundSummary = rules.remind(Memory.RoundSummary) ?? []
+  const roundSummary: RoundSummaryData[] = rules.remind(Memory.RoundSummary) ?? []
   if (!roundSummary.length) return null
   return (
     <>
@@ -49,7 +49,7 @@ const RoundSummary: FC = () => {
           </tr>
           </thead>
           <tbody>
-          {roundSummary.map((entries: any, index: number) => (
+          {roundSummary.map((entries, index) => (
             <RoundSummaryEntry key={index} entries={entries.players} round={index + 1}/>
           ))}
           </tbody>
@@ -57,7 +57,7 @@ const RoundSummary: FC = () => {
           <tr>
             <td>{t('summary.scoring.total')}</td>
             {rules.players.map((p) => {
-              const total = sum(roundSummary.map((round: any) => round.players.find((line: any) => line.id === p).score))
+              const total = sum(roundSummary.map((round) => round.players.find((line) => line.id === p)?.score ?? 0))
               return (
                 <td key={p}>{total}</td>
               )
@@ -89,7 +89,7 @@ const RoundColumnTitle: FC<RoundColumnTitleProps> = (props) => {
 
 type RoundSummaryEntryProps = {
   round: number
-  entries: { player: number, score: number }[]
+  entries: PlayerRoundSummary[]
 }
 
 const RoundSummaryEntry: FC<RoundSummaryEntryProps> = (props) => {
@@ -110,7 +110,7 @@ const CalledCard: FC = () => {
   const isRed = isHeart(calledCard) || isDiamond(calledCard)
   return (
     <span>
-      <Trans defaults="summary.called" values={{ card: t(`card.${calledCard}`) }}>
+      <Trans i18nKey="summary.called" values={{ card: t(`card.${calledCard}`) }}>
         <u/>
         <span css={css`color: ${isRed ? 'red' : 'black'}`}/>
       </Trans>
@@ -127,7 +127,7 @@ const Preneur: FC = () => {
   if (!preneur || !bid) return null
   return (
     <span>
-      <Trans defaults="summary.bid" values={{ name, bid: t(`bid.${bid}`) }}>
+      <Trans i18nKey="summary.bid" values={{ name, bid: t(`bid.${bid}`) }}>
         <u/>
       </Trans>
     </span>
@@ -142,7 +142,7 @@ const Chelem: FC = () => {
   if (!chelem) return null
   return (
     <span>
-      <Trans defaults="summary.chelem" values={{ name }}>
+      <Trans i18nKey="summary.chelem" values={{ name }}>
         <u/>
       </Trans>
     </span>
@@ -158,7 +158,7 @@ const StartingPlayer: FC = () => {
   if (!startPlayer) return null
   return (
     <span>
-      <Trans defaults="summary.starting" values={{ name }}>
+      <Trans i18nKey="summary.starting" values={{ name }}>
         <u/>
       </Trans>
     </span>

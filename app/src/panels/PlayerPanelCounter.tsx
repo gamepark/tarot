@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FC } from 'react'
 import { faStar } from '@fortawesome/free-solid-svg-icons/faStar'
@@ -8,7 +7,7 @@ import { css } from '@emotion/react'
 
 type PlayerPanelCounterProps = {
   icon?: IconProp;
-  image?: any;
+  image?: string;
   ratio?: number;
   width?: number;
   value: number;
@@ -21,7 +20,7 @@ const PlayerPanelCounter: FC<PlayerPanelCounterProps> = (props) => {
   return (
     <div css={indicator}>
       <div
-        css={[iconStyle(ratio, width), !!image && iconImageStyle(image, borderRadius), !!image && shadow && shadowCss(image)]}>
+        css={[iconStyle(ratio, width), !!image && iconImageStyle(image, borderRadius), !!image && shadow && shadowCss]}>
         {!!icon && <FontAwesomeIcon icon={faStar} css={fontIcon} fill="#28B8CE" />}
       </div>
       <div css={counter}>
@@ -56,7 +55,7 @@ const iconStyle = (ratio: number = 1, width: number = iconWidth) => css`
   height: ${width / ratio}em;
 `
 
-const iconImageStyle = (image: any, borderRadius: number = 0) => css`
+const iconImageStyle = (image: string, borderRadius: number = 0) => css`
   background-position: center center;
   border-radius: ${borderRadius}em;
   background-image: url(${image});

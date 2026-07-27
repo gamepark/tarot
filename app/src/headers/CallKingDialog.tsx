@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { MaterialComponent, RulesDialog, ThemeButton, pointerCursorCss, useLegalMoves, usePlay, usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { Trans, useTranslation } from 'react-i18next'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
@@ -24,9 +23,9 @@ const MyCallKingHeader = () => {
   const legalMoves = useLegalMoves<CustomMove>(isCustomMove)
   const [dialogOpen, setDialogOpen] = useState(legalMoves.length > 0)
   return <>
-    <Trans defaults="header.callKing.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
+    <Trans i18nKey="header.callKing.mine"><ThemeButton onClick={() => setDialogOpen(true)} /></Trans>
     <RulesDialog open={dialogOpen} close={() => setDialogOpen(false)} css={dialogCss}>
-      <h2><Trans defaults="header.callKing.choice"><span /></Trans></h2>
+      <h2><Trans i18nKey="header.callKing.choice"><span /></Trans></h2>
       <ul css={cardsListCss}>
           {legalMoves.map(move =>
             <li key={move.data}>

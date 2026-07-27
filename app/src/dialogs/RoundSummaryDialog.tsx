@@ -1,9 +1,9 @@
-/** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Avatar, RulesDialog, usePlayerName, useRules } from '@gamepark/react-game'
 import { Memory } from '@gamepark/tarot/rules/Memory'
+import { RoundSummary } from '@gamepark/tarot/rules/RoundSummary'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 
@@ -12,19 +12,17 @@ export const RoundSummaryDialog: FC = () => {
   const rules = useRules<TarotRules>()!
   const [opened, setOpened] = useState(false)
   const round = rules.remind(Memory.Round)
-  const [lastRound, setLastRound] = useState<number>(rules.remind(Memory.Round))
-  useEffect(() => {
-    if (lastRound !== round) {
-      setOpened(true)
-      setLastRound(round)
-    }
-  }, [round])
+  const [lastRound, setLastRound] = useState<number>(round)
+  if (lastRound !== round) {
+    setLastRound(round)
+    setOpened(true)
+  }
 
-  const summaries = rules.remind(Memory.RoundSummary) ?? []
+  const summaries: RoundSummary[] = rules.remind(Memory.RoundSummary) ?? []
   if (!summaries.length) return null
   const summary = summaries[summaries.length - 1]
   const preneur = summary.preneur
-  const preneurDetail = summary.players.find((p: any) => p.id === preneur)
+  const preneurDetail = summary.players.find((p) => p.id === preneur)!
   // TODO: Extract from memory
   const total = 4
 
@@ -41,49 +39,49 @@ export const RoundSummaryDialog: FC = () => {
         <tbody>
         <tr>
           <td>{t('summary.points')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? `${entry.points}` : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('summary.contract')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? `${entry.contrat}` : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('summary.contract.title')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? `${entry.contratScore}` : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('summary.petit.title')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? entry.petitAuBout : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t(`bid.${preneurDetail.bid}`)}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? `x${entry.bid}` : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('chelem.true')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? (entry.chelem ?? '/') : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('summary.poignee.title')}</td>
-          {summary.players.map((entry: any) => (
+          {summary.players.map((entry) => (
             <td key={entry.id}>{(entry.id === preneur) ? (entry.poignee ?? '/') : '/'}</td>
           ))}
         </tr>
         <tr>
           <td>{t('summary.scoring.total')}</td>
-          {summary.players.map((p: any) => (
+          {summary.players.map((p) => (
             <td key={p.id}>{p.score}</td>
           ))}
         </tr>

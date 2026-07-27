@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { useTranslation } from 'react-i18next'

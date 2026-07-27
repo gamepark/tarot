@@ -18,10 +18,10 @@ export class CallCardRule extends PlayerTurnRule {
     const allCards = cards
     const cardsToReturn: Card[] = []
     let figure = 14 //kings    
-    let figuresInPlayerHand: Card[] = []
+    const figuresInPlayerHand: Card[] = []
     do {
       cardsToReturn.push(...allCards.filter(card => isColor(card) && card % 100 === figure))
-      figuresInPlayerHand.push(...playerHand.filter(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id))
+      figuresInPlayerHand.push(...playerHand.filter<Card>(card => isColor(card.id) && card.id % 100 === figure).getItems().map(item => item.id))
       figure--
     } while (figuresInPlayerHand.length !== 0 && figuresInPlayerHand.length % 4 === 0)
     return cardsToReturn

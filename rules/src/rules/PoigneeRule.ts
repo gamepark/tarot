@@ -68,8 +68,8 @@ export class PoigneeRule extends PlayerTurnRule {
  * @param array The list of element to pick
  * @param size number of element to pick
  */
-const getCombinations = (array: any[], size: number): any[] => {
-  var i, j, combs, head, tailcombs;
+const getCombinations = <T>(array: T[], size: number): T[][] => {
+  let i, j, combs: T[][], head: T[], tailcombs: T[][];
 
   // There is no way to take e.g. arrays of 5 elements from
   // a array of 4.

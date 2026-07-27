@@ -1,6 +1,6 @@
 import { MaterialRulesPart } from "@gamepark/rules-api";
 import { Memory } from "./Memory";
-import maxBy from "lodash/maxBy";
+import { maxBy } from 'es-toolkit'
 import { MaterialType } from "../material/MaterialType";
 import { LocationType } from "../material/LocationType";
 import { Bid } from "./Bid";
@@ -45,7 +45,10 @@ export class RulesUtil extends MaterialRulesPart {
     }
 
     get preneur() {
-        return maxBy(this.game.players, player => this.remind(Memory.Bid, player))
+        return maxBy(
+        this.game.players.filter((player) => this.remind(Memory.Bid, player) !== undefined),
+        (player) => this.remind(Memory.Bid, player)
+      )
     }
 
     isPreneurSide(player?:number) {

@@ -1,5 +1,5 @@
 import { CustomMove, isCustomMoveType, isMoveItem, ItemMove, MaterialMove, SimultaneousRule } from '@gamepark/rules-api'
-import { isColor, isKing } from '../Card'
+import { Card, isColor, isKing } from '../Card'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Bid } from './Bid'
@@ -23,7 +23,7 @@ export class CreateKittyRule extends SimultaneousRule {
           this.material(MaterialType.Card).location(LocationType.Kitty).moveItemsAtOnce({ type: LocationType.Ecart, player: preneur }),
           this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
-      case Bid.GuardAgainstTheKitty:
+      case Bid.GuardAgainstTheKitty: {
         const facingPlayer = this.game.players[(this.game.players.indexOf(preneur) + 2) % this.game.players.length]
         if (this.game.players.length === 5) {
           return [
@@ -35,6 +35,7 @@ export class CreateKittyRule extends SimultaneousRule {
           this.material(MaterialType.Card).location(LocationType.Kitty).moveItemsAtOnce({ type: LocationType.Ecart, player: facingPlayer }),
           this.rules().startPlayerTurn(RuleId.PlayCard, this.remind(Memory.StartPlayer))
         ]
+      }
     }
   }
 
@@ -46,7 +47,7 @@ export class CreateKittyRule extends SimultaneousRule {
       if (this.material(MaterialType.Card).location(LocationType.Kitty).length === this.kittySize) {
         return [this.rules().customMove(CustomMoveType.AcknowledgeKitty, playerId)]
       } else {
-        const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(playerId).filter(card => isColor(card.id) && !isKing(card.id))
+        const playerCards = this.material(MaterialType.Card).location(LocationType.Hand).player(playerId).filter<Card>(card => isColor(card.id) && !isKing(card.id))
         return playerCards.moveItems({ type: LocationType.Ecart, player: playerId })
       }
     } else {

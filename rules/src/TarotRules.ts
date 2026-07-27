@@ -20,10 +20,11 @@ import { DealRule } from './rules/DealRule'
 import { Memory } from './rules/Memory'
 import { PlayCardRule } from './rules/PlayCardRule'
 import { PoigneeRule } from './rules/PoigneeRule'
+import { RoundSummary } from './rules/RoundSummary'
 import { RuleId } from './rules/RuleId'
 import { RulesUtil } from './rules/RulesUtil'
 import { ScoringRule } from './rules/ScoringRule'
-import sum from 'lodash/sum'
+import { sum } from 'es-toolkit'
 import { SolveTrickRule } from './rules/SolveTrickRule'
 
 
@@ -80,11 +81,9 @@ export class TarotRules extends SecretMaterialRules<number, MaterialType, Locati
   }
 
   getScore(player: number): number {
-    const summaries = this.remind(Memory.RoundSummary)
+    const summaries = this.remind<RoundSummary[] | undefined>(Memory.RoundSummary)
     if (!summaries?.length) return 0
-    const playerRoundSummary = summaries.map((round: any) => round.players.find((s: any) => s.id === player))
-    return sum(playerRoundSummary.map((s: any) => s.score)) ?? 0
-
+    return sum(summaries.map((round) => round.players.find((s) => s.id === player)?.score ?? 0))
   }
 
   giveTime(): number {
