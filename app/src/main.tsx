@@ -1,6 +1,6 @@
 import { css, Global } from '@emotion/react'
 import { GameProvider } from '@gamepark/react-game'
-import { TarotOptionsSpec } from '@gamepark/tarot/TarotOptions'
+import { TarotOptionsSpecV2 } from '@gamepark/tarot/TarotOptions'
 import { TarotRules } from '@gamepark/tarot/TarotRules'
 import { TarotSetup } from '@gamepark/tarot/TarotSetup'
 import { StrictMode } from 'react'
@@ -24,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
     <GameProvider
       game="tarot"
       Rules={TarotRules}
-      optionsSpec={TarotOptionsSpec}
+      optionsSpec={TarotOptionsSpecV2}
       GameSetup={TarotSetup}
       material={Material}
       locators={Locators}

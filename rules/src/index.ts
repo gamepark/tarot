@@ -1,3 +1,3 @@
 export { TarotRules } from './TarotRules'
-export { TarotOptionsSpec } from './TarotOptions'
+export { TarotOptionsSpecV2 } from './TarotOptions'
 export { TarotSetup } from './TarotSetup'
