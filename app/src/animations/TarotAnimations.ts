@@ -1,5 +1,5 @@
 import { AnimationStep } from '@gamepark/react-client'
-import { MaterialGameAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
+import { and, isRule, MaterialGameAnimationContext, MaterialGameAnimations } from '@gamepark/react-game'
 import { isMoveItem, isMoveItemType, isMoveItemTypeAtOnce, isStartRule, MaterialMove } from '@gamepark/rules-api'
 import { LocationType } from '@gamepark/tarot/material/LocationType'
 import { MaterialType } from '@gamepark/tarot/material/MaterialType'
@@ -14,16 +14,15 @@ class TarotMaterialAnimation extends  MaterialGameAnimations {
 
 export const tarotAnimations = new TarotMaterialAnimation()
 
-tarotAnimations.when().rule(RuleId.Deal).move(isMoveItem).duration(0.2)
-tarotAnimations.when()
-  .move(move => isMoveItem(move) && move.location.type === LocationType.Tricks)
-  .duration(0.3)
-
-tarotAnimations.when()
-  .move(move => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Table)
-  .duration(0.4)
+tarotAnimations.configure(and(isRule(RuleId.Deal), isMoveItem)).duration(200)
+tarotAnimations
+  .configure(move => isMoveItem(move) && move.location.type === LocationType.Tricks)
+  .duration(300)
 
 tarotAnimations
-  .when()
-  .move(isMoveItemTypeAtOnce(MaterialType.Card))
-  .duration(0.2)
+  .configure(move => isMoveItemType(MaterialType.Card)(move) && move.location.type === LocationType.Table)
+  .duration(400)
+
+tarotAnimations
+  .configure(isMoveItemTypeAtOnce(MaterialType.Card))
+  .duration(200)
